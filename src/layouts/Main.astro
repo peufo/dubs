@@ -1,0 +1,21 @@
+---
+import '@fontsource/comic-neue'
+import Header from './Header.astro'
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/png' href='/img/logo-256.png' />
+    <meta name='generator' content={Astro.generator} />
+    <title>Dubs apiculture</title>
+  </head>
+  <body>
+    <Header />
+    <main class='min-h-screen bg-primary-light pt-[64px] grid content-center'>
+      <slot />
+    </main>
+  </body>
+</html>
