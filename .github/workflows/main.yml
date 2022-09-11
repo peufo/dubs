@@ -23,8 +23,10 @@ jobs:
           name: dubs-app
           path: |
             dist
+            extensions
             package.json
             server.js
+            snapshot.yaml
 
   deploy:
     needs: [build]
@@ -37,7 +39,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dubs-app
-          path: sites/dubs-apiculture.ch/app
+          path: ./dubs-app
 
       - name: Copy app on host
         uses: appleboy/scp-action@master
@@ -45,8 +47,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: 'dubs-app'
-          target: './tmp/dubs-app'
+          source: ./dubs-app
+          target: ./tmp/dubs-app
 
       - name: Replace old app
         uses: appleboy/ssh-action@master
