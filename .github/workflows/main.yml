@@ -9,16 +9,16 @@ jobs:
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2
+      - uses: actions/checkout@v3
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: 'npm'
       - run: npm ci
       - run: npm run astro-build
       - name: Upload client artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app
           path: |
@@ -31,10 +31,10 @@ jobs:
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Download artifact server
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: dubs-app
           path: sites/dubs-apiculture.ch/app
