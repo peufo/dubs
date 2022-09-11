@@ -11,12 +11,14 @@ services:
       - ./:/app
     networks:
       - dubs-network
+    depends_on:
+      - directus
 
   database:
     container_name: database
     image: postgis/postgis:13-master
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - data:/var/lib/postgresql/data
     networks:
       - dubs-network
     environment:
@@ -30,7 +32,7 @@ services:
     ports:
       - 8055:8055
     volumes:
-      - ./uploads:/directus/uploads
+      - uploads:/directus/uploads
     networks:
       - dubs-network
     depends_on:
@@ -51,3 +53,6 @@ services:
 
 networks:
   dubs-network:
+volumes:
+  data:
+  uploads:
