@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: ./dubs-app
-          target: ./tmp/dubs-app
+          target: ./tmp
 
       - name: Replace old app
         uses: appleboy/ssh-action@master
@@ -58,7 +58,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             rm -rf ~/sites/dubs-apiculture.ch/app
-            mv ~/tmp/dubs-app ~/sites/dubs-apiculture.ch/app
+            mv ~/tmp/app ~/sites/dubs-apiculture.ch/app
             mkdir -p ~/sites/dubs-apiculture.ch/data
             mkdir -p ~/sites/dubs-apiculture.ch/uploads
 
