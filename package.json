@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "run-p astro-dev directus",
-    "build": "run-p astro-build directus-snapshot",
+    "build": "run-p astro-build directus-init",
+    "serve": "run-p directus astro-serve",
     "astro": "astro",
     "preview": "astro preview",
     "astro-dev": "astro dev --host",
     "astro-build": "astro build",
+    "astro-serve": "node server.js",
     "directus": "directus start",
     "directus-init": "directus bootstrap && directus schema apply --yes ./snapshot.yaml",
     "directus-snapshot": "directus schema snapshot --yes ./snapshot.yaml"

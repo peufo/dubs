@@ -1,0 +1,79 @@
+name: Dubs apiculture CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    uses: peufone/trocio/.github/workflows/build-app.yml@dev
+    environment: Nestor - clients
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run astro-build
+      - name: Upload client artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: |
+            dist
+            package.json
+            server.js
+
+  deploy:
+    needs: [build]
+    environment: Nestor - clients
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download artifact server
+        uses: actions/download-artifact@v2
+        with:
+          name: dubs-app
+          path: sites/dubs-apiculture.ch/app
+
+      - name: Copy app on host
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: 'dubs-app'
+          target: './tmp/dubs-app'
+
+      - name: Replace old app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            rm -rf ~/sites/dubs-apiculture.ch/app
+            mv ~/tmp/dubs-app ~/sites/dubs-apiculture.ch/app
+            mkdir -p ~/sites/dubs-apiculture.ch/data
+            mkdir -p ~/sites/dubs-apiculture.ch/uploads
+
+      - name: Install npm dependencies and restart server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          envs:
+            DB_FILENAME: ../data/db.sqlite
+            STORAGE_LOCAL_ROOT: ../uploads
+            ADMIN_EMAIL: jonas.voisard@gmail.com
+            ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD  }}
+          script: |
+            . .profile
+            cd ~/sites/dubs-apiculture.ch/app
+            npm i
+            npm run serve
