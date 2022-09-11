@@ -46,8 +46,8 @@ services:
       DB_USER: 'directus'
       DB_PASSWORD: '${POSTGRES_PASSWORD}'
 
-      ADMIN_EMAIL: 'jonas.voisard@gmail.com'
-      ADMIN_PASSWORD: '12341234'
+      ADMIN_EMAIL: '${ADMIN_EMAIL}'
+      ADMIN_PASSWORD: '${ADMIN_PASSWORD}'
 
 networks:
   dubs-network:
