@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: ./dubs-app
-          target: ~/sites/dubs-apiculture.ch/app
+          target: ~/sites/dubs-apiculture.ch
 
       - name: Ensure data folders
         uses: appleboy/ssh-action@master
