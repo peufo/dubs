@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-    uses: peufone/trocio/.github/workflows/build-app.yml@dev
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
