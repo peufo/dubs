@@ -1,7 +1,10 @@
 ---
 import Main from '$layouts/Main.astro'
+import { directus } from '$src/directus'
+
+const data = await directus.items('resource').readByQuery()
 ---
 
 <Main>
-  <img src='/img/logo.png' alt='Logo Dubs apiculture' class='animate-pulse' />
+  <pre>{JSON.stringify(data, null, 2)}</pre>
 </Main>
