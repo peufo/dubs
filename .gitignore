@@ -3,8 +3,7 @@ dist/
 .output/
 
 # datas
-data/*
-uploads/*
+
 
 # dependencies
 node_modules/
