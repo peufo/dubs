@@ -5,7 +5,26 @@ on:
     branches: [main]
 
 jobs:
+  dist:
+    environment: Nestor - clients
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - run: npm install
+      - run: npm run astro-build
+      - name: Upload artifact dist
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
   deploy:
+    needs: [dist]
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
@@ -17,20 +36,25 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: ./
-          target: ~/sites/dubs-apiculture.ch/app-tmp
+          target: ~/dubs/tmp
 
-      - name: Ensure data folders
+      - name: Ensure folders
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd ~/sites/dubs-apiculture.ch
-            mkdir -p data
-            mkdir -p uploads
-            rm -rf app
-            mv app-tmp app
+            mkdir -p ~/dubs/data
+            mkdir -p ~/dubs/uploads
+            rm -rf ~/dubs/app
+            mv ~/dubs/tmp ~/dubs/app
+
+      - name: Download artifact dist
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: ~/dubs/app
 
       - name: Install dependencies, build and restart server
         uses: appleboy/ssh-action@master
@@ -46,8 +70,5 @@ jobs:
           envs: DB_FILENAME,STORAGE_LOCAL_ROOT,ADMIN_EMAIL,ADMIN_PASSWORD
           script: |
             . .profile
-            cd ~/sites/dubs-apiculture.ch/app
-            npm install
-            npm run astro-telemetry-disable
-            npm run build
-            npm run serve
+            cd ~/dubs/app
+            node server.js
