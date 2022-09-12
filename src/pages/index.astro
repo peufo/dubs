@@ -3,12 +3,12 @@ import Main from '$layouts/Main.astro'
 import { directus } from '$src/directus'
 
 let error = null
-const data = await directus
-  .items('resource')
-  .readByQuery()
+const flow = await directus
+  .items('flow')
+  .readByQuery({})
   .catch((err) => (error = err))
 ---
 
 <Main>
-  <pre>{JSON.stringify(error || data, null, 2)}</pre>
+  <pre>{JSON.stringify(error || flow, null, 2)}</pre>
 </Main>

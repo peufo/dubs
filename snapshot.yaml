@@ -5,7 +5,7 @@ collections:
     meta:
       accountability: all
       archive_app_filter: true
-      archive_field: status
+      archive_field: null
       archive_value: archived
       collapse: open
       collection: flow
@@ -13,32 +13,36 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: compare_arrows
       item_duplication_fields: null
       note: null
       singleton: false
-      sort: null
-      sort_field: sort
+      sort: 2
+      sort_field: null
       translations: null
       unarchive_value: draft
     schema:
       name: flow
       sql: >-
         CREATE TABLE "flow" (`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-        `status` varchar(255) NOT NULL DEFAULT 'draft', `sort` integer NULL,
         `user_created` char(36) NULL, `date_created` datetime NULL,
-        `user_updated` char(36) NULL, `date_updated` datetime NULL, CONSTRAINT
-        `flow_user_created_foreign` FOREIGN KEY (`user_created`) REFERENCES
-        `directus_users` (`id`), CONSTRAINT `flow_user_updated_foreign` FOREIGN
-        KEY (`user_updated`) REFERENCES `directus_users` (`id`))
-  - collection: resource
+        `user_updated` char(36) NULL, `date_updated` datetime NULL, `input`
+        integer NULL, `output` integer NULL, `product` varchar(255) null,
+        `descritpion` text null, CONSTRAINT `flow_user_created_foreign` FOREIGN
+        KEY (`user_created`) REFERENCES `directus_users` (`id`), CONSTRAINT
+        `flow_user_updated_foreign` FOREIGN KEY (`user_updated`) REFERENCES
+        `directus_users` (`id`), CONSTRAINT `flow_input_foreign` FOREIGN KEY
+        (`input`) REFERENCES `resource` (`id`) ON DELETE SET NULL, CONSTRAINT
+        `flow_output_foreign` FOREIGN KEY (`output`) REFERENCES `resource`
+        (`id`) ON DELETE SET NULL)
+  - collection: product
     meta:
       accountability: all
       archive_app_filter: true
-      archive_field: status
+      archive_field: null
       archive_value: archived
       collapse: open
-      collection: resource
+      collection: product
       color: null
       display_template: null
       group: null
@@ -47,8 +51,67 @@ collections:
       item_duplication_fields: null
       note: null
       singleton: false
-      sort: null
-      sort_field: sort
+      sort: 3
+      sort_field: null
+      translations: null
+      unarchive_value: draft
+    schema:
+      name: product
+      sql: >-
+        CREATE TABLE "product" (`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+        `user_created` char(36) NULL, `date_created` datetime NULL,
+        `user_updated` char(36) NULL, `date_updated` datetime NULL, `name`
+        varchar(255) NULL, `description` text NULL, CONSTRAINT
+        `product_user_created_foreign` FOREIGN KEY (`user_created`) REFERENCES
+        `directus_users` (`id`), CONSTRAINT `product_user_updated_foreign`
+        FOREIGN KEY (`user_updated`) REFERENCES `directus_users` (`id`))
+  - collection: product_files
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: product_files
+      color: null
+      display_template: null
+      group: null
+      hidden: true
+      icon: import_export
+      item_duplication_fields: null
+      note: null
+      singleton: false
+      sort: 4
+      sort_field: null
+      translations: null
+      unarchive_value: null
+    schema:
+      name: product_files
+      sql: >-
+        CREATE TABLE "product_files" (`id` integer PRIMARY KEY AUTOINCREMENT NOT
+        NULL, `product_id` integer NULL, `directus_files_id` char(36) NULL,
+        CONSTRAINT `product_files_directus_files_id_foreign` FOREIGN KEY
+        (`directus_files_id`) REFERENCES `directus_files` (`id`) ON DELETE SET
+        NULL, CONSTRAINT `product_files_product_id_foreign` FOREIGN KEY
+        (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL)
+  - collection: resource
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: archived
+      collapse: open
+      collection: resource
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: handyman
+      item_duplication_fields: null
+      note: null
+      singleton: false
+      sort: 1
+      sort_field: null
       translations: null
       unarchive_value: draft
     schema:
@@ -58,13 +121,11 @@ collections:
         `date_updated` datetime NULL DEFAULT null, `decription` text NULL
         DEFAULT null, `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
         `location` json NULL DEFAULT null, `name` varchar(255) NULL DEFAULT
-        null, `sort` integer NULL DEFAULT null, `status` varchar(255) NOT NULL
-        DEFAULT 'draft', `user_created` char(36) NULL DEFAULT null,
-        `user_updated` char(36) NULL DEFAULT null, `test` varchar(255) null,
-        CONSTRAINT `resource_user_created_foreign` FOREIGN KEY (`user_created`)
-        REFERENCES `directus_users` (`id`) ON DELETE NO ACTION, CONSTRAINT
-        `resource_user_updated_foreign` FOREIGN KEY (`user_updated`) REFERENCES
-        `directus_users` (`id`) ON DELETE NO ACTION)
+        null, `user_created` char(36) NULL DEFAULT null, `user_updated` char(36)
+        NULL DEFAULT null, CONSTRAINT `resource_user_created_foreign` FOREIGN
+        KEY (`user_created`) REFERENCES `directus_users` (`id`) ON DELETE NO
+        ACTION, CONSTRAINT `resource_user_updated_foreign` FOREIGN KEY
+        (`user_updated`) REFERENCES `directus_users` (`id`) ON DELETE NO ACTION)
 fields:
   - collection: flow
     field: date_created
@@ -82,7 +143,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: null
+      sort: 3
       special:
         - cast-timestamp
         - date-created
@@ -123,7 +184,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: null
+      sort: 5
       special:
         - cast-timestamp
         - date-updated
@@ -149,6 +210,45 @@ fields:
       table: flow
     type: timestamp
   - collection: flow
+    field: descritpion
+    meta:
+      collection: flow
+      conditions: null
+      display: null
+      display_options: null
+      field: descritpion
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: null
+      options:
+        softLength: 1000
+      readonly: false
+      required: false
+      sort: 7
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: text
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: descritpion
+      numeric_precision: null
+      numeric_scale: null
+      table: flow
+    type: text
+  - collection: flow
     field: id
     meta:
       collection: flow
@@ -163,7 +263,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: null
+      sort: 1
       special: null
       translations: null
       validation: null
@@ -187,28 +287,110 @@ fields:
       table: flow
     type: integer
   - collection: flow
-    field: sort
+    field: input
+    meta:
+      collection: flow
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: input
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{name}}'
+      readonly: false
+      required: false
+      sort: 8
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: input
+      numeric_precision: null
+      numeric_scale: null
+      table: flow
+    type: integer
+  - collection: flow
+    field: output
+    meta:
+      collection: flow
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: output
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{name}}'
+      readonly: false
+      required: false
+      sort: 9
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: output
+      numeric_precision: null
+      numeric_scale: null
+      table: flow
+    type: integer
+  - collection: flow
+    field: product
     meta:
       collection: flow
       conditions: null
       display: null
       display_options: null
-      field: sort
+      field: product
       group: null
-      hidden: true
+      hidden: false
       interface: input
       note: null
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 6
       special: null
       translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      data_type: integer
+      data_type: varchar
       default_value: null
       foreign_key_column: null
       foreign_key_table: null
@@ -218,67 +400,8 @@ fields:
       is_nullable: true
       is_primary_key: false
       is_unique: false
-      max_length: null
-      name: sort
-      numeric_precision: null
-      numeric_scale: null
-      table: flow
-    type: integer
-  - collection: flow
-    field: status
-    meta:
-      collection: flow
-      conditions: null
-      display: labels
-      display_options:
-        choices:
-          - text: $t:published
-            value: published
-            foreground: '#FFFFFF'
-            background: var(--primary)
-          - text: $t:draft
-            value: draft
-            foreground: '#18222F'
-            background: '#D3DAE4'
-          - text: $t:archived
-            value: archived
-            foreground: '#FFFFFF'
-            background: var(--warning)
-        showAsDot: true
-      field: status
-      group: null
-      hidden: false
-      interface: select-dropdown
-      note: null
-      options:
-        choices:
-          - text: $t:published
-            value: published
-          - text: $t:draft
-            value: draft
-          - text: $t:archived
-            value: archived
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: varchar
-      default_value: draft
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
       max_length: 255
-      name: status
+      name: product
       numeric_precision: null
       numeric_scale: null
       table: flow
@@ -299,7 +422,7 @@ fields:
         template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
       readonly: true
       required: false
-      sort: null
+      sort: 2
       special:
         - user-created
       translations: null
@@ -339,7 +462,7 @@ fields:
         template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
       readonly: true
       required: false
-      sort: null
+      sort: 4
       special:
         - user-updated
       translations: null
@@ -363,6 +486,437 @@ fields:
       numeric_scale: null
       table: flow
     type: string
+  - collection: product
+    field: date_created
+    meta:
+      collection: product
+      conditions: null
+      display: datetime
+      display_options:
+        relative: true
+      field: date_created
+      group: null
+      hidden: true
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      sort: 4
+      special:
+        - cast-timestamp
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: datetime
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: date_created
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: timestamp
+  - collection: product
+    field: date_updated
+    meta:
+      collection: product
+      conditions: null
+      display: datetime
+      display_options:
+        relative: true
+      field: date_updated
+      group: null
+      hidden: true
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      sort: 6
+      special:
+        - cast-timestamp
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: datetime
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: date_updated
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: timestamp
+  - collection: product
+    field: description
+    meta:
+      collection: product
+      conditions: null
+      display: null
+      display_options: null
+      field: description
+      group: null
+      hidden: false
+      interface: input-rich-text-html
+      note: null
+      options:
+        toolbar:
+          - blockquote
+          - bold
+          - bullist
+          - code
+          - customImage
+          - customLink
+          - customMedia
+          - fullscreen
+          - h1
+          - h2
+          - hr
+          - italic
+          - numlist
+          - removeformat
+          - table
+          - underline
+      readonly: false
+      required: false
+      sort: 8
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: text
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: description
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: text
+  - collection: product
+    field: files
+    meta:
+      collection: product
+      conditions: null
+      display: null
+      display_options: null
+      field: files
+      group: null
+      hidden: false
+      interface: files
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 9
+      special:
+        - files
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema: null
+    type: alias
+  - collection: product
+    field: id
+    meta:
+      collection: product
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      sort: 1
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: true
+      is_generated: false
+      is_nullable: false
+      is_primary_key: true
+      is_unique: false
+      max_length: null
+      name: id
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: integer
+  - collection: product
+    field: name
+    meta:
+      collection: product
+      conditions: null
+      display: null
+      display_options: null
+      field: name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 7
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: varchar
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: 255
+      name: name
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: string
+  - collection: product
+    field: user_created
+    meta:
+      collection: product
+      conditions: null
+      display: user
+      display_options: null
+      field: user_created
+      group: null
+      hidden: true
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
+      readonly: true
+      required: false
+      sort: 3
+      special:
+        - user-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: char
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: directus_users
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: 36
+      name: user_created
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: string
+  - collection: product
+    field: user_updated
+    meta:
+      collection: product
+      conditions: null
+      display: user
+      display_options: null
+      field: user_updated
+      group: null
+      hidden: true
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
+      readonly: true
+      required: false
+      sort: 5
+      special:
+        - user-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: char
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: directus_users
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: 36
+      name: user_updated
+      numeric_precision: null
+      numeric_scale: null
+      table: product
+    type: string
+  - collection: product_files
+    field: directus_files_id
+    meta:
+      collection: product_files
+      conditions: null
+      display: null
+      display_options: null
+      field: directus_files_id
+      group: null
+      hidden: true
+      interface: null
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: char
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: directus_files
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: 36
+      name: directus_files_id
+      numeric_precision: null
+      numeric_scale: null
+      table: product_files
+    type: string
+  - collection: product_files
+    field: id
+    meta:
+      collection: product_files
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: null
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: true
+      is_generated: false
+      is_nullable: false
+      is_primary_key: true
+      is_unique: false
+      max_length: null
+      name: id
+      numeric_precision: null
+      numeric_scale: null
+      table: product_files
+    type: integer
+  - collection: product_files
+    field: product_id
+    meta:
+      collection: product_files
+      conditions: null
+      display: null
+      display_options: null
+      field: product_id
+      group: null
+      hidden: true
+      interface: null
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: product
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: product_id
+      numeric_precision: null
+      numeric_scale: null
+      table: product_files
+    type: integer
   - collection: resource
     field: date_created
     meta:
@@ -379,7 +933,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: 1
+      sort: 3
       special:
         - cast-timestamp
         - date-created
@@ -420,7 +974,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: 2
+      sort: 5
       special:
         - cast-timestamp
         - date-updated
@@ -455,9 +1009,10 @@ fields:
       field: decription
       group: null
       hidden: false
-      interface: input-rich-text-html
+      interface: input-rich-text-md
       note: null
       options:
+        customSyntax: null
         toolbar:
           - aligncenter
           - alignleft
@@ -482,7 +1037,7 @@ fields:
           - underline
       readonly: false
       required: false
-      sort: 4
+      sort: 7
       special: null
       translations: null
       validation: null
@@ -520,7 +1075,7 @@ fields:
       options: null
       readonly: true
       required: false
-      sort: 3
+      sort: 1
       special: null
       translations: null
       validation: null
@@ -566,7 +1121,7 @@ fields:
         geometryType: Point
       readonly: false
       required: false
-      sort: 5
+      sort: 8
       special:
         - cast-json
       translations: null
@@ -629,141 +1184,6 @@ fields:
       table: resource
     type: string
   - collection: resource
-    field: sort
-    meta:
-      collection: resource
-      conditions: null
-      display: null
-      display_options: null
-      field: sort
-      group: null
-      hidden: true
-      interface: input
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: 7
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: integer
-      default_value: null
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: true
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: sort
-      numeric_precision: null
-      numeric_scale: null
-      table: resource
-    type: integer
-  - collection: resource
-    field: status
-    meta:
-      collection: resource
-      conditions: null
-      display: labels
-      display_options:
-        choices:
-          - text: $t:published
-            value: published
-            foreground: '#FFFFFF'
-            background: var(--primary)
-          - text: $t:draft
-            value: draft
-            foreground: '#18222F'
-            background: '#D3DAE4'
-          - text: $t:archived
-            value: archived
-            foreground: '#FFFFFF'
-            background: var(--warning)
-        showAsDot: true
-      field: status
-      group: null
-      hidden: false
-      interface: select-dropdown
-      note: null
-      options:
-        choices:
-          - text: $t:published
-            value: published
-          - text: $t:draft
-            value: draft
-          - text: $t:archived
-            value: archived
-      readonly: false
-      required: false
-      sort: 8
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: varchar
-      default_value: draft
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: 255
-      name: status
-      numeric_precision: null
-      numeric_scale: null
-      table: resource
-    type: string
-  - collection: resource
-    field: test
-    meta:
-      collection: resource
-      conditions: null
-      display: null
-      display_options: null
-      field: test
-      group: null
-      hidden: false
-      interface: input
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: varchar
-      default_value: null
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: true
-      is_primary_key: false
-      is_unique: false
-      max_length: 255
-      name: test
-      numeric_precision: null
-      numeric_scale: null
-      table: resource
-    type: string
-  - collection: resource
     field: user_created
     meta:
       collection: resource
@@ -779,7 +1199,7 @@ fields:
         template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
       readonly: true
       required: false
-      sort: 9
+      sort: 2
       special:
         - user-created
       translations: null
@@ -819,7 +1239,7 @@ fields:
         template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
       readonly: true
       required: false
-      sort: 10
+      sort: 4
       special:
         - user-updated
       translations: null
@@ -844,6 +1264,48 @@ fields:
       table: resource
     type: string
 relations:
+  - collection: flow
+    field: input
+    meta:
+      junction_field: null
+      many_collection: flow
+      many_field: input
+      one_allowed_collections: null
+      one_collection: resource
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    related_collection: resource
+    schema:
+      column: input
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      on_delete: SET NULL
+      on_update: NO ACTION
+      table: flow
+  - collection: flow
+    field: output
+    meta:
+      junction_field: null
+      many_collection: flow
+      many_field: output
+      one_allowed_collections: null
+      one_collection: resource
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    related_collection: resource
+    schema:
+      column: output
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      on_delete: SET NULL
+      on_update: NO ACTION
+      table: flow
   - collection: flow
     field: user_created
     meta:
@@ -886,6 +1348,90 @@ relations:
       on_delete: NO ACTION
       on_update: NO ACTION
       table: flow
+  - collection: product
+    field: user_created
+    meta:
+      junction_field: null
+      many_collection: product
+      many_field: user_created
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    related_collection: directus_users
+    schema:
+      column: user_created
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: directus_users
+      on_delete: NO ACTION
+      on_update: NO ACTION
+      table: product
+  - collection: product
+    field: user_updated
+    meta:
+      junction_field: null
+      many_collection: product
+      many_field: user_updated
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    related_collection: directus_users
+    schema:
+      column: user_updated
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: directus_users
+      on_delete: NO ACTION
+      on_update: NO ACTION
+      table: product
+  - collection: product_files
+    field: directus_files_id
+    meta:
+      junction_field: product_id
+      many_collection: product_files
+      many_field: directus_files_id
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    related_collection: directus_files
+    schema:
+      column: directus_files_id
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: directus_files
+      on_delete: SET NULL
+      on_update: NO ACTION
+      table: product_files
+  - collection: product_files
+    field: product_id
+    meta:
+      junction_field: directus_files_id
+      many_collection: product_files
+      many_field: product_id
+      one_allowed_collections: null
+      one_collection: product
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: files
+      sort_field: null
+    related_collection: product
+    schema:
+      column: product_id
+      constraint_name: null
+      foreign_key_column: id
+      foreign_key_table: product
+      on_delete: SET NULL
+      on_update: NO ACTION
+      table: product_files
   - collection: resource
     field: user_created
     meta:
