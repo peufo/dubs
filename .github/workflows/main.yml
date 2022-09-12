@@ -44,5 +44,5 @@ jobs:
           script: |
             . .profile
             cd ~/sites/dubs-apiculture.ch/app
-            npm ci
+            npm install
             npm run serve
