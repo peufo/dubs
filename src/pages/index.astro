@@ -2,7 +2,7 @@
 import Main from '$layouts/Main.astro'
 import { directus } from '$src/directus'
 
-const data = await directus.items('resource').readByQuery()
+const data = await directus.items('resource').readByQuery().catch(console.error)
 ---
 
 <Main>
