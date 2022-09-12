@@ -5,50 +5,20 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    environment: Nestor - clients
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run astro-build
-      - name: Upload client artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: dubs-app
-          path: |
-            dist
-            extensions
-            package.json
-            server.js
-            snapshot.yaml
-
   deploy:
     needs: [build]
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: dubs-app
-          path: ./dubs-app
-
-      - name: Copy app on host
+      - name: Copy source on host
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: ./dubs-app
-          target: ~/sites/dubs-apiculture.ch
+          source: ./
+          target: ~/sites/dubs-apiculture.ch/app
 
       - name: Ensure data folders
         uses: appleboy/ssh-action@master
@@ -60,7 +30,7 @@ jobs:
             mkdir -p ~/sites/dubs-apiculture.ch/data
             mkdir -p ~/sites/dubs-apiculture.ch/uploads
 
-      - name: Install npm dependencies and restart server
+      - name: Install dependencies, build and restart server
         uses: appleboy/ssh-action@master
         env:
           DB_FILENAME: ../data/db.sqlite
@@ -75,5 +45,5 @@ jobs:
           script: |
             . .profile
             cd ~/sites/dubs-apiculture.ch/app
-            npm i
+            npm ci
             npm run serve
