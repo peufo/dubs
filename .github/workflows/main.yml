@@ -33,7 +33,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: ./dist
 
       - name: Copy source on host
         uses: appleboy/scp-action@master
