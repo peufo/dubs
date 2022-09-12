@@ -2,9 +2,13 @@
 import Main from '$layouts/Main.astro'
 import { directus } from '$src/directus'
 
-const data = await directus.items('resource').readByQuery().catch(console.error)
+let error = null
+const data = await directus
+  .items('resource')
+  .readByQuery()
+  .catch((err) => (error = err))
 ---
 
 <Main>
-  <pre>{JSON.stringify(data, null, 2)}</pre>
+  <pre>{JSON.stringify(err || data, null, 2)}</pre>
 </Main>
