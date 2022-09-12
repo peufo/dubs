@@ -72,4 +72,4 @@ jobs:
             . .profile
             cd ~/dubs/app
             npm install
-            pm2 startOrRestart server.js --name dubs
+            npm run astro-serve

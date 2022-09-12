@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro-dev": "astro dev --host",
     "astro-build": "astro build",
-    "astro-serve": "pm2",
+    "astro-serve": "pm2 startOrRestart server.js --name dubs",
     "astro-telemetry-disable": "astro telemetry disable",
     "directus": "directus start",
     "directus-init": "directus bootstrap && directus schema apply --yes ./snapshot.yaml",
