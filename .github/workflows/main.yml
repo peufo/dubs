@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy:
-    needs: [build]
     environment: Nestor - clients
     runs-on: ubuntu-latest
     steps:
