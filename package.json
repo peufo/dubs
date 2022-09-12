@@ -12,6 +12,7 @@
     "astro-dev": "astro dev --host",
     "astro-build": "astro build",
     "astro-serve": "node server.js",
+    "astro-telemetry-disable": "astro telemetry disable",
     "directus": "directus start",
     "directus-init": "directus bootstrap && directus schema apply --yes ./snapshot.yaml",
     "directus-snapshot": "directus schema snapshot --yes ./snapshot.yaml"

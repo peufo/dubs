@@ -47,7 +47,7 @@ jobs:
           script: |
             . .profile
             cd ~/sites/dubs-apiculture.ch/app
-            npm -v
-            node -v
             npm install
+            npm run astro-telemetry-disable
+            npm run build
             npm run serve
