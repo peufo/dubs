@@ -9,6 +9,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
+        $public: '/public',
         $src: '/src',
         $types: '/src/types',
         $lib: '/src/lib',
