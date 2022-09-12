@@ -1,14 +1,8 @@
 ---
 import Main from '$layouts/Main.astro'
-import { directus } from '$src/directus'
-
-let error = null
-const flow = await directus
-  .items('flow')
-  .readByQuery({})
-  .catch((err) => (error = err))
+import Resources from '$lib/resources.astro'
 ---
 
 <Main>
-  <pre>{JSON.stringify(error || flow, null, 2)}</pre>
+  <Resources />
 </Main>
