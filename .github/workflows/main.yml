@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: ./
-          target: ~/sites/dubs-apiculture.ch/app
+          target: ~/sites/dubs-apiculture.ch/app-tmp
 
       - name: Ensure data folders
         uses: appleboy/ssh-action@master
@@ -26,8 +26,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            mkdir -p ~/sites/dubs-apiculture.ch/data
-            mkdir -p ~/sites/dubs-apiculture.ch/uploads
+            cd ~/sites/dubs-apiculture.ch
+            mkdir -p data
+            mkdir -p uploads
+            rm -rf app
+            mv app-tmp app
 
       - name: Install dependencies, build and restart server
         uses: appleboy/ssh-action@master
@@ -44,5 +47,7 @@ jobs:
           script: |
             . .profile
             cd ~/sites/dubs-apiculture.ch/app
+            npm -v
+            node -v
             npm install
             npm run serve
