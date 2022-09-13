@@ -1,0 +1,24 @@
+---
+import colors from 'tailwindcss/colors'
+import { hexagon } from './path'
+
+export interface Props {
+  width?: number
+  height?: number
+  color?: string
+}
+
+const { width, height, color } = Astro.props
+
+const defaultSize = 60
+const defaultColor = colors.indigo[400]
+---
+
+<svg
+  xmlns='http://www.w3.org/2000/svg'
+  width={width || defaultSize}
+  height={height || defaultSize}
+  viewBox={`0 0 ${hexagon.viewWidth} ${hexagon.viewHeight}`}
+>
+  <path d={hexagon.d} fill={color || defaultColor}></path>
+</svg>

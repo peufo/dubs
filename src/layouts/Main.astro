@@ -1,6 +1,7 @@
 ---
 import '@fontsource/comic-neue'
 import logo from '$public/img/logo-borderless.png'
+import Header from './Header.astro'
 ---
 
 <!DOCTYPE html>
@@ -14,6 +15,7 @@ import logo from '$public/img/logo-borderless.png'
   </head>
   <body class='overflow-x-hidden w-screen'>
     <main class='min-h-screen bg-primary-light'>
+      <Header />
       <img
         src={logo}
         alt='Logo dubs-apiculture'
