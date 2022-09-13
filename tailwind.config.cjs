@@ -14,7 +14,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Comic Neue', ...defaultTheme.fontFamily.sans],
+        sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
       },
     },
   },
