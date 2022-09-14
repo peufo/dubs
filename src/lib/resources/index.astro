@@ -1,7 +1,7 @@
 ---
 import { directus } from '$src/directus'
 import type { Flow, Resource } from '$src/types'
-import { Card } from './Card'
+import { ResourceCard } from '$lib/resources/ResourceCard'
 
 const expendFields = {
   requestOptions: { params: { fields: ['*.*', 'files.directus_files_id.*'] } },
@@ -19,7 +19,7 @@ const { data: flows } = await directus
 <div class='max-w-3xl px-2 pb-16 mx-auto'>
   {
     resources && flows && (
-      <Card
+      <ResourceCard
         resourceId={1}
         resources={resources as Resource[]}
         flows={flows as Flow[]}

@@ -32,8 +32,8 @@ export interface Flow {
   date_updated: string
   descritpion: string
   id: number
-  input: number
-  output: number
+  from: number
+  to: number
   product: string
   user_created: string
   user_updated: string

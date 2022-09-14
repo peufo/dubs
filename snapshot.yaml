@@ -26,17 +26,16 @@ collections:
       sql: >-
         CREATE TABLE "flow" (`date_created` datetime NULL DEFAULT null,
         `date_updated` datetime NULL DEFAULT null, `descritpion` text NULL
-        DEFAULT null, `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL, `input`
-        integer NULL DEFAULT null, `output` integer NULL DEFAULT null, `product`
+        DEFAULT null, `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL, `product`
         varchar(255) NULL DEFAULT null, `user_created` char(36) NULL DEFAULT
-        null, `user_updated` char(36) NULL DEFAULT null, CONSTRAINT
-        `flow_input_foreign` FOREIGN KEY (`input`) REFERENCES `resource` (`id`)
-        ON DELETE SET NULL, CONSTRAINT `flow_output_foreign` FOREIGN KEY
-        (`output`) REFERENCES `resource` (`id`) ON DELETE SET NULL, CONSTRAINT
-        `flow_user_created_foreign` FOREIGN KEY (`user_created`) REFERENCES
-        `directus_users` (`id`) ON DELETE NO ACTION, CONSTRAINT
-        `flow_user_updated_foreign` FOREIGN KEY (`user_updated`) REFERENCES
-        `directus_users` (`id`) ON DELETE NO ACTION)
+        null, `user_updated` char(36) NULL DEFAULT null, `from` integer NULL,
+        `to` integer NULL, CONSTRAINT `flow_user_created_foreign` FOREIGN KEY
+        (`user_created`) REFERENCES `directus_users` (`id`) ON DELETE NO ACTION,
+        CONSTRAINT `flow_user_updated_foreign` FOREIGN KEY (`user_updated`)
+        REFERENCES `directus_users` (`id`) ON DELETE NO ACTION, CONSTRAINT
+        `flow_from_foreign` FOREIGN KEY (`from`) REFERENCES `resource` (`id`) ON
+        DELETE SET NULL, CONSTRAINT `flow_to_foreign` FOREIGN KEY (`to`)
+        REFERENCES `resource` (`id`) ON DELETE SET NULL)
   - collection: flow_files
     meta:
       accountability: all
@@ -66,34 +65,6 @@ collections:
         (`directus_files_id`) REFERENCES `directus_files` (`id`) ON DELETE SET
         NULL, CONSTRAINT `flow_files_flow_id_foreign` FOREIGN KEY (`flow_id`)
         REFERENCES `flow` (`id`) ON DELETE SET NULL)
-  - collection: product_files
-    meta:
-      accountability: all
-      archive_app_filter: true
-      archive_field: null
-      archive_value: null
-      collapse: open
-      collection: product_files
-      color: null
-      display_template: null
-      group: null
-      hidden: true
-      icon: import_export
-      item_duplication_fields: null
-      note: null
-      singleton: false
-      sort: 4
-      sort_field: null
-      translations: null
-      unarchive_value: null
-    schema:
-      name: product_files
-      sql: >-
-        CREATE TABLE "product_files" (`directus_files_id` char(36) NULL DEFAULT
-        null, `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL, CONSTRAINT
-        `product_files_directus_files_id_foreign` FOREIGN KEY
-        (`directus_files_id`) REFERENCES `directus_files` (`id`) ON DELETE SET
-        NULL)
   - collection: resource
     meta:
       accountability: all
@@ -292,7 +263,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 10
       special:
         - files
       translations: null
@@ -301,6 +272,46 @@ fields:
       width: full
     schema: null
     type: alias
+  - collection: flow
+    field: from
+    meta:
+      collection: flow
+      conditions: null
+      display: null
+      display_options: null
+      field: from
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{name}}'
+      readonly: false
+      required: true
+      sort: 8
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: from
+      numeric_precision: null
+      numeric_scale: null
+      table: flow
+    type: integer
   - collection: flow
     field: id
     meta:
@@ -335,88 +346,6 @@ fields:
       is_unique: false
       max_length: null
       name: id
-      numeric_precision: null
-      numeric_scale: null
-      table: flow
-    type: integer
-  - collection: flow
-    field: input
-    meta:
-      collection: flow
-      conditions: null
-      display: related-values
-      display_options:
-        template: '{{name}}'
-      field: input
-      group: null
-      hidden: false
-      interface: select-dropdown-m2o
-      note: null
-      options:
-        template: '{{name}}'
-      readonly: false
-      required: false
-      sort: 8
-      special:
-        - m2o
-      translations: null
-      validation: null
-      validation_message: null
-      width: half
-    schema:
-      data_type: integer
-      default_value: null
-      foreign_key_column: id
-      foreign_key_table: resource
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: true
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: input
-      numeric_precision: null
-      numeric_scale: null
-      table: flow
-    type: integer
-  - collection: flow
-    field: output
-    meta:
-      collection: flow
-      conditions: null
-      display: related-values
-      display_options:
-        template: '{{name}}'
-      field: output
-      group: null
-      hidden: false
-      interface: select-dropdown-m2o
-      note: null
-      options:
-        template: '{{name}}'
-      readonly: false
-      required: false
-      sort: 9
-      special:
-        - m2o
-      translations: null
-      validation: null
-      validation_message: null
-      width: half
-    schema:
-      data_type: integer
-      default_value: null
-      foreign_key_column: id
-      foreign_key_table: resource
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: true
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: output
       numeric_precision: null
       numeric_scale: null
       table: flow
@@ -459,6 +388,46 @@ fields:
       numeric_scale: null
       table: flow
     type: string
+  - collection: flow
+    field: to
+    meta:
+      collection: flow
+      conditions: null
+      display: null
+      display_options: null
+      field: to
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{name}}'
+      readonly: false
+      required: true
+      sort: 9
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      data_type: integer
+      default_value: null
+      foreign_key_column: id
+      foreign_key_table: resource
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: true
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: to
+      numeric_precision: null
+      numeric_scale: null
+      table: flow
+    type: integer
   - collection: flow
     field: user_created
     meta:
@@ -653,82 +622,6 @@ fields:
       numeric_scale: null
       table: flow_files
     type: integer
-  - collection: product_files
-    field: directus_files_id
-    meta:
-      collection: product_files
-      conditions: null
-      display: null
-      display_options: null
-      field: directus_files_id
-      group: null
-      hidden: true
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: char
-      default_value: null
-      foreign_key_column: id
-      foreign_key_table: directus_files
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: true
-      is_primary_key: false
-      is_unique: false
-      max_length: 36
-      name: directus_files_id
-      numeric_precision: null
-      numeric_scale: null
-      table: product_files
-    type: string
-  - collection: product_files
-    field: id
-    meta:
-      collection: product_files
-      conditions: null
-      display: null
-      display_options: null
-      field: id
-      group: null
-      hidden: true
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: integer
-      default_value: null
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: true
-      is_generated: false
-      is_nullable: false
-      is_primary_key: true
-      is_unique: false
-      max_length: null
-      name: id
-      numeric_precision: null
-      numeric_scale: null
-      table: product_files
-    type: integer
   - collection: resource
     field: date_created
     meta:
@@ -821,9 +714,10 @@ fields:
       field: decription
       group: null
       hidden: false
-      interface: input-rich-text-md
+      interface: input-rich-text-html
       note: null
       options:
+        customFormats: null
         customSyntax: null
         toolbar:
           - aligncenter
@@ -887,7 +781,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 8
       special:
         - files
       translations: null
@@ -957,7 +851,7 @@ fields:
         geometryType: Point
       readonly: false
       required: false
-      sort: 8
+      sort: 9
       special:
         - cast-json
       translations: null
@@ -1215,11 +1109,11 @@ fields:
     type: integer
 relations:
   - collection: flow
-    field: input
+    field: from
     meta:
       junction_field: null
       many_collection: flow
-      many_field: input
+      many_field: from
       one_allowed_collections: null
       one_collection: resource
       one_collection_field: null
@@ -1228,7 +1122,7 @@ relations:
       sort_field: null
     related_collection: resource
     schema:
-      column: input
+      column: from
       constraint_name: null
       foreign_key_column: id
       foreign_key_table: resource
@@ -1236,11 +1130,11 @@ relations:
       on_update: NO ACTION
       table: flow
   - collection: flow
-    field: output
+    field: to
     meta:
       junction_field: null
       many_collection: flow
-      many_field: output
+      many_field: to
       one_allowed_collections: null
       one_collection: resource
       one_collection_field: null
@@ -1249,7 +1143,7 @@ relations:
       sort_field: null
     related_collection: resource
     schema:
-      column: output
+      column: to
       constraint_name: null
       foreign_key_column: id
       foreign_key_table: resource
@@ -1340,27 +1234,6 @@ relations:
       on_delete: SET NULL
       on_update: NO ACTION
       table: flow_files
-  - collection: product_files
-    field: directus_files_id
-    meta:
-      junction_field: product_id
-      many_collection: product_files
-      many_field: directus_files_id
-      one_allowed_collections: null
-      one_collection: directus_files
-      one_collection_field: null
-      one_deselect_action: nullify
-      one_field: null
-      sort_field: null
-    related_collection: directus_files
-    schema:
-      column: directus_files_id
-      constraint_name: null
-      foreign_key_column: id
-      foreign_key_table: directus_files
-      on_delete: SET NULL
-      on_update: NO ACTION
-      table: product_files
   - collection: resource
     field: user_created
     meta:
