@@ -1,4 +1,6 @@
-import { DirectusFile } from './file'
+import type { DirectusFile } from './file'
+
+export * from './file'
 
 export type Collections = {
   resource: Resource
