@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
+        sans: ['Dosis', ...defaultTheme.fontFamily.sans],
       },
     },
   },
