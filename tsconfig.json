@@ -9,6 +9,8 @@
       "$lib/*": ["./src/lib/*"],
       "$layouts/*": ["./src/layouts/*"],
       "$pages/*": ["./src/pages/*"]
-    }
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }

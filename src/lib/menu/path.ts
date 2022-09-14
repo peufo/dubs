@@ -9,8 +9,7 @@ interface Dot {
  * @param from start of line
  * @param to end of line
  */
-function line(from: Dot, to: Dot) {
-  const W = 100
+function line(from: Dot, to: Dot, W = 100) {
   const X = to.x - from.x
   const Y = to.y - from.y
   const H = (X ** 2 + Y ** 2) ** 0.5
@@ -46,7 +45,7 @@ const dots = angles.map((angle) => {
   }
 })
 
-const menuY = [viewHeight / 3, viewHeight / 2, 2 * (viewHeight / 3)]
+const menuY = [2 * (viewHeight / 5), viewHeight / 2, 3 * (viewHeight / 5)]
 const menuX = [
   viewWidth / 4,
   viewWidth / 3,
@@ -54,12 +53,12 @@ const menuX = [
   3 * (viewWidth / 4),
 ]
 const menu = [
-  line({ x: menuX[1], y: menuY[0] }, { x: menuX[2], y: menuY[0] }),
-  line({ x: menuX[0], y: menuY[1] }, { x: menuX[3], y: menuY[1] }),
-  line({ x: menuX[1], y: menuY[2] }, { x: menuX[2], y: menuY[2] }),
+  line({ x: menuX[1], y: menuY[0] }, { x: menuX[2], y: menuY[0] }, 50),
+  line({ x: menuX[0], y: menuY[1] }, { x: menuX[3], y: menuY[1] }, 50),
+  line({ x: menuX[1], y: menuY[2] }, { x: menuX[2], y: menuY[2] }, 50),
 ]
 
-export const hexagon = {
+export const hexagonMenu = {
   d: [
     line(dots[0], dots[1]),
     line(dots[1], dots[2]),

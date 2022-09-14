@@ -1,6 +1,5 @@
 ---
 import '@fontsource/open-sans'
-import logo from '$public/img/logo-borderless.png'
 import Header from './Header.astro'
 ---
 
@@ -15,9 +14,9 @@ import Header from './Header.astro'
   </head>
   <body class='overflow-x-hidden w-screen'>
     <Header />
-    <main class='min-h-screen bg-primary-light pt-16'>
+    <main class='min-h-screen bg-primary pt-[72px] overflow-x-hidden'>
       <img
-        src={logo}
+        src='/img/logo-borderless.png'
         alt='Logo dubs-apiculture'
         class='fixed top-1/2 left-0 rotate-12 max-h-[75%] -translate-y-1/2 -translate-x-1/3 opacity-20'
       />

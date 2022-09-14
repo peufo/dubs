@@ -1,0 +1,29 @@
+---
+import { directus } from '$src/directus'
+import type { Flow, Resource } from '$src/types'
+import { Card } from './Card'
+
+const expendFields = {
+  requestOptions: { params: { fields: ['*.*', 'files.directus_files_id.*'] } },
+}
+
+const { data: resources } = await directus
+  .items('resource')
+  .readByQuery({ limit: -1 }, expendFields)
+
+const { data: flows } = await directus
+  .items('flow')
+  .readByQuery({ limit: -1 }, expendFields)
+---
+
+<div class='max-w-4xl px-2 mx-auto'>
+  {
+    resources && flows && (
+      <Card
+        resourceId={1}
+        resources={resources as Resource[]}
+        flows={flows as Flow[]}
+      />
+    )
+  }
+</div>

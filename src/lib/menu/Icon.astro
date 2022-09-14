@@ -1,0 +1,27 @@
+---
+import colors from 'tailwindcss/colors'
+import { hexagonMenu } from './path'
+
+export interface Props {
+  size?: number
+  color?: string
+}
+
+const { size, color } = Astro.props
+
+const defaultSize = 50
+const defaultColor = '#efbe22'
+---
+
+<div
+  class='bg-primary-dark border-1 border-secondary cursor-pointer rounded-full p-2'
+>
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width={size || defaultSize}
+    height={size || defaultSize}
+    viewBox={`0 0 ${hexagonMenu.viewWidth} ${hexagonMenu.viewHeight}`}
+  >
+    <path d={hexagonMenu.d} fill={color || defaultColor}></path>
+  </svg>
+</div>

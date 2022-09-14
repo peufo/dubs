@@ -8,9 +8,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          dark: colors.indigo[400],
-          light: colors.indigo[100],
-          DEFAULT: colors.indigo[100],
+          DEFAULT: '#a9b3ce',
+          light: '#dbe5ff',
+          dark: '#7a839d',
+        },
+        secondary: {
+          DEFAULT: '#efbe22',
+          light: '#fff05b',
+          dark: '#b88e00',
         },
       },
       fontFamily: {
