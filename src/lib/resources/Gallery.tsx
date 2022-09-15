@@ -1,12 +1,14 @@
 import { For, onCleanup, createSignal } from 'solid-js'
 import type { DirectusFile } from '$src/types'
 import { getAssetUrl } from '$src/directus'
+import { Icon } from '$src/util/icon'
+import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 
 interface Props {
   files: DirectusFile[]
 }
 
-type ScrollState = 'left' | 'middle' | 'rigth'
+type ScrollState = 'left' | 'middle' | 'right' | 'none'
 declare module 'solid-js' {
   namespace JSX {
     interface Directives {
@@ -16,13 +18,14 @@ declare module 'solid-js' {
 }
 
 export function Gallery({ files }: Props) {
-  const [scrollState, setScrollState] = createSignal<ScrollState>('left')
+  const [scrollState, setScrollState] = createSignal<ScrollState>('none')
 
   // TODO: Traiter d'autre fichier ? PDF, text, etc...
   const images = files.filter((file) => file.type.startsWith('image'))
 
   return (
     <div class='relative'>
+      <div>state {scrollState()}</div>
       <div
         use:getScrollState={setScrollState}
         class='flex pb-4 pt-8 overflow-x-auto snap-x snap-mandatory md:justify-center md:flex-wrap'
@@ -42,31 +45,55 @@ export function Gallery({ files }: Props) {
           )}
         </For>
       </div>
-      <div class='absolute top-0 bottom-4 left-0 w-8 from-transparent to-primary-light bg-gradient-to-l'></div>
-      <div class='absolute top-0 bottom-4 right-0 w-8 from-transparent to-primary-light bg-gradient-to-r' />
+      <div class='absolute top-8 h-60 left-0 w-6 from-transparent to-white bg-gradient-to-l grid items-center'>
+        <Icon
+          path={mdiChevronDoubleLeft}
+          size={28}
+          class='fill-white transition-transform m-4'
+          classList={{
+            'scale-0': scrollState() === 'none' || scrollState() === 'left',
+          }}
+        />
+      </div>
+      <div class='absolute top-8 h-60 right-0 w-6 from-transparent to-white bg-gradient-to-r grid items-center justify-end'>
+        <Icon
+          path={mdiChevronDoubleRight}
+          size={28}
+          class='fill-white transition-transform m-4'
+          classList={{
+            'scale-0': scrollState() === 'none' || scrollState() === 'right',
+          }}
+        />
+      </div>
     </div>
   )
 }
 
 function getScrollState(
   element: HTMLElement,
-  accesssor: () => (scrollState: ScrollState) => void
+  accesssor: () => (newState: ScrollState) => void
 ) {
-  let currentState: ScrollState = 'left'
+  const tol = 16
+  let currentState: ScrollState | null = null
   const getNewState = (): ScrollState => {
     const { scrollLeft, scrollWidth, clientWidth } = element
-    if (scrollLeft === 0) return 'left'
-    if (scrollLeft + clientWidth === scrollWidth) return 'rigth'
+    if (scrollWidth === clientWidth) return 'none'
+    if (scrollLeft < tol) return 'left'
+    if (scrollLeft + clientWidth + tol >= scrollWidth) return 'right'
     return 'middle'
   }
 
-  const onScroll = () => {
+  const testScrollWidth = () => {
     let newState = getNewState()
     if (newState !== currentState) {
       currentState = newState
       accesssor()(newState)
     }
   }
-  element.addEventListener('scroll', onScroll)
-  onCleanup(() => element.removeEventListener('scroll', onScroll))
+  element.addEventListener('scroll', testScrollWidth)
+  window.addEventListener('resize', testScrollWidth)
+  onCleanup(() => {
+    element.removeEventListener('scroll', testScrollWidth)
+    window.removeEventListener('resize', testScrollWidth)
+  })
 }

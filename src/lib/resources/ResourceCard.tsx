@@ -17,7 +17,7 @@ export function ResourceCard({ resourceId, resources, flows }: Props) {
 
   return (
     <>
-      <article class='rounded-lg bg-primary-light drop-shadow-2xl'>
+      <article class='rounded-lg bg-white drop-shadow-2xl'>
         <div class='p-4'>
           <h2 class='text-3xl text-gray-600'>{resource.name}</h2>
           <div

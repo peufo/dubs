@@ -21,6 +21,7 @@
     "@astrojs/node": "^1.0.1",
     "@directus/sdk": "^10.1.4",
     "@fontsource/dosis": "^4.5.9",
+    "@mdi/js": "^7.0.96",
     "astro": "^1.1.7",
     "directus": "^9.17.4",
     "express": "^4.18.1",
