@@ -20,6 +20,7 @@ const { data: flows } = await directus
   {
     resources && flows && (
       <ResourceCard
+        client:load
         resourceId={1}
         resources={resources as Resource[]}
         flows={flows as Flow[]}
