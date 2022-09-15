@@ -17,15 +17,17 @@ export function ResourceCard({ resourceId, resources, flows }: Props) {
 
   return (
     <>
-      <div class='rounded-lg p-4 bg-primary-light drop-shadow-2xl'>
-        <h2 class='text-3xl text-gray-600'>{resource.name}</h2>
-        <div
-          innerHTML={resource.decription}
-          class='font-medium text-lg text-gray-500'
-        />
+      <article class='rounded-lg bg-primary-light drop-shadow-2xl'>
+        <div class='p-4'>
+          <h2 class='text-3xl text-gray-600'>{resource.name}</h2>
+          <div
+            innerHTML={resource.decription}
+            class='font-medium text-lg text-gray-500'
+          />
+        </div>
 
         <Gallery files={files} />
-      </div>
+      </article>
       <FlowsLines flows={ouputsFlow} resources={resources} />
     </>
   )
