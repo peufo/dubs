@@ -8,14 +8,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#a9b3ce',
-          light: '#dbe5ff',
-          dark: '#7a839d',
+          DEFAULT: '#FFA400',
+          light: '#ffd549',
+          dark: '#c67500',
         },
         secondary: {
-          DEFAULT: '#efbe22',
-          light: '#fff05b',
-          dark: '#b88e00',
+          DEFAULT: '#b8b8d1',
+          light: '#eaeaff',
+          dark: '#8888a0',
         },
       },
       fontFamily: {

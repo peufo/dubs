@@ -3,24 +3,20 @@ import { hexagonMenu } from './path'
 
 export interface Props {
   size?: number
-  color?: string
 }
 
-const { size, color } = Astro.props
+const { size } = Astro.props
 
 const defaultSize = 50
-const defaultColor = '#efbe22'
 ---
 
-<div
-  class='bg-primary-dark border-1 border-secondary cursor-pointer rounded-full p-2'
->
+<div class='stroke-primary-dark fill-blue cursor-pointer'>
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width={size || defaultSize}
     height={size || defaultSize}
     viewBox={`0 0 ${hexagonMenu.viewWidth} ${hexagonMenu.viewHeight}`}
   >
-    <path d={hexagonMenu.d} fill={color || defaultColor}></path>
+    <path d={hexagonMenu.d} stroke-linecap='round' stroke-width='0.025'></path>
   </svg>
 </div>

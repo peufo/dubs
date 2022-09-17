@@ -25,7 +25,6 @@ export function Gallery({ files }: Props) {
 
   return (
     <div class='relative'>
-      <div>state {scrollState()}</div>
       <div
         use:getScrollState={setScrollState}
         class='flex pb-4 pt-8 overflow-x-auto snap-x snap-mandatory md:justify-center md:flex-wrap'

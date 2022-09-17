@@ -15,7 +15,7 @@ function line(from: Dot, to: Dot, W = 100) {
   const H = (X ** 2 + Y ** 2) ** 0.5
   const WX = Math.round(((Y * W) / H / 2) * 1000) / 1000
   const WY = Math.round(((X * W) / H / 2) * 1000) / 1000
-  let paths = [
+  const paths = [
     `M${from.x + WX} ${from.y - WY}`,
     `c${1.25 * -WY} ${1.25 * -WX}`,
     `${-2 * WX - 1.25 * WY} ${2 * WY - 1.25 * WX}`,
@@ -27,6 +27,15 @@ function line(from: Dot, to: Dot, W = 100) {
     'z',
   ]
   return paths.join(' ')
+}
+
+function lines(dots: Dot[]) {
+  const from = dots.shift()
+  if (!from) return ''
+  const path = [`M${from.x} ${from.y}`]
+  path.push(...dots.map((dot) => `L${dot.x} ${dot.y}`))
+  path.push('z')
+  return path.join(' ')
 }
 
 const viewWidth = 1000
@@ -59,6 +68,12 @@ const menu = [
 ]
 
 export const hexagonMenu = {
+  d: lines([dots[0], dots[1], dots[2], dots[3]]),
+  viewHeight,
+  viewWidth,
+}
+/*
+export const hexagonMenu = {
   d: [
     line(dots[0], dots[1]),
     line(dots[1], dots[2]),
@@ -71,3 +86,4 @@ export const hexagonMenu = {
   viewHeight,
   viewWidth,
 }
+*/
