@@ -4,5 +4,7 @@ import Main from '$src/layouts/Main.astro'
 ---
 
 <Main>
-  <Menu size={400} />
+  <div class='drop-shadow-none grid place-items-center'>
+    <Menu size={400} client:visible />
+  </div>
 </Main>
