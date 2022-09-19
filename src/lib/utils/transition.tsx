@@ -1,4 +1,4 @@
-import { on, createSignal, createEffect, Accessor } from 'solid-js'
+import { on, createSignal, createEffect, Accessor, onCleanup } from 'solid-js'
 
 export function createTransition(
   active: Accessor<boolean>,
@@ -16,6 +16,10 @@ export function createTransition(
       window.requestAnimationFrame((timestamp) => transition(timestamp, true))
     )
   )
+
+  onCleanup(() => {
+    window.cancelAnimationFrame(frame)
+  })
 
   function transition(timestamp: number, change = false) {
     if (init) return (init = false)
