@@ -29,31 +29,16 @@ export function Menu(props: Props) {
         <Hexagon
           isMenuButton
           open={open()}
+          visible
           class='hover:fill-primary-light'
+          gap={150}
           sides={[
-            { face: 0 },
-            { face: 1 },
-            {
-              face: 2,
-              sides: [
-                {
-                  face: 2,
-                  sides: [
-                    {
-                      face: 3,
-                      sides: [{ face: 2, sides: [{ face: 3 }] }, { face: 3 }],
-                    },
-                  ],
-                },
-                { face: 3 },
-              ],
-            },
+            { face: 0, visible: true },
+            { face: 1, visible: true },
+            { face: 2, visible: true, sides: [{ face: 2, visible: true }] },
             { face: 3 },
-            {
-              face: 4,
-              sides: [{ face: 3 }, { face: 5, sides: [{ face: 4 }] }],
-            },
-            { face: 5 },
+            { face: 4 },
+            { face: 5, visible: true },
           ]}
         />
       </svg>

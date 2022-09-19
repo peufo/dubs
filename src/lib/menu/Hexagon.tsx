@@ -98,12 +98,14 @@ interface HexagonProps {
   open?: boolean
   sides?: HexagonProps[]
   class?: string
+  gap?: number
+  visible?: boolean
 }
 
 export function Hexagon(props: HexagonProps) {
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
-  const rayonSides = 2 * rayonIn
+  const rayonSides = 2 * rayonIn + (props.gap ?? 0)
   const center = props.origin ?? { x: viewWidth / 2, y: viewHeight / 2 }
   const sideRadian =
     props.face === undefined ? undefined : degToRadian(30 + 60 * props.face)
@@ -134,19 +136,26 @@ export function Hexagon(props: HexagonProps) {
 
   return (
     <>
-      <g class={props.class}>
-        <Path dots={dots} />
-        <Lines dots={dots} closePath={!!props.slice} />
-        <Show when={props.isMenuButton}>
-          <MenuLines open={props.open} />
-        </Show>
-      </g>
-
-      <Show when={props.open}>
-        <For each={props.sides}>
-          {(side) => <Hexagon {...side} origin={origin} open />}
-        </For>
+      <Show when={props.visible}>
+        <g class={props.class}>
+          <Path dots={dots} />
+          <Lines dots={dots} closePath={!!props.slice} />
+          <Show when={props.isMenuButton}>
+            <MenuLines open={props.open} />
+          </Show>
+        </g>
       </Show>
+
+      <For each={props.sides}>
+        {(side) => (
+          <Hexagon
+            {...side}
+            origin={origin}
+            visible={side.visible || props.open}
+            gap={props.gap}
+          />
+        )}
+      </For>
     </>
   )
 }
