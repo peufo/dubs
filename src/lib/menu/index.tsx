@@ -6,7 +6,7 @@ export interface Props {
 }
 
 export function Menu(props: Props) {
-  const [open, setOpen] = createSignal(false)
+  const [open, setOpen] = createSignal(true)
 
   const defaultSize = 50
 
@@ -16,7 +16,7 @@ export function Menu(props: Props) {
 
   return (
     <div
-      class='stroke-primary-dark fill-primary hover:fill-primary-light cursor-pointer'
+      class='stroke-primary-dark fill-primary cursor-pointer'
       onClick={handleClick}
     >
       <svg
@@ -24,8 +24,38 @@ export function Menu(props: Props) {
         width={props.size || defaultSize}
         height={props.size || defaultSize}
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+        class='overflow-visible'
       >
-        <Hexagon isMenuButton open={open()} />
+        <Hexagon
+          isMenuButton
+          open={open()}
+          class='hover:fill-primary-light'
+          sides={[
+            { face: 0 },
+            { face: 1 },
+            {
+              face: 2,
+              sides: [
+                {
+                  face: 2,
+                  sides: [
+                    {
+                      face: 3,
+                      sides: [{ face: 2, sides: [{ face: 3 }] }, { face: 3 }],
+                    },
+                  ],
+                },
+                { face: 3 },
+              ],
+            },
+            { face: 3 },
+            {
+              face: 4,
+              sides: [{ face: 3 }, { face: 5, sides: [{ face: 4 }] }],
+            },
+            { face: 5 },
+          ]}
+        />
       </svg>
     </div>
   )

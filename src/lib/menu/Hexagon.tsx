@@ -1,4 +1,4 @@
-import { Show } from 'solid-js'
+import { For, Show } from 'solid-js'
 import { createTransition } from '$lib/utils/transition'
 
 interface Dot {
@@ -91,33 +91,61 @@ export function MenuLines(props: MenuLinesOpen) {
 type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
 interface HexagonProps {
   isMenuButton?: boolean
+  origin?: Dot
   rotate?: FaceIndex
   slice?: [FaceIndex, FaceIndex]
+  face?: FaceIndex
   open?: boolean
+  sides?: HexagonProps[]
+  class?: string
 }
 
 export function Hexagon(props: HexagonProps) {
-  const center = { x: viewWidth / 2, y: viewHeight / 2 }
+  const rayon = 450
+  const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
+  const rayonSides = 2 * rayonIn
+  const center = props.origin ?? { x: viewWidth / 2, y: viewHeight / 2 }
+  const sideRadian =
+    props.face === undefined ? undefined : degToRadian(30 + 60 * props.face)
+  const origin: Dot = !sideRadian
+    ? center
+    : {
+        x: center.x + Math.cos(sideRadian) * rayonSides,
+        y: center.y - Math.sin(sideRadian) * rayonSides,
+      }
+  console.log(origin)
+  function degToRadian(angle: number) {
+    return (angle / 360) * Math.PI * 2
+  }
+
   const angles = Array(6)
     .fill(null)
     .map((n, i) => (i + (props.rotate || 0)) * 60)
-  const rayon = 450
+
   const dots = angles
     .map((angle) => {
-      const radians = (angle / 360) * Math.PI * 2
+      const radians = degToRadian(angle)
       return {
-        x: center.x + Math.cos(radians) * rayon,
-        y: center.y - Math.sin(radians) * rayon,
+        x: origin.x + Math.cos(radians) * rayon,
+        y: origin.y - Math.sin(radians) * rayon,
       }
     })
     .slice(...(props.slice || []))
 
   return (
     <>
-      <Path dots={dots} />
-      <Lines dots={dots} closePath={!!props.slice} />
-      <Show when={props.isMenuButton}>
-        <MenuLines open={props.open} />
+      <g class={props.class}>
+        <Path dots={dots} />
+        <Lines dots={dots} closePath={!!props.slice} />
+        <Show when={props.isMenuButton}>
+          <MenuLines open={props.open} />
+        </Show>
+      </g>
+
+      <Show when={props.open}>
+        <For each={props.sides}>
+          {(side) => <Hexagon {...side} origin={origin} open />}
+        </For>
       </Show>
     </>
   )
