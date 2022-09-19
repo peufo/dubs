@@ -37,7 +37,7 @@ export function Gallery({ files }: Props) {
                 src={getAssetUrl(image.id, 'height240')}
                 alt={image.title}
               />
-              <figcaption class='max-w-fit text-center m-auto text-gray-600 leading-none mt-2'>
+              <figcaption class='max-w-fit text-center m-auto my-2 text-gray-600 leading-none'>
                 {image.description}
               </figcaption>
             </figure>
