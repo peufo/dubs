@@ -66,9 +66,10 @@ export function MenuLines(props: MenuLinesOpen) {
   const dx1 = viewWidth / 6
   const dx2 = viewWidth / 4
 
-  const duration = 160
+  const duration = 400
   let start: number | null = null
   const [t, setT] = createSignal(0)
+  const [u, setU] = createSignal(1)
 
   createEffect(
     on(
@@ -78,15 +79,12 @@ export function MenuLines(props: MenuLinesOpen) {
   )
   function transition(timestamp: number) {
     if (!start) start = timestamp
-    const elapsed = timestamp - start
-    const delta = elapsed / duration
-    const next = props.open ? delta : 1 - delta
-
-    setT((t) => {
-      return next > 1 ? 1 : next < 0 ? 0 : next
-    })
-
-    const done = elapsed !== 0 && (t() === 0 || t() === 1)
+    const elapsed = (timestamp - start) / duration
+    const next = props.open ? elapsed : 1 - elapsed
+    const ease = backInOut(next)
+    setT(ease)
+    setU(1 - ease)
+    const done = timestamp - start > duration
     if (!done) window.requestAnimationFrame(transition)
     if (done) start = null
   }
@@ -94,12 +92,9 @@ export function MenuLines(props: MenuLinesOpen) {
   return (
     <>
       <Line
-        from={{ x: ox - dx2, y: oy }}
-        to={{ x: ox + dx2, y: oy }}
+        from={{ x: ox - u() * dx2, y: oy }}
+        to={{ x: ox + u() * dx2, y: oy }}
         width={width}
-        class={`transition-opacity opacity-0 ${
-          props.open ? '' : 'opacity-100 delay-200'
-        }`}
       />
       <Line
         from={{ x: ox - dx1, y: oy - dy }}
@@ -113,6 +108,12 @@ export function MenuLines(props: MenuLinesOpen) {
       />
     </>
   )
+}
+
+function backInOut(t: number) {
+  const s = 1.70158 * 1.525
+  if ((t *= 2) < 1) return 0.5 * (t * t * ((s + 1) * t - s))
+  return 0.5 * ((t -= 2) * t * ((s + 1) * t + s) + 2)
 }
 
 type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
