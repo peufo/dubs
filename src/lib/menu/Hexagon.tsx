@@ -1,4 +1,4 @@
-import { For, Show } from 'solid-js'
+import { For, JSX, Show } from 'solid-js'
 import { createTransition } from '$lib/utils/transition'
 
 interface Dot {
@@ -100,6 +100,7 @@ interface HexagonProps {
   class?: string
   gap?: number
   visible?: boolean
+  onClick?: JSX.EventHandlerUnion<SVGGElement, MouseEvent>
 }
 
 export function Hexagon(props: HexagonProps) {
@@ -115,7 +116,6 @@ export function Hexagon(props: HexagonProps) {
         x: center.x + Math.cos(sideRadian) * rayonSides,
         y: center.y - Math.sin(sideRadian) * rayonSides,
       }
-  console.log(origin)
   function degToRadian(angle: number) {
     return (angle / 360) * Math.PI * 2
   }
@@ -137,7 +137,13 @@ export function Hexagon(props: HexagonProps) {
   return (
     <>
       <Show when={props.visible}>
-        <g class={props.class}>
+        <g
+          class={props.class}
+          classList={{
+            'cursor-pointer': !!props.onClick,
+          }}
+          onClick={props.onClick}
+        >
           <Path dots={dots} />
           <Lines dots={dots} closePath={!!props.slice} />
           <Show when={props.isMenuButton}>
