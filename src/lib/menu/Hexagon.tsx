@@ -1,4 +1,14 @@
-import { For, JSX, Show } from 'solid-js'
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  JSX,
+  on,
+  onMount,
+  Show,
+  Switch,
+} from 'solid-js'
 import { createTransition } from '$lib/utils/transition'
 
 interface Dot {
@@ -96,11 +106,14 @@ interface HexagonProps {
   slice?: [FaceIndex, FaceIndex]
   face?: FaceIndex
   open?: boolean
+  visible?: boolean
   sides?: HexagonProps[]
   class?: string
+  style?: string
   gap?: number
-  visible?: boolean
+  delay?: number
   onClick?: JSX.EventHandlerUnion<SVGGElement, MouseEvent>
+  deep?: number
 }
 
 export function Hexagon(props: HexagonProps) {
@@ -134,31 +147,62 @@ export function Hexagon(props: HexagonProps) {
     })
     .slice(...(props.slice || []))
 
+  const [mounted, setMounted] = createSignal(false)
+  onMount(() => setMounted(true))
+
+  const stepDelay = 70
+  const maxDeep = getMaxDeep(props.sides)
+  function getMaxDeep(sides?: HexagonProps[], deep = 0): number {
+    if (!sides) return deep
+    let max = 0
+    for (const side of sides) {
+      const sidesMaxDeep = getMaxDeep(side.sides, deep + 1)
+      if (sidesMaxDeep > max) max = sidesMaxDeep
+    }
+    return max
+  }
+
+  const sidesInvisible = props.sides?.filter((s) => !s.visible).length || 0
+  const deep = props.deep || 0
+  const hideDelay = (i: number) =>
+    stepDelay * (sidesInvisible + maxDeep - deep - i)
+  const showDelay = (i: number) => stepDelay * (deep + i)
+
   return (
     <>
-      <Show when={props.visible}>
-        <g
-          class={props.class}
-          classList={{
-            'cursor-pointer': !!props.onClick,
-          }}
-          onClick={props.onClick}
-        >
-          <Path dots={dots} />
-          <Lines dots={dots} closePath={!!props.slice} />
-          <Show when={props.isMenuButton}>
-            <MenuLines open={props.open} />
-          </Show>
-        </g>
-      </Show>
+      <g
+        class={`duration-300 origin-center ${props.class || ''}`}
+        classList={{
+          'cursor-pointer': !!props.onClick,
+          'scale-100': mounted() && (props.visible || props.open),
+        }}
+        style={`
+          transform-origin: ${origin.x}px ${origin.y}px;
+          transition-delay: ${props.delay}ms;
+          transition-property: scale;
+          scale: ${props.visible || props.open ? 1 : 0};
+          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+          ${props.style || ''}
+        `}
+        onClick={props.onClick}
+      >
+        <Path dots={dots} />
+        <Lines dots={dots} closePath={!!props.slice} />
+        <Show when={props.isMenuButton}>
+          <MenuLines open={props.open} />
+        </Show>
+      </g>
 
       <For each={props.sides}>
-        {(side) => (
+        {(side, index) => (
           <Hexagon
             {...side}
             origin={origin}
-            visible={side.visible || props.open}
+            visible={side.visible}
+            open={props.open}
             gap={props.gap}
+            delay={props.open ? showDelay(index()) : hideDelay(index())}
+            deep={(props.deep || 0) + 1}
           />
         )}
       </For>

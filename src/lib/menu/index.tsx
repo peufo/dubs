@@ -30,11 +30,18 @@ export function Menu(props: Props) {
         onClick={handleClick}
         gap={150}
         sides={[
+          {
+            face: 4,
+            sides: [
+              { face: 5, sides: [{ face: 4 }] },
+              { face: 4 },
+              { face: 3, sides: [{ face: 3 }, { face: 4 }] },
+            ],
+          },
+          { face: 3 },
           { face: 0, visible: true },
           { face: 1, visible: true },
           { face: 2, visible: true, sides: [{ face: 2, visible: true }] },
-          { face: 3 },
-          { face: 4 },
           { face: 5, visible: true },
         ]}
       />
