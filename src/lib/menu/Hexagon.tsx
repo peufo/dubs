@@ -1,6 +1,5 @@
-import { Show, on, createSignal, createEffect } from 'solid-js'
-import { from, last } from 'rxjs'
-import { Transition } from 'solid-transition-group'
+import { Show } from 'solid-js'
+import { createTransition } from '$lib/utils/transition'
 
 interface Dot {
   x: number
@@ -59,35 +58,14 @@ interface MenuLinesOpen {
   open?: boolean
 }
 export function MenuLines(props: MenuLinesOpen) {
-  const width = 50
+  const width = 100
   const oy = viewHeight / 2
   const dy = viewHeight / 6
   const ox = viewWidth / 2
   const dx1 = viewWidth / 6
   const dx2 = viewWidth / 4
 
-  const duration = 400
-  let start: number | null = null
-  const [t, setT] = createSignal(0)
-  const [u, setU] = createSignal(1)
-
-  createEffect(
-    on(
-      () => props.open,
-      () => window.requestAnimationFrame(transition)
-    )
-  )
-  function transition(timestamp: number) {
-    if (!start) start = timestamp
-    const elapsed = (timestamp - start) / duration
-    const next = props.open ? elapsed : 1 - elapsed
-    const ease = backInOut(next)
-    setT(ease)
-    setU(1 - ease)
-    const done = timestamp - start > duration
-    if (!done) window.requestAnimationFrame(transition)
-    if (done) start = null
-  }
+  const { t, u } = createTransition(() => !!props.open)
 
   return (
     <>
@@ -108,12 +86,6 @@ export function MenuLines(props: MenuLinesOpen) {
       />
     </>
   )
-}
-
-function backInOut(t: number) {
-  const s = 1.70158 * 1.525
-  if ((t *= 2) < 1) return 0.5 * (t * t * ((s + 1) * t - s))
-  return 0.5 * ((t -= 2) * t * ((s + 1) * t + s) + 2)
 }
 
 type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
