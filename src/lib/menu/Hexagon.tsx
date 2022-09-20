@@ -99,7 +99,7 @@ export function MenuLines(props: MenuLinesOpen) {
 }
 
 type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
-interface HexagonProps {
+export interface HexagonProps {
   isMenuButton?: boolean
   origin?: Dot
   rotate?: FaceIndex
@@ -117,6 +117,7 @@ interface HexagonProps {
 }
 
 export function Hexagon(props: HexagonProps) {
+  const stepDelay = 30
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)
@@ -150,7 +151,6 @@ export function Hexagon(props: HexagonProps) {
   const [mounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  const stepDelay = 70
   const maxDeep = getMaxDeep(props.sides)
   function getMaxDeep(sides?: HexagonProps[], deep = 0): number {
     if (!sides) return deep
