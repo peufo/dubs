@@ -1,5 +1,11 @@
 import { createSignal } from 'solid-js'
-import { Hexagon, viewWidth, viewHeight, HexagonProps } from './Hexagon'
+import {
+  Hexagon,
+  viewWidth,
+  viewHeight,
+  HexagonProps,
+  FaceIndex,
+} from './Hexagon'
 
 export interface Props {
   size?: number
@@ -14,24 +20,32 @@ export function Menu(props: Props) {
     setOpen((v) => !v)
   }
 
-  function row(length: number, sides: HexagonProps[] = []): HexagonProps[] {
-    if (length === 0) return []
-    const next = [...row(length - 1), ...sides]
-    return [{ face: 2, sides: [{ face: 3, sides: next }] }]
-  }
-  function col(length: number, sides: HexagonProps[] = []): HexagonProps[] {
-    if (length === 0) return []
-    const next = [...col(length - 1, sides), ...sides]
-    return [{ face: 4, sides: next }]
+  function draw(
+    patern: FaceIndex[],
+    next: HexagonProps[] = [],
+    index = 0
+  ): HexagonProps {
+    if (index === patern.length - 1) return { face: patern[index], sides: next }
+    return {
+      face: patern[index],
+      sides: [draw(patern, next, index + 1)],
+    }
   }
 
+  function repeat(nb: number, patern: FaceIndex[]): HexagonProps {
+    if (nb === 1) return draw(patern)
+    return draw(patern, [repeat(nb - 1, patern)])
+  }
+
+  const test = draw([2, 2, 3], [{ face: 5 }]) // {face: 2, sides: [{face: 2}]}
+  console.log(test)
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width={props.size || defaultSize}
       height={props.size || defaultSize}
       viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-      class='overflow-visible stroke-primary-dark fill-primary'
+      class='overflow-visible fill-primary stroke-primary-dark'
     >
       <Hexagon
         isMenuButton
@@ -41,16 +55,12 @@ export function Menu(props: Props) {
         onClick={handleClick}
         gap={150}
         sides={[
+          { face: 3 },
+          { face: 4, sides: [repeat(5, [5, 3])] },
           { face: 0, visible: true },
           { face: 1, visible: true },
-          {
-            face: 2,
-            visible: true,
-            sides: [{ face: 3, sides: [{ face: 3 }] }],
-          },
-          { face: 3 },
-          { face: 4 },
-          { face: 5, visible: true, sides: col(5, row(3)) },
+          { face: 2, visible: true },
+          { face: 5, visible: true },
         ]}
       />
     </svg>

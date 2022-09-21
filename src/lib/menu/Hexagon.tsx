@@ -98,7 +98,7 @@ export function MenuLines(props: MenuLinesOpen) {
   )
 }
 
-type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
+export type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
 export interface HexagonProps {
   isMenuButton?: boolean
   origin?: Dot
@@ -117,7 +117,7 @@ export interface HexagonProps {
 }
 
 export function Hexagon(props: HexagonProps) {
-  const stepDelay = 30
+  const stepDelay = 300
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)
@@ -171,7 +171,7 @@ export function Hexagon(props: HexagonProps) {
   return (
     <>
       <g
-        class={`duration-300 origin-center ${props.class || ''}`}
+        class={`duration-400 origin-center ${props.class || ''}`}
         classList={{
           'cursor-pointer': !!props.onClick,
           'scale-100': mounted() && (props.visible || props.open),
