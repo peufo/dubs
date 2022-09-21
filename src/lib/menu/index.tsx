@@ -41,7 +41,7 @@ export function Menu(props: Props) {
       width={props.size || defaultSize}
       height={props.size || defaultSize}
       viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-      class='overflow-visible fill-primary stroke-primary-dark'
+      class='overflow-visible fill-primary stroke-primary-dark '
     >
       <Hexagon
         isMenuButton
@@ -51,8 +51,40 @@ export function Menu(props: Props) {
         onClick={handleClick}
         gap={150}
         sides={[
-          { face: 3 },
-          { face: 4, sides: [repeat(5, [5, 3])] },
+          {
+            face: 3,
+            sides: [
+              {
+                face: 3,
+                sides: [
+                  {
+                    face: 2,
+                    sides: [
+                      { face: 3 },
+                      draw([2, 3, 3, 3, 5], [{ face: 3 }, { face: 5 }]),
+                    ],
+                  },
+                  {
+                    face: 4,
+                    sides: [
+                      { face: 5 },
+                      {
+                        face: 3,
+                        sides: [{ face: 2 }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            face: 4,
+            sides: [
+              { face: 3, label: 'contact', href: '/lab' },
+              repeat(5, [5, 3]),
+            ],
+          },
           { face: 0, visible: true },
           { face: 1, visible: true },
           { face: 2, visible: true },

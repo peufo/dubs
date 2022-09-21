@@ -1,15 +1,6 @@
-import {
-  createEffect,
-  createMemo,
-  createSignal,
-  For,
-  JSX,
-  on,
-  onMount,
-  Show,
-  Switch,
-} from 'solid-js'
+import { createSignal, For, JSX, onMount, Show, children } from 'solid-js'
 import { createTransition } from '$lib/utils/transition'
+import { retry } from 'rxjs'
 
 interface Dot {
   x: number
@@ -101,6 +92,11 @@ export function MenuLines(props: MenuLinesOpen) {
 export type FaceIndex = 0 | 1 | 2 | 3 | 4 | 5
 export interface HexagonProps {
   isMenuButton?: boolean
+  /* hexagon is a button if label is defined */
+  label?: string
+  /* hexagon is a link if href is defined */
+  href?: string
+  onClick?: JSX.EventHandlerUnion<SVGGElement, MouseEvent>
   origin?: Dot
   rotate?: FaceIndex
   slice?: [FaceIndex, FaceIndex]
@@ -111,7 +107,6 @@ export interface HexagonProps {
   class?: string
   style?: string
   gap?: number
-  onClick?: JSX.EventHandlerUnion<SVGGElement, MouseEvent>
   index?: number
 }
 
@@ -121,16 +116,20 @@ export function Hexagon(props: HexagonProps) {
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)
   const center = props.origin ?? { x: viewWidth / 2, y: viewHeight / 2 }
+
   const sideRadian =
-    props.face === undefined ? undefined : degToRadian(30 + 60 * props.face)
+    props.face === undefined ? undefined : degToRad(30 + 60 * props.face)
   const origin: Dot = !sideRadian
     ? center
     : {
         x: center.x + Math.cos(sideRadian) * rayonSides,
         y: center.y - Math.sin(sideRadian) * rayonSides,
       }
-  function degToRadian(angle: number) {
-    return (angle / 360) * Math.PI * 2
+  function degToRad(angle: number) {
+    return angle * (Math.PI / 180)
+  }
+  function radToDeg(angle: number) {
+    return angle * (180 / Math.PI)
   }
 
   const angles = Array(6)
@@ -139,13 +138,22 @@ export function Hexagon(props: HexagonProps) {
 
   const dots = angles
     .map((angle) => {
-      const radians = degToRadian(angle)
+      const radians = degToRad(angle)
       return {
         x: origin.x + Math.cos(radians) * rayon,
         y: origin.y - Math.sin(radians) * rayon,
       }
     })
     .slice(...(props.slice || []))
+
+  if (props.label) {
+    const horizontalGap = Math.cos(degToRad(30)) * (props.gap || 0)
+    console.log(props.gap, horizontalGap)
+    const delta = rayon * 3 + 2 * horizontalGap
+    dots[2].x -= delta
+    dots[3].x -= delta
+    dots[4].x -= delta
+  }
 
   const [mounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
@@ -167,28 +175,34 @@ export function Hexagon(props: HexagonProps) {
 
   return (
     <>
-      <g
-        class={`duration-300 origin-center ${props.class || ''}`}
-        classList={{
-          'cursor-pointer': !!props.onClick,
-          'scale-100': mounted() && (props.visible || props.open),
-        }}
-        style={`
+      <Link href={props.href}>
+        <g
+          class={`duration-300 origin-center ${props.class || ''}`}
+          classList={{
+            'cursor-pointer': !!props.onClick,
+            'scale-100': mounted() && (props.visible || props.open),
+            'fill-primary-light': !!props.label,
+          }}
+          style={`
           transform-origin: ${origin.x}px ${origin.y}px;
           transition-delay: ${props.open ? showDelay : hideDelay}ms;
-          transition-property: scale;
           scale: ${props.visible || props.open ? 1 : 0};
+          transition-property: scale;
           transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
           ${props.style || ''}
         `}
-        onClick={props.onClick}
-      >
-        <Path dots={dots} />
-        <Lines dots={dots} closePath={!!props.slice} />
-        <Show when={props.isMenuButton}>
-          <MenuLines open={props.open} />
-        </Show>
-      </g>
+          onClick={props.onClick}
+        >
+          <Path dots={dots} />
+          <Lines dots={dots} closePath={!!props.slice} />
+          <Show when={props.isMenuButton}>
+            <MenuLines open={props.open} />
+          </Show>
+          <Show when={!!props.label}>
+            <Label label={props.label!} dots={dots} />
+          </Show>
+        </g>
+      </Link>
 
       <For each={props.sides}>
         {(side, sideIndex) => (
@@ -203,5 +217,37 @@ export function Hexagon(props: HexagonProps) {
         )}
       </For>
     </>
+  )
+}
+
+interface LinkProps {
+  href?: string
+  children: JSX.Element
+}
+function Link(props: LinkProps) {
+  if (!props.href) return props.children
+  return <a href={props.href}>{props.children}</a>
+}
+
+interface LabelProps {
+  label: string
+  dots: Dot[]
+}
+function Label(props: LabelProps) {
+  const getCenter = (a: number, b: number) => a + (b - a) / 2
+  const centerX = getCenter(props.dots[2].x, props.dots[1].x)
+  const centerY = getCenter(props.dots[1].y, props.dots[5].y)
+
+  return (
+    <text
+      x={centerX}
+      y={centerY}
+      dominant-baseline='central'
+      text-anchor='middle'
+      class='fill-primary-dark uppercase'
+      style='font-size: 500px;'
+    >
+      {props.label}
+    </text>
   )
 }
