@@ -35,6 +35,34 @@ export function Menu(props: Props) {
     return draw(patern, [repeat(nb - 1, patern)])
   }
 
+  function button(label: string, href?: string): HexagonProps {
+    return {
+      label,
+      href,
+      face: 3,
+      sides: [
+        {
+          face: 2,
+          sides: [{ face: 3, hide: true, sides: [draw([2, 3, 5])] }],
+        },
+        { face: 3 },
+      ],
+    }
+  }
+
+  function button2(): HexagonProps[] {
+    return [
+      button('Contact', '/lab'),
+      draw(
+        [5, 3],
+        [
+          { face: 3, sides: [button('Prout', '/')] },
+          draw([5, 3], [{ face: 3 }, draw([5, 3])]),
+        ]
+      ),
+    ]
+  }
+
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -51,38 +79,18 @@ export function Menu(props: Props) {
         onClick={handleClick}
         gap={150}
         sides={[
-          {
-            face: 3,
-            sides: [
-              {
-                face: 3,
-                sides: [
-                  {
-                    face: 2,
-                    sides: [
-                      { face: 3 },
-                      draw([2, 3, 3, 3, 5], [{ face: 3 }, { face: 5 }]),
-                    ],
-                  },
-                  {
-                    face: 4,
-                    sides: [
-                      { face: 5 },
-                      {
-                        face: 3,
-                        sides: [{ face: 2 }],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+          { face: 3 },
           {
             face: 4,
             sides: [
-              { face: 3, label: 'contact', href: '/lab' },
-              repeat(5, [5, 3]),
+              button('Contact', '/lab'),
+              draw(
+                [5, 3],
+                [
+                  { face: 3, sides: [button('Prout', '/')] },
+                  draw([5, 3], [{ face: 3 }, draw([5, 3])]),
+                ]
+              ),
             ],
           },
           { face: 0, visible: true },

@@ -100,6 +100,7 @@ export interface HexagonProps {
   origin?: Dot
   rotate?: FaceIndex
   slice?: [FaceIndex, FaceIndex]
+  hide?: boolean
   face?: FaceIndex
   open?: boolean
   visible?: boolean
@@ -128,9 +129,6 @@ export function Hexagon(props: HexagonProps) {
   function degToRad(angle: number) {
     return angle * (Math.PI / 180)
   }
-  function radToDeg(angle: number) {
-    return angle * (180 / Math.PI)
-  }
 
   const angles = Array(6)
     .fill(null)
@@ -148,7 +146,6 @@ export function Hexagon(props: HexagonProps) {
 
   if (props.label) {
     const horizontalGap = Math.cos(degToRad(30)) * (props.gap || 0)
-    console.log(props.gap, horizontalGap)
     const delta = rayon * 3 + 2 * horizontalGap
     dots[2].x -= delta
     dots[3].x -= delta
@@ -175,35 +172,6 @@ export function Hexagon(props: HexagonProps) {
 
   return (
     <>
-      <Link href={props.href}>
-        <g
-          class={`duration-300 origin-center ${props.class || ''}`}
-          classList={{
-            'cursor-pointer': !!props.onClick,
-            'scale-100': mounted() && (props.visible || props.open),
-            'fill-primary-light': !!props.label,
-          }}
-          style={`
-          transform-origin: ${origin.x}px ${origin.y}px;
-          transition-delay: ${props.open ? showDelay : hideDelay}ms;
-          scale: ${props.visible || props.open ? 1 : 0};
-          transition-property: scale;
-          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
-          ${props.style || ''}
-        `}
-          onClick={props.onClick}
-        >
-          <Path dots={dots} />
-          <Lines dots={dots} closePath={!!props.slice} />
-          <Show when={props.isMenuButton}>
-            <MenuLines open={props.open} />
-          </Show>
-          <Show when={!!props.label}>
-            <Label label={props.label!} dots={dots} />
-          </Show>
-        </g>
-      </Link>
-
       <For each={props.sides}>
         {(side, sideIndex) => (
           <Hexagon
@@ -216,6 +184,38 @@ export function Hexagon(props: HexagonProps) {
           />
         )}
       </For>
+
+      <Show when={!props.hide ?? true}>
+        <Link href={props.href}>
+          <g
+            class={`duration-300 origin-center ${props.class || ''}`}
+            classList={{
+              'cursor-pointer': !!props.onClick,
+              'scale-100': mounted() && (props.visible || props.open),
+              'fill-primary-light': !!props.label,
+            }}
+            style={`
+          transform-origin: ${origin.x}px ${origin.y}px;
+          transition-delay: ${props.open ? showDelay : hideDelay}ms;
+          scale: ${props.visible || props.open ? 1 : 0};
+          transition-property: scale;
+          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+          z-index: ${+(!!props.label || !!props.href)};
+          ${props.style || ''}
+        `}
+            onClick={props.onClick}
+          >
+            <Path dots={dots} />
+            <Lines dots={dots} closePath={!!props.slice} />
+            <Show when={props.isMenuButton}>
+              <MenuLines open={props.open} />
+            </Show>
+            <Show when={!!props.label}>
+              <Label label={props.label!} dots={dots} />
+            </Show>
+          </g>
+        </Link>
+      </Show>
     </>
   )
 }
