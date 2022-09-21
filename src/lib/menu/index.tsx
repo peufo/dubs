@@ -25,11 +25,9 @@ export function Menu(props: Props) {
     next: HexagonProps[] = [],
     index = 0
   ): HexagonProps {
-    if (index === patern.length - 1) return { face: patern[index], sides: next }
-    return {
-      face: patern[index],
-      sides: [draw(patern, next, index + 1)],
-    }
+    const isLast = index === patern.length - 1
+    const sides = isLast ? next : [draw(patern, next, index + 1)]
+    return { face: patern[index], sides }
   }
 
   function repeat(nb: number, patern: FaceIndex[]): HexagonProps {
@@ -37,8 +35,6 @@ export function Menu(props: Props) {
     return draw(patern, [repeat(nb - 1, patern)])
   }
 
-  const test = draw([2, 2, 3], [{ face: 5 }]) // {face: 2, sides: [{face: 2}]}
-  console.log(test)
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'

@@ -111,13 +111,12 @@ export interface HexagonProps {
   class?: string
   style?: string
   gap?: number
-  delay?: number
   onClick?: JSX.EventHandlerUnion<SVGGElement, MouseEvent>
-  deep?: number
+  index?: number
 }
 
 export function Hexagon(props: HexagonProps) {
-  const stepDelay = 300
+  const stepDelay = 30
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)
@@ -151,34 +150,32 @@ export function Hexagon(props: HexagonProps) {
   const [mounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  const maxDeep = getMaxDeep(props.sides)
-  function getMaxDeep(sides?: HexagonProps[], deep = 0): number {
-    if (!sides) return deep
-    let max = 0
+  const subSidesCount = getSubSidesCount(props.sides)
+  function getSubSidesCount(sides?: HexagonProps[], total = 0): number {
+    if (!sides) return 0
+    let count = sides.length
     for (const side of sides) {
-      const sidesMaxDeep = getMaxDeep(side.sides, deep + 1)
-      if (sidesMaxDeep > max) max = sidesMaxDeep
+      count += getSubSidesCount(side.sides, count + 1)
     }
-    return max
+    return count
   }
 
   const sidesInvisible = props.sides?.filter((s) => !s.visible).length || 0
-  const deep = props.deep || 0
-  const hideDelay = (i: number) =>
-    stepDelay * (sidesInvisible + maxDeep - deep - i)
-  const showDelay = (i: number) => stepDelay * (deep + i)
+  const index = props.index || 0
+  const showDelay = stepDelay * index
+  const hideDelay = stepDelay * (sidesInvisible + subSidesCount)
 
   return (
     <>
       <g
-        class={`duration-400 origin-center ${props.class || ''}`}
+        class={`duration-300 origin-center ${props.class || ''}`}
         classList={{
           'cursor-pointer': !!props.onClick,
           'scale-100': mounted() && (props.visible || props.open),
         }}
         style={`
           transform-origin: ${origin.x}px ${origin.y}px;
-          transition-delay: ${props.delay}ms;
+          transition-delay: ${props.open ? showDelay : hideDelay}ms;
           transition-property: scale;
           scale: ${props.visible || props.open ? 1 : 0};
           transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
@@ -194,15 +191,14 @@ export function Hexagon(props: HexagonProps) {
       </g>
 
       <For each={props.sides}>
-        {(side, index) => (
+        {(side, sideIndex) => (
           <Hexagon
             {...side}
             origin={origin}
             visible={side.visible}
             open={props.open}
             gap={props.gap}
-            delay={props.open ? showDelay(index()) : hideDelay(index())}
-            deep={(props.deep || 0) + 1}
+            index={(props.index || 0) + sideIndex() + 1}
           />
         )}
       </For>
