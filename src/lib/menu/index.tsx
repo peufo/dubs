@@ -52,11 +52,11 @@ export function Menu(props: Props) {
 
   function button2(): HexagonProps[] {
     return [
-      button('Contact', '/lab'),
+      button('Labo', '/lab'),
       draw(
         [5, 3],
         [
-          { face: 3, sides: [button('Prout', '/')] },
+          { face: 3, sides: [button('Accueil', '/')] },
           draw([5, 3], [{ face: 3 }, draw([5, 3])]),
         ]
       ),
@@ -79,15 +79,15 @@ export function Menu(props: Props) {
         onClick={handleClick}
         gap={150}
         sides={[
-          { face: 3 },
+          { face: 3, sides: [repeat(2, [2, 3])] },
           {
             face: 4,
             sides: [
-              button('Contact', '/lab'),
+              button('Labo', '/lab'),
               draw(
                 [5, 3],
                 [
-                  { face: 3, sides: [button('Prout', '/')] },
+                  { face: 3, sides: [button('Accueil', '/')] },
                   draw([5, 3], [{ face: 3 }, draw([5, 3])]),
                 ]
               ),

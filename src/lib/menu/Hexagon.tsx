@@ -155,20 +155,19 @@ export function Hexagon(props: HexagonProps) {
   const [mounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  const subSidesCount = getSubSidesCount(props.sides)
-  function getSubSidesCount(sides?: HexagonProps[], total = 0): number {
-    if (!sides) return 0
-    let count = sides.length
-    for (const side of sides) {
-      count += getSubSidesCount(side.sides, count + 1)
-    }
-    return count
+  const maxDeep = getMaxDeep(props.sides)
+  function getMaxDeep(sides?: HexagonProps[], count = 0): number {
+    if (!sides || !sides.length) return count
+    let counts: number[] = Array(sides.length).fill(count)
+    sides.forEach((side, index) => {
+      counts[index] += getMaxDeep(side.sides, index + 1)
+    })
+    return Math.max(...counts)
   }
 
-  const sidesInvisible = props.sides?.filter((s) => !s.visible).length || 0
   const index = props.index || 0
   const showDelay = stepDelay * index
-  const hideDelay = stepDelay * (sidesInvisible + subSidesCount)
+  const hideDelay = stepDelay * (maxDeep - index)
 
   return (
     <>
