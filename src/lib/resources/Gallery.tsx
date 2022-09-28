@@ -1,7 +1,7 @@
 import { For, onCleanup, createSignal } from 'solid-js'
 import type { DirectusFile } from '$src/types'
 import { getAssetUrl } from '$src/directus'
-import { Icon } from '$src/util/icon'
+import { Icon } from '$src/util/Icon'
 import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 
 interface Props {

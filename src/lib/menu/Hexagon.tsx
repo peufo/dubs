@@ -1,6 +1,5 @@
-import { createSignal, For, JSX, onMount, Show, children } from 'solid-js'
+import { createSignal, For, JSX, onMount, Show } from 'solid-js'
 import { createTransition } from '$lib/utils/transition'
-import { retry } from 'rxjs'
 
 interface Dot {
   x: number
@@ -34,13 +33,7 @@ interface PathProps {
   dots: Dot[]
   closePath?: boolean
   class?: string
-}
-export function Lines(props: PathProps) {
-  return props.dots
-    .map((dot, i, self) => (
-      <Line from={dot} to={self[i + 1] || self[0]} width={100} />
-    ))
-    .filter((l, i, self) => !props.closePath || self[i + 1])
+  lineWidth?: number
 }
 export function Path(props: PathProps) {
   const d = [`M${props.dots[0].x} ${props.dots[0].y}`]
@@ -48,10 +41,11 @@ export function Path(props: PathProps) {
   d.push('z')
   return (
     <path
-      class={`hexagon-path ${props.class}`}
+      class={`${props.class}`}
       d={d.join(' ')}
-      stroke-width='0'
-    ></path>
+      stroke-width={props.lineWidth || 80}
+      stroke-linejoin='round'
+    />
   )
 }
 
@@ -194,21 +188,22 @@ export function Hexagon(props: HexagonProps) {
               'fill-primary-light': !!props.label,
             }}
             style={`
-          transform-origin: ${origin.x}px ${origin.y}px;
-          transition-delay: ${props.open ? showDelay : hideDelay}ms;
-          scale: ${props.visible || props.open ? 1 : 0};
-          transition-property: scale;
-          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
-          z-index: ${+(!!props.label || !!props.href)};
-          ${props.style || ''}
-        `}
+              transform-origin: ${origin.x}px ${origin.y}px;
+              transition-delay: ${props.open ? showDelay : hideDelay}ms;
+              scale: ${props.visible || props.open ? 1 : 0};
+              transition-property: scale;
+              transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+              z-index: ${+(!!props.label || !!props.href)};
+              ${props.style || ''}
+            `}
             onClick={props.onClick}
           >
             <Path dots={dots} />
-            <Lines dots={dots} closePath={!!props.slice} />
+
             <Show when={props.isMenuButton}>
               <MenuLines open={props.open} />
             </Show>
+
             <Show when={!!props.label}>
               <Label label={props.label!} dots={dots} />
             </Show>
