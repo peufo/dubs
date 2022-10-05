@@ -33,6 +33,7 @@ export function Gallery({ files }: Props) {
           {(image) => (
             <figure class='snap-start flex-shrink-0 pl-4 last:pr-4'>
               <img
+                id={image.title}
                 class='rounded-xl'
                 src={getAssetUrl(image.id, 'height240')}
                 alt={image.title}
@@ -44,6 +45,10 @@ export function Gallery({ files }: Props) {
           )}
         </For>
       </div>
+
+      <For each={images}>
+        {(image) => <a href={`#${image.title}`}>{image.title}</a>}
+      </For>
       <div class='absolute top-8 h-60 left-0 w-6 from-transparent to-white bg-gradient-to-l grid items-center'>
         <Icon
           path={mdiChevronDoubleLeft}
