@@ -100,6 +100,7 @@ export interface HexagonProps {
   visible?: boolean
   sides?: HexagonProps[]
   class?: string
+  pathClass?: string
   style?: string
   gap?: number
   index?: number

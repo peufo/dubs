@@ -3,6 +3,9 @@ import { directus } from '$src/directus'
 import type { Flow, Resource } from '$src/types'
 import { ResourceCard } from '$lib/resources/ResourceCard'
 
+const url = Astro.request.url
+console.log(url)
+
 const expendFields = {
   requestOptions: { params: { fields: ['*.*', 'files.directus_files_id.*'] } },
 }

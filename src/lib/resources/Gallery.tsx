@@ -1,9 +1,8 @@
-import { For, onCleanup, createSignal } from 'solid-js'
+import { For } from 'solid-js'
 import type { DirectusFile } from '$src/types'
 import { getAssetUrl } from '$src/directus'
-import { Icon } from '$src/util/Icon'
-import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from '@mdi/js'
 import './Gallery.css'
+import { Indicator } from '$lib/hexagon/Indicator'
 
 interface Props {
   files: DirectusFile[]
@@ -14,7 +13,7 @@ export function Gallery({ files }: Props) {
   const images = files.filter((file) => file.type.startsWith('image'))
 
   return (
-    <div class='relative'>
+    <>
       <div class='images-wrapper flex pb-4 pt-8 gap-[50%] overflow-x-auto snap-x snap-mandatory'>
         <For each={images}>
           {(image) => (
@@ -32,15 +31,9 @@ export function Gallery({ files }: Props) {
           )}
         </For>
       </div>
-
-      <ul></ul>
-      <For each={images}>
-        {(image) => (
-          <li>
-            <a href={`#${image.title}`}>{image.title}</a>
-          </li>
-        )}
-      </For>
-    </div>
+      <div class='pb-6'>
+        <Indicator ids={images.map((img) => img.title)} />
+      </div>
+    </>
   )
 }

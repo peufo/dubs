@@ -69,7 +69,7 @@ export function Menu(props: Props) {
       width={props.size || defaultSize}
       height={props.size || defaultSize}
       viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-      class='overflow-visible fill-primary stroke-primary-dark '
+      class='overflow-visible fill-primary stroke-primary-dark'
     >
       <Hexagon
         isMenuButton
