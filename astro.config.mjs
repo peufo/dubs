@@ -15,6 +15,7 @@ export default defineConfig({
         $lib: '/src/lib',
         $layouts: '/src/layouts',
         $pages: '/src/pages',
+        $models: '/src/models',
       },
     },
   },
