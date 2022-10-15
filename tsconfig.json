@@ -1,17 +1,28 @@
 {
-  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "$public/*": ["./public/*"],
-      "$src/*": ["./src/*"],
-      "$types/*": ["./src/types/*"],
-      "$lib/*": ["./src/lib/*"],
-      "$layouts/*": ["./src/layouts/*"],
-      "$pages/*": ["./src/pages/*"],
-      "$models/*": ["./src/models/*"]
-    },
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+  ],
+  "ts-node": {
+    "transpileOnly": true
   }
 }
