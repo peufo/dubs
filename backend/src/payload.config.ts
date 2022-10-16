@@ -11,7 +11,7 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       ogImage: '/img/logo.png',
-      titleSuffix: 'asdasasd',
+      titleSuffix: '- Dubs Apiculture',
       favicon: '/favicon.ico',
     },
     components: {
