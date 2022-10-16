@@ -4,12 +4,12 @@ import TodoLists from './collections/TodoLists'
 import Users from './collections/Users'
 
 export default buildConfig({
-  serverURL: 'http://localhost:3000',
+  serverURL: `http://localhost:5002`,
   admin: {
     user: Users.slug,
   },
   collections: [TodoLists, Users],
   typescript: {
-    outputFile: path.resolve(__dirname, 'collections.ts'),
+    outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },
 })
