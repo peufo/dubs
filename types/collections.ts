@@ -8,30 +8,35 @@
 export interface Config {}
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "todos".
- */
-export interface Todo {
-  id: string;
-  listName?: string;
-  tasks: {
-    name?: string;
-    complete?: boolean;
-    id?: string;
-  }[];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: string;
+  name: string;
+  role: 'admin' | 'editor' | 'user';
   email?: string;
   resetPasswordToken?: string;
   resetPasswordExpiration?: string;
   loginAttempts?: number;
   lockUntil?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: string;
+  name: string;
+  desciption?: {
+    [k: string]: unknown;
+  }[];
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location: [number, number];
   createdAt: string;
   updatedAt: string;
 }

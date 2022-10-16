@@ -1,3 +1,5 @@
+export * from './collections'
+
 export interface Resource {
   id: number
 }

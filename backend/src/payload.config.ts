@@ -1,7 +1,7 @@
 import { buildConfig } from 'payload/config'
 import path from 'path'
-import { Users } from './collections/Users'
-import { Resource } from './collections/Resources'
+import { Users } from './collections/users'
+import { Resource } from './collections/resources'
 
 import { Logo, Icon } from './Custom'
 
