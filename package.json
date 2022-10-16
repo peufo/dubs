@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "run-p install:*",
-    "install:site": "cd site && npm i",
-    "install:backend": "cd backend && npm i"
+    "dev": "run-p dev:*",
+    "dev:site": "cd site && npm run dev",
+    "dev:backend": "cd backend && npm run dev"
   },
   "repository": {
     "type": "git",

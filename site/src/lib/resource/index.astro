@@ -1,0 +1,20 @@
+---
+import type { Resource, Flow } from 'types'
+import { ResourceCard } from '$lib/resource/Card'
+
+const resources: Resource[] = []
+const flows: Flow[] = []
+---
+
+<div class='max-w-3xl px-2 pb-16 mx-auto'>
+  {
+    resources && flows && (
+      <ResourceCard
+        client:load
+        resourceId={1}
+        resources={resources as Resource[]}
+        flows={flows as Flow[]}
+      />
+    )
+  }
+</div>
