@@ -50,19 +50,6 @@ export function Menu(props: Props) {
     }
   }
 
-  function button2(): HexagonProps[] {
-    return [
-      button('Labo', '/lab'),
-      draw(
-        [5, 3],
-        [
-          { face: 3, sides: [button('Accueil', '/')] },
-          draw([5, 3], [{ face: 3 }, draw([5, 3])]),
-        ]
-      ),
-    ]
-  }
-
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -88,7 +75,10 @@ export function Menu(props: Props) {
                 [5, 3],
                 [
                   { face: 3, sides: [button('Accueil', '/')] },
-                  draw([5, 3], [{ face: 3 }, draw([5, 3])]),
+                  draw(
+                    [5, 3],
+                    [{ face: 3 }, draw([5, 3], [button('Admin', '/admin')])]
+                  ),
                 ]
               ),
             ],
