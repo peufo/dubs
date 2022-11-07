@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload/types'
 
-export const Resource: CollectionConfig = {
-  slug: 'resources',
+export const Action: CollectionConfig = {
+  slug: 'action',
   admin: {
     useAsTitle: 'name',
   },
@@ -18,9 +18,14 @@ export const Resource: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'location',
-      type: 'point',
-      required: true,
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'action',
+    },
+    {
+      name: 'resource',
+      type: 'relationship',
+      relationTo: 'resource',
     },
   ],
 }
