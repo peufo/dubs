@@ -1,4 +1,5 @@
 export * from './collections'
+export * from './payload'
 
 export interface FileInterface {
   id: string

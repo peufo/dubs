@@ -11,32 +11,121 @@ export interface Config {}
  * via the `definition` "users".
  */
 export interface User {
-  id: string
-  name: string
-  role: 'admin' | 'editor' | 'user'
-  email?: string
-  resetPasswordToken?: string
-  resetPasswordExpiration?: string
-  loginAttempts?: number
-  lockUntil?: string
-  createdAt: string
-  updatedAt: string
+  id: string;
+  name: string;
+  role: 'admin' | 'editor' | 'user';
+  email?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpiration?: string;
+  loginAttempts?: number;
+  lockUntil?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
+ * via the `definition` "resource".
  */
 export interface Resource {
-  id: string
-  name: string
+  id: string;
+  name: string;
   desciption?: {
-    [k: string]: unknown
-  }[]
+    [k: string]: unknown;
+  }[];
+  relative?: boolean;
+  parent?: string | Resource;
   /**
    * @minItems 2
    * @maxItems 2
    */
-  location: [number, number]
-  createdAt: string
-  updatedAt: string
+  location: [number, number];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "action".
+ */
+export interface Action {
+  id: string;
+  name: string;
+  desciption?: {
+    [k: string]: unknown;
+  }[];
+  inputs?:
+    | (
+        | {
+            value: string;
+            relationTo: 'product';
+          }
+        | {
+            value: string;
+            relationTo: 'action';
+          }
+      )[]
+    | (
+        | {
+            value: Product;
+            relationTo: 'product';
+          }
+        | {
+            value: Action;
+            relationTo: 'action';
+          }
+      )[];
+  ouputs?:
+    | (
+        | {
+            value: string;
+            relationTo: 'product';
+          }
+        | {
+            value: string;
+            relationTo: 'action';
+          }
+      )[]
+    | (
+        | {
+            value: Product;
+            relationTo: 'product';
+          }
+        | {
+            value: Action;
+            relationTo: 'action';
+          }
+      )[];
+  resource?: string | Resource;
+  moving?: boolean;
+  resourceTo?: string | Resource;
+  parent?: string | Action;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product".
+ */
+export interface Product {
+  id: string;
+  name: string;
+  desciption?: {
+    [k: string]: unknown;
+  }[];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "item".
+ */
+export interface Item {
+  id: string;
+  virtual?: boolean;
+  validity: {
+    start?: string;
+    end?: string;
+  };
+  product: string | Product;
+  createdAt: string;
+  updatedAt: string;
 }
