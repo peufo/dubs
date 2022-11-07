@@ -1,10 +1,5 @@
 export * from './collections'
 
-export interface Resource {
-  id: number
-}
-export interface Flow {}
-
 export interface FileInterface {
   id: string
   storage: string

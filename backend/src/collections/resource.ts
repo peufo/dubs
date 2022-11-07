@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload/types'
+import type { CollectionConfig, Field } from 'payload/types'
 import { LocationField } from '../components/LocationField'
 
 export const Resource: CollectionConfig = {
@@ -19,6 +19,24 @@ export const Resource: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: 'relative',
+      type: 'checkbox',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Définit si cette ressource est relative à une resource parent.',
+      },
+    },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'resource',
+      filterOptions: ({ id }) => ({ id: { not_equals: id } }),
+      admin: {
+        condition: (resource) => resource.relative,
+      },
+    },
+    {
       name: 'location',
       type: 'point',
       required: true,
@@ -26,16 +44,8 @@ export const Resource: CollectionConfig = {
         components: {
           Field: LocationField,
         },
+        condition: (resource) => !resource.relative,
       },
-    },
-    {
-      name: 'locationB',
-      type: 'point',
-    },
-    {
-      name: 'parent',
-      type: 'relationship',
-      relationTo: 'resource',
     },
   ],
 }

@@ -18,14 +18,56 @@ export const Action: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: 'Connection',
+      type: 'group',
+      fields: [
+        {
+          name: 'inputs',
+          type: 'relationship',
+          relationTo: ['product', 'action'],
+          hasMany: true,
+          filterOptions: ({ id }) => ({ id: { not_equals: id } }),
+        },
+        {
+          name: 'ouputs',
+          type: 'relationship',
+          relationTo: ['product', 'action'],
+          hasMany: true,
+          filterOptions: ({ id }) => ({ id: { not_equals: id } }),
+        },
+      ],
+    },
+    {
+      name: 'Resources',
+      type: 'group',
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'resourceFrom',
+              type: 'relationship',
+              relationTo: 'resource',
+            },
+            {
+              name: 'resourceTo',
+              type: 'relationship',
+              relationTo: 'resource',
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'parent',
       type: 'relationship',
       relationTo: 'action',
-    },
-    {
-      name: 'resource',
-      type: 'relationship',
-      relationTo: 'resource',
+      filterOptions: ({ id }) => ({
+        id: { not_equals: id },
+      }),
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }

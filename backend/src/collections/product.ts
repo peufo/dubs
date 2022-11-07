@@ -17,10 +17,5 @@ export const Product: CollectionConfig = {
       name: 'desciption',
       type: 'richText',
     },
-    {
-      name: 'parent',
-      type: 'relationship',
-      relationTo: 'product',
-    },
   ],
 }
