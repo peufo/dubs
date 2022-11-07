@@ -5,8 +5,6 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png'
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png'
 
-console.log({ iconUrl })
-
 import { useField } from 'payload/components/forms'
 
 type Props = { path: string }
@@ -19,43 +17,47 @@ export const LocationField: React.FC<Props> = ({ path }) => {
   let marker: L.Marker | undefined
 
   useEffect(() => {
-    if (!window) return
     initMap()
-
-    async function initMap() {
-      const L = (await import('leaflet')).default
-      const latlng = { lat: value[1] || 0, lng: value[0] || 0 }
-      map = L.map(mapRef.current).setView(latlng, 15)
-      const tile = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-      const attribution =
-        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      L.tileLayer(tile, { maxZoom: 19, attribution }).addTo(map)
-      const icon = new L.Icon({
-        iconUrl,
-        shadowUrl,
-        iconRetinaUrl,
-        iconAnchor: [12.5, 41],
-      })
-
-      marker = L.marker(latlng, { icon }).addTo(map)
-      map.on('dblclick', (event) => {
-        event.originalEvent.preventDefault()
-        const { latlng } = event
-        setValue([latlng.lng, latlng.lat])
-        marker.setLatLng(latlng)
-      })
-    }
-
     return () => {
       map?.remove()
     }
-  })
+  }, [])
+
+  async function initMap() {
+    if (!window) return
+    const L = (await import('leaflet')).default
+    const latlng = value
+      ? { lat: value[1], lng: value[0] }
+      : { lat: 46.5, lng: 7.5 }
+    map = L.map(mapRef.current).setView(latlng, value ? 13 : 7)
+    const tile = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+    const attribution =
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    L.tileLayer(tile, { maxZoom: 19, attribution }).addTo(map)
+    const icon = new L.Icon({
+      iconUrl,
+      shadowUrl,
+      iconRetinaUrl,
+      iconAnchor: [12.5, 41],
+    })
+
+    marker = L.marker(latlng, { icon, opacity: !!value ? 1 : 0 }).addTo(map)
+
+    map.on('dblclick', handleDblClick)
+  }
+
+  function handleDblClick(event: L.LeafletMouseEvent) {
+    const { latlng } = event
+    setValue([latlng.lng, latlng.lat])
+    marker.setLatLng(latlng)
+    marker.setOpacity(1)
+  }
 
   return (
     <div>
       <div
         ref={mapRef}
-        style={{ height: '280px', marginBottom: '2em', borderRadius: '6px' }}
+        style={{ height: '380px', marginBottom: '2em', borderRadius: '6px' }}
       ></div>
 
       <div style={{ display: 'flex', gap: '1em', marginBottom: '2em' }}>
@@ -63,7 +65,7 @@ export const LocationField: React.FC<Props> = ({ path }) => {
           {path} - Longitude <br />
           <input
             type='number'
-            value={value ? value[0] : 0}
+            value={value ? value[0] : ''}
             onChange={(event) => {
               setValue([event.target.value, value ? value[1] : 0])
             }}
@@ -73,7 +75,7 @@ export const LocationField: React.FC<Props> = ({ path }) => {
           {path} - Lattiude <br />
           <input
             type='number'
-            value={value ? value[1] : 0}
+            value={value ? value[1] : ''}
             onChange={(event) => {
               setValue([value ? value[0] : 0, event.target.value])
             }}
