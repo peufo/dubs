@@ -1,6 +1,11 @@
 import React, { useRef, useEffect } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import iconUrl from 'leaflet/dist/images/marker-icon.png'
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png'
+
+console.log({ iconUrl })
 
 import { useField } from 'payload/components/forms'
 
@@ -19,12 +24,26 @@ export const LocationField: React.FC<Props> = ({ path }) => {
 
     async function initMap() {
       const L = (await import('leaflet')).default
-      map = L.map(mapRef.current).setView([51, 0], 13)
+      const latlng = { lat: value[1] || 0, lng: value[0] || 0 }
+      map = L.map(mapRef.current).setView(latlng, 15)
       const tile = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
       const attribution =
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       L.tileLayer(tile, { maxZoom: 19, attribution }).addTo(map)
-      marker = L.marker(value || [0, 0]).addTo(map)
+      const icon = new L.Icon({
+        iconUrl,
+        shadowUrl,
+        iconRetinaUrl,
+        iconAnchor: [12.5, 41],
+      })
+
+      marker = L.marker(latlng, { icon }).addTo(map)
+      map.on('dblclick', (event) => {
+        event.originalEvent.preventDefault()
+        const { latlng } = event
+        setValue([latlng.lng, latlng.lat])
+        marker.setLatLng(latlng)
+      })
     }
 
     return () => {
