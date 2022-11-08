@@ -4,5 +4,12 @@ import { Menu } from '$lib/hexagon/Menu'
 
 <header class='fixed w-full flex p-2 items-center z-10'>
   <div class='flex-1'></div>
-  <Menu size={52} client:load />
+  <Menu size={52} client:load buttons={[
+    {label: 'labo', href: '/lab'},
+    {label: 'graph', href: '/graph'},
+    {label: 'admin', href: '/admin'},
+    {label: 'admin', href: '/admin'},
+    {label: 'admin', href: '/admin'},
+  ]
+    } />
 </header>

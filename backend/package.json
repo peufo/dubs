@@ -17,12 +17,14 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.3",
+    "leaflet": "^1.9.2",
     "npm-run-all": "^4.1.5",
     "payload": "^1.1.15",
     "react": "^18.2.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
+    "@types/leaflet": "^1.9.0",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",

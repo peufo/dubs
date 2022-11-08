@@ -7,7 +7,13 @@ import {
   FaceIndex,
 } from './Hexagon'
 
+interface Button {
+  label: string
+  href: string
+}
+
 export interface Props {
+  buttons: Button[]
   size?: number
 }
 
@@ -35,7 +41,7 @@ export function Menu(props: Props) {
     return draw(patern, [repeat(nb - 1, patern)])
   }
 
-  function button(label: string, href?: string): HexagonProps {
+  function drawButton({ label, href }: Button): HexagonProps {
     return {
       label,
       href,
@@ -48,6 +54,20 @@ export function Menu(props: Props) {
         { face: 3 },
       ],
     }
+  }
+
+  function nextButton(btns: Button[]) {
+    const [next, next2, ...rest] = btns
+
+    const drawNext: HexagonProps[] = []
+    if (next) drawNext.push({ face: 3, sides: [drawButton(next)] })
+    if (next2) {
+      const drawRest = [drawButton(next2)]
+      if (rest) drawRest.push(nextButton(rest))
+      drawNext.push(draw([5, 3], [{ face: 3 }, draw([5, 3], drawRest)]))
+    }
+
+    return draw([5, 3], drawNext)
   }
 
   return (
@@ -70,17 +90,8 @@ export function Menu(props: Props) {
           {
             face: 4,
             sides: [
-              button('Labo', '/lab'),
-              draw(
-                [5, 3],
-                [
-                  { face: 3, sides: [button('Accueil', '/')] },
-                  draw(
-                    [5, 3],
-                    [{ face: 3 }, draw([5, 3], [button('Admin', '/admin')])]
-                  ),
-                ]
-              ),
+              drawButton({ label: 'Acceuil', href: '/' }),
+              nextButton(props.buttons),
             ],
           },
           { face: 0, visible: true },
