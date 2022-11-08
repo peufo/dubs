@@ -24,6 +24,7 @@ export default buildConfig({
       },
     },
   },
+
   collections: [Users, Resource, Action, Product, Item],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),

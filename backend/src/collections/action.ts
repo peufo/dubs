@@ -20,6 +20,9 @@ export const Action: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       type: 'row',

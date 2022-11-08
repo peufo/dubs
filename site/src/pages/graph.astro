@@ -1,0 +1,12 @@
+---
+import {api} from '$lib/api'
+
+const {docs: actions} = await api.get('action')
+
+
+---
+
+
+<h3>HOLLA</h3>
+
+<pre>{JSON.stringify(actions, null, 2)}</pre>
