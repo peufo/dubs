@@ -104,10 +104,11 @@ export interface HexagonProps {
   style?: string
   gap?: number
   index?: number
+  maxShowDelay?: number
 }
 
 export function Hexagon(props: HexagonProps) {
-  const stepDelay = 30
+  const stepDelay = 20
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)
@@ -150,7 +151,6 @@ export function Hexagon(props: HexagonProps) {
   const [mounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  const maxDeep = getMaxDeep(props.sides)
   function getMaxDeep(sides?: HexagonProps[], count = 0): number {
     if (!sides || !sides.length) return count
     let counts: number[] = Array(sides.length).fill(count)
@@ -160,9 +160,15 @@ export function Hexagon(props: HexagonProps) {
     return Math.max(...counts)
   }
 
+  function getMaxShowDelay() {
+    const maxDeep = getMaxDeep(props.sides)
+    return maxDeep * stepDelay
+  }
+
   const index = props.index || 0
   const showDelay = stepDelay * index
-  const hideDelay = stepDelay * (maxDeep - index)
+  const maxShowDelay = props.maxShowDelay || getMaxShowDelay()
+  const hideDelay = maxShowDelay - showDelay
 
   return (
     <>
@@ -175,6 +181,7 @@ export function Hexagon(props: HexagonProps) {
             open={props.open}
             gap={props.gap}
             index={(props.index || 0) + sideIndex() + 1}
+            maxShowDelay={maxShowDelay}
           />
         )}
       </For>

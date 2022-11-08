@@ -57,6 +57,8 @@ export function Menu(props: Props) {
   }
 
   function nextButton(btns: Button[]) {
+    if (!btns) return {}
+
     const [next, next2, ...rest] = btns
 
     const drawNext: HexagonProps[] = []
