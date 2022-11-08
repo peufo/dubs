@@ -10,7 +10,7 @@
       "$lib/*": ["./src/lib/*"],
       "$layouts/*": ["./src/layouts/*"],
       "$pages/*": ["./src/pages/*"],
-      "$models/*": ["./src/models/*"]
+      "$material/*": ["./src/material/*"]
     },
     "jsx": "preserve",
     "jsxImportSource": "solid-js"

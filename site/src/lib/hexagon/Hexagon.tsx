@@ -108,7 +108,7 @@ export interface HexagonProps {
 }
 
 export function Hexagon(props: HexagonProps) {
-  const stepDelay = 20
+  const stepDelay = 15
   const rayon = 450
   const rayonIn = (rayon ** 2 - (rayon / 2) ** 2) ** 0.5
   const rayonSides = 2 * rayonIn + (props.gap ?? 0)

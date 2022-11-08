@@ -51,7 +51,7 @@ export interface QueryBase {
   depth: number
 }
 
-export interface QueryGet<T = any> {
+export interface QueryGet<T = any> extends QueryBase {
   limit?: number
   page?: number
   where?: Where<T>

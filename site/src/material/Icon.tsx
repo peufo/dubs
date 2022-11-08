@@ -1,5 +1,3 @@
-import { splitProps } from 'solid-js'
-
 interface Props {
   path: string
   size?: number
