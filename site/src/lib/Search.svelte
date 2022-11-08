@@ -8,6 +8,7 @@
   import Icon from '$material/Icon.svelte'
   import {
     mdiDiamondStone,
+    mdiEmoticonConfusedOutline,
     mdiLightningBolt,
     mdiLoading,
     mdiMagnify,
@@ -15,12 +16,13 @@
   } from '@mdi/js'
 
   let dialogElement: HTMLDialogElement
-  let searchValue = ''
+  let searchValue = 'asdas'
   let actions: Action[] = []
   let resources: Resource[] = []
   let products: Product[] = []
   let selectedIndex = -1
   let resultCount = 0
+  let isLoading = false
 
   onMount(() => {
     dialogElement.showModal()
@@ -36,6 +38,7 @@
     return debounce(search, 200)
   })()
   async function search() {
+    isLoading = true
     const [resActions, resResource, resProduct] = await Promise.all([
       api.get('action', {
         where: { name: { like: searchValue } },
@@ -58,7 +61,7 @@
     resources = resResource.docs
     products = resProduct.docs
     resultCount = actions.length + resources.length + products.length
-
+    isLoading = false
     selectedIndex = 0
   }
 
@@ -198,18 +201,37 @@
                 on:mouseenter={() =>
                   (selectedIndex = index + actions.length + resources.length)}
                 class="
-                      px-3 data py-1 text-primary-dark cursor-pointer rounded
-                      {selectedIndex ===
-                index + actions.length + resources.length
+                  px-3 data py-1 text-primary-dark cursor-pointer rounded
+                  {selectedIndex === index + actions.length + resources.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
-                    "
+                "
               >
                 {product.name}
               </li>
             {/each}
           </ul>
         </section>
+      {/if}
+
+      {#if !actions.length && !resources.length && !products.length}
+        <div class="grid place-content-center h-full opacity-70 text-center">
+          {#if isLoading}
+            <Icon
+              path={mdiLoading}
+              size={46}
+              class="animate-spin fill-primary"
+            />
+          {:else}
+            Pas de résultat pour
+            <b>{searchValue}</b>
+            <Icon
+              path={mdiEmoticonConfusedOutline}
+              size={36}
+              class="fill-primary mt-2"
+            />
+          {/if}
+        </div>
       {/if}
     </div>
   </div>
