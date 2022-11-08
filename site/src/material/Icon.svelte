@@ -4,6 +4,7 @@
 
   let klass = ''
   export { klass as class }
+  export let classSVG = ''
   const viewWidth = 24
   const viewHeight = 24
 </script>
@@ -14,6 +15,8 @@
     width={size}
     height={size}
     viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+    style="display: inline-block;"
+    class={classSVG}
   >
     <path d={path} />
   </svg>
