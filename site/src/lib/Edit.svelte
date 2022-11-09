@@ -1,13 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import qs from 'qs'
+
   import Search from '$lib/Search.svelte'
+  import Action from '$lib/Action.svelte'
 
   let slug = ''
   let id = ''
 
   onMount(() => {
-    console.log(window.location)
     const params = qs.parse(window.location.search, { ignoreQueryPrefix: true })
     if (typeof params.slug === 'string') slug = params.slug
     if (typeof params.id === 'string') id = params.id
@@ -23,11 +24,13 @@
   }
 </script>
 
-<div class="p-4">
-  <Search on:select={({ detail }) => searchSelect(detail)} />
-
-  <div>
-    slug: {slug} <br />
-    id: {id}
+<div class="p-2 h-screen">
+  <Search on:select={({ detail }) => searchSelect(detail)} class="fixed" />
+  <div class="h-full grid items-center max-w-2xl m-auto">
+    <div>
+      {#if slug === 'action'}
+        <Action {id} />
+      {/if}
+    </div>
   </div>
 </div>

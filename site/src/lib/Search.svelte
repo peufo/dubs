@@ -16,6 +16,9 @@
     mdiTools,
   } from '@mdi/js'
 
+  let klass = ''
+  export { klass as class }
+
   let dialogElement: HTMLDialogElement
   let wrapper: HTMLDivElement
   let searchValue = ''
@@ -153,7 +156,7 @@
 <button
   on:click={toggleDialog}
   aria-keyshortcuts="Ctrl+K"
-  class="flex items-center w-52 bg-primary-light text-primary-dark border border-primary rounded py-1 px-3 hover:bg-primary cursor-pointer"
+  class="{klass} flex items-center w-52 bg-primary-light text-primary-dark border border-primary rounded py-1 px-3 hover:bg-primary cursor-pointer"
 >
   <Icon path={mdiMagnify} class="pr-2 fill-primary-dark" />
   <span>Recherche</span>

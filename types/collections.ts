@@ -73,7 +73,7 @@ export interface Action {
             relationTo: 'action';
           }
       )[];
-  ouputs?:
+  outputs?:
     | (
         | {
             value: string;

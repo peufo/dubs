@@ -1,5 +1,4 @@
 import type { CollectionConfig, FieldHook } from 'payload/types'
-import payload from 'payload'
 import type { Action as IAction, ValueWithRelation } from 'types'
 
 /** Assure la cohérance entre input et ouput d'action */
@@ -55,7 +54,7 @@ export const Action: CollectionConfig = {
       },
     },
     {
-      name: 'ouputs',
+      name: 'outputs',
       type: 'relationship',
       relationTo: ['product', 'action'],
       hasMany: true,
@@ -64,7 +63,6 @@ export const Action: CollectionConfig = {
         position: 'sidebar',
       },
     },
-
     {
       name: 'resource',
       type: 'relationship',
