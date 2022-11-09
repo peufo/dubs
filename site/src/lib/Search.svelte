@@ -39,9 +39,8 @@
     }
   })
 
-  const handleSearch = (() => {
-    return debounce(search, 200)
-  })()
+  const handleSearch = debounce(search, 200)
+
   async function search() {
     isLoading = true
     isError = false
@@ -50,14 +49,17 @@
         api.get('action', {
           where: { name: { like: searchValue } },
           depth: 1,
+          limit: 5,
         }),
         api.get('resource', {
           where: { name: { like: searchValue } },
           depth: 0,
+          limit: 5,
         }),
         api.get('product', {
           where: { name: { like: searchValue } },
           depth: 0,
+          limit: 5,
         }),
       ])
 
@@ -248,7 +250,7 @@
                 on:click={() => select(index + actions.length)}
                 data-index={index + actions.length}
                 class="
-                  px-3 py-1 text-primary-dark cursor-pointer rounded
+                  px-3 py-1 text-primary-dark cursor-pointer border
                   {selectedIndex === index + actions.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
@@ -278,7 +280,7 @@
                   select(index + actions.length + resources.length)}
                 data-index={index + actions.length + resources.length}
                 class="
-                  px-3 py-1 text-primary-dark cursor-pointer rounded
+                  px-3 py-1 text-primary-dark cursor-pointer rounded-full
                   {selectedIndex === index + actions.length + resources.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
