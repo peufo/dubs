@@ -16,7 +16,7 @@
   } from '@mdi/js'
 
   let dialogElement: HTMLDialogElement
-  let searchValue = 'asdas'
+  let searchValue = ''
   let actions: Action[] = []
   let resources: Resource[] = []
   let products: Product[] = []
@@ -112,9 +112,9 @@
 <dialog
   bind:this={dialogElement}
   on:click={() => dialogElement.close()}
-  class="border border-primary-dark rounded-md p-0"
+  class="border border-primary-dark rounded-md p-0 w-11/12 sm:w-5/6 max-w-2xl "
 >
-  <div on:click|stopPropagation class="flex flex-col w-96">
+  <div on:click|stopPropagation class="flex flex-col">
     <header class="flex py-2 px-3 gap-2 items-center border-b">
       <label class="grow">
         <Icon path={mdiMagnify} class="fill-primary-dark" />
@@ -134,7 +134,7 @@
       <!-- Section Actions -->
       {#if actions.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 mb-2">
+          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
             Actions
             <Icon
               path={mdiLightningBolt}
@@ -164,7 +164,7 @@
       <!-- Section Resources -->
       {#if resources.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 mb-2">
+          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
             Resources
             <Icon path={mdiTools} class="opacity-60 ml-1" />
           </div>
@@ -190,7 +190,7 @@
       <!-- Section Product -->
       {#if products.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 mb-2">
+          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
             Produits
             <Icon path={mdiDiamondStone} class="opacity-60 ml-1" />
           </div>
