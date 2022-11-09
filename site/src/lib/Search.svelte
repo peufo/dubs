@@ -16,6 +16,7 @@
   } from '@mdi/js'
 
   let dialogElement: HTMLDialogElement
+  let wrapper: HTMLDivElement
   let searchValue = ''
   let actions: Action[] = []
   let resources: Resource[] = []
@@ -43,17 +44,14 @@
       api.get('action', {
         where: { name: { like: searchValue } },
         depth: 0,
-        limit: 5,
       }),
       api.get('resource', {
         where: { name: { like: searchValue } },
         depth: 0,
-        limit: 5,
       }),
       api.get('product', {
         where: { name: { like: searchValue } },
         depth: 0,
-        limit: 5,
       }),
     ])
 
@@ -70,12 +68,14 @@
       event.preventDefault()
       selectedIndex--
       if (selectedIndex < 0) selectedIndex = resultCount - 1
+      scrollToSelected()
       return
     }
     if (event.key === 'ArrowDown') {
       event.preventDefault()
       selectedIndex++
       if (selectedIndex > resultCount - 1) selectedIndex = 0
+      scrollToSelected()
       return
     }
     handleSearch()
@@ -93,6 +93,24 @@
     else {
       searchValue = ''
       dialogElement.showModal()
+    }
+  }
+
+  function scrollToSelected() {
+    const el = document.querySelector(
+      `li[data-index="${selectedIndex}"]`
+    ) as HTMLLIElement
+    if (!el) return
+    const top = el.offsetTop - 40
+    if (top < wrapper.scrollTop) {
+      wrapper.scrollTo({ top })
+      return
+    }
+    const bottom = el.offsetTop + el.offsetHeight
+    const delta = bottom - (wrapper.scrollTop + wrapper.offsetHeight) + 10
+    if (delta > 0) {
+      wrapper.scrollTo({ top: wrapper.scrollTop + delta })
+      return
     }
   }
 </script>
@@ -130,7 +148,10 @@
       <kbd class="bg-primary-light text-primary text-xs px-1 rounded">ESC</kbd>
     </header>
 
-    <div class="h-[460px] px-3 overflow-y-auto">
+    <div
+      bind:this={wrapper}
+      class="h-[460px] px-3 pb-2 overflow-y-auto relative"
+    >
       <!-- Section Actions -->
       {#if actions.length}
         <section class="flex flex-col gap-2">
@@ -147,6 +168,7 @@
             {#each actions as action, index}
               <li
                 on:mouseenter={() => (selectedIndex = index)}
+                data-index={index}
                 class="
                   px-3 data py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index
@@ -173,6 +195,7 @@
             {#each resources as resource, index}
               <li
                 on:mouseenter={() => (selectedIndex = index + actions.length)}
+                data-index={index + actions.length}
                 class="
                   px-3 data py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index + actions.length
@@ -200,6 +223,7 @@
               <li
                 on:mouseenter={() =>
                   (selectedIndex = index + actions.length + resources.length)}
+                data-index={index + actions.length + resources.length}
                 class="
                   px-3 data py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index + actions.length + resources.length
