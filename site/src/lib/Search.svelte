@@ -202,7 +202,7 @@
           <ul class="flex flex-col gap-2">
             {#each actions as action, index}
               <li
-                on:mouseenter={() => (selectedIndex = index)}
+                on:mousemove={() => (selectedIndex = index)}
                 on:click={() => select(index)}
                 data-index={index}
                 class="
@@ -246,7 +246,7 @@
           <ul class="flex flex-col gap-2">
             {#each resources as resource, index}
               <li
-                on:mouseenter={() => (selectedIndex = index + actions.length)}
+                on:mousemove={() => (selectedIndex = index + actions.length)}
                 on:click={() => select(index + actions.length)}
                 data-index={index + actions.length}
                 class="
@@ -274,7 +274,7 @@
           <ul class="flex flex-col gap-2">
             {#each products as product, index}
               <li
-                on:mouseenter={() =>
+                on:mousemove={() =>
                   (selectedIndex = index + actions.length + resources.length)}
                 on:click={() =>
                   select(index + actions.length + resources.length)}
