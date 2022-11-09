@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { slide } from 'svelte/transition'
+  import { onMount, createEventDispatcher } from 'svelte'
   import debounce from 'debounce'
 
-  import type { Action, Resource, Product } from 'types'
+  import type { Slugs, Action, Resource, Product } from 'types'
   import { api } from '$lib/api'
   import Icon from '$material/Icon.svelte'
   import {
+    mdiAlertCircleOutline,
+    mdiArrowRightThin,
     mdiDiamondStone,
     mdiEmoticonConfusedOutline,
     mdiLightningBolt,
@@ -24,10 +25,15 @@
   let selectedIndex = -1
   let resultCount = 0
   let isLoading = false
+  let isError = false
+
+  type Events = {
+    select: { slug: keyof Slugs; id: string }
+  }
+  const dispatch = createEventDispatcher<Events>()
 
   onMount(() => {
-    dialogElement.showModal()
-    search()
+    toggleDialog()
 
     document.addEventListener('keydown', handleShortcut)
     return () => {
@@ -40,30 +46,43 @@
   })()
   async function search() {
     isLoading = true
-    const [resActions, resResource, resProduct] = await Promise.all([
-      api.get('action', {
-        where: { name: { like: searchValue } },
-        depth: 0,
-      }),
-      api.get('resource', {
-        where: { name: { like: searchValue } },
-        depth: 0,
-      }),
-      api.get('product', {
-        where: { name: { like: searchValue } },
-        depth: 0,
-      }),
-    ])
+    isError = false
+    try {
+      const [resActions, resResource, resProduct] = await Promise.all([
+        api.get('action', {
+          where: { name: { like: searchValue } },
+          depth: 1,
+        }),
+        api.get('resource', {
+          where: { name: { like: searchValue } },
+          depth: 0,
+        }),
+        api.get('product', {
+          where: { name: { like: searchValue } },
+          depth: 0,
+        }),
+      ])
 
-    actions = resActions.docs
-    resources = resResource.docs
-    products = resProduct.docs
-    resultCount = actions.length + resources.length + products.length
-    isLoading = false
-    selectedIndex = 0
+      actions = resActions.docs
+      resources = resResource.docs
+      products = resProduct.docs
+      resultCount = actions.length + resources.length + products.length
+    } catch (err: any) {
+      isError = true
+      console.error(err)
+    } finally {
+      isLoading = false
+      selectedIndex = 0
+    }
   }
 
   function handleInput(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      select(selectedIndex)
+      return
+    }
+
     if (event.key === 'ArrowUp') {
       event.preventDefault()
       selectedIndex--
@@ -92,6 +111,7 @@
     if (dialogElement.open) dialogElement.close()
     else {
       searchValue = ''
+      search()
       dialogElement.showModal()
     }
   }
@@ -112,6 +132,21 @@
       wrapper.scrollTo({ top: wrapper.scrollTop + delta })
       return
     }
+  }
+
+  function select(index: number) {
+    toggleDialog()
+    if (index < actions.length) {
+      dispatch('select', { slug: 'action', id: actions[index].id })
+      return
+    }
+    index -= actions.length
+    if (index < resources.length) {
+      dispatch('select', { slug: 'resource', id: resources[index].id })
+      return
+    }
+    index -= resources.length
+    dispatch('select', { slug: 'product', id: products[index].id })
   }
 </script>
 
@@ -168,15 +203,32 @@
             {#each actions as action, index}
               <li
                 on:mouseenter={() => (selectedIndex = index)}
+                on:click={() => select(index)}
                 data-index={index}
                 class="
-                  px-3 data py-1 text-primary-dark cursor-pointer rounded
+                  flex items-center
+                  px-3 py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
                 "
               >
-                {action.name}
+                <div>{action.name}</div>
+                {#if typeof action.resource === 'object'}
+                  <div
+                    class="ml-auto flex items-center text-xs fill-primary-dark"
+                  >
+                    <div class="bg-white border px-2 py-1">
+                      {action.resource.name}
+                    </div>
+                    {#if typeof action.resourceTo === 'object'}
+                      <Icon path={mdiArrowRightThin} />
+                      <div class="bg-white border px-2 py-1">
+                        {action.resourceTo.name}
+                      </div>
+                    {/if}
+                  </div>
+                {/if}
               </li>
             {/each}
           </ul>
@@ -195,9 +247,10 @@
             {#each resources as resource, index}
               <li
                 on:mouseenter={() => (selectedIndex = index + actions.length)}
+                on:click={() => select(index + actions.length)}
                 data-index={index + actions.length}
                 class="
-                  px-3 data py-1 text-primary-dark cursor-pointer rounded
+                  px-3 py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index + actions.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
@@ -223,9 +276,11 @@
               <li
                 on:mouseenter={() =>
                   (selectedIndex = index + actions.length + resources.length)}
+                on:click={() =>
+                  select(index + actions.length + resources.length)}
                 data-index={index + actions.length + resources.length}
                 class="
-                  px-3 data py-1 text-primary-dark cursor-pointer rounded
+                  px-3 py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index + actions.length + resources.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
@@ -245,6 +300,13 @@
               path={mdiLoading}
               size={46}
               class="animate-spin fill-primary"
+            />
+          {:else if isError}
+            Oups, il y a une erreur
+            <Icon
+              path={mdiAlertCircleOutline}
+              size={46}
+              class="fill-red-600 mt-2"
             />
           {:else}
             Pas de résultat pour
