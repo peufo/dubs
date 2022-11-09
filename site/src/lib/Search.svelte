@@ -33,8 +33,6 @@
   const dispatch = createEventDispatcher<Events>()
 
   onMount(() => {
-    toggleDialog()
-
     document.addEventListener('keydown', handleShortcut)
     return () => {
       document.removeEventListener('keydown', handleShortcut)
