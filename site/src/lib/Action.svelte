@@ -12,7 +12,7 @@
 
 {#if !!action}
   <div
-    class="p-2 border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark"
+    class="p-2 pb-4 border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark"
   >
     <header>
       <Icon path={mdiLightningBolt} classSVG="rotate-12" />
@@ -24,16 +24,16 @@
   </div>
 
   <!-- Outputs -->
-  {#if action.ouputs}
-    <div class="border">
-      {#each action.ouputs as { value, relationTo }}
-        <div>
-          {#if typeof value === 'string'}
-            id
-          {:else}
-            {value.name}
-          {/if}
-        </div>
+  {#if action.outputs}
+    <div class="flex justify-center gap-4 -translate-y-1/2">
+      {#each action.outputs as { value, relationTo }}
+        {#if relationTo === 'action'}
+          <div class="border w-4 h-4 bg-white border-primary-dark rounded" />
+        {:else}
+          <div
+            class="border w-4 h-4 bg-white border-primary-dark rounded-full"
+          />
+        {/if}
       {/each}
     </div>
   {/if}
