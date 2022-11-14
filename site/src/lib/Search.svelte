@@ -193,7 +193,7 @@
       <!-- Section Actions -->
       {#if actions.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
+          <div class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/90">
             Actions
             <Icon
               path={mdiLightningBolt}
@@ -241,7 +241,9 @@
       <!-- Section Resources -->
       {#if resources.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
+          <div
+            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white  bg-white/90"
+          >
             Resources
             <Icon path={mdiTools} class="opacity-60 ml-1" />
           </div>
@@ -269,7 +271,9 @@
       <!-- Section Product -->
       {#if products.length}
         <section class="flex flex-col gap-2">
-          <div class="text-lg font-semibold mt-4 pb-2 sticky top-0 bg-white">
+          <div
+            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white  bg-white/90"
+          >
             Produits
             <Icon path={mdiDiamondStone} class="opacity-60 ml-1" />
           </div>
@@ -325,9 +329,3 @@
     </div>
   </div>
 </dialog>
-
-<style>
-  dialog::backdrop {
-    filter: blur(19px);
-  }
-</style>
