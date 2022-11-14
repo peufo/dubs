@@ -1,8 +1,12 @@
 import React, { useRef, useEffect } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+
+// @ts-ignore
 import iconUrl from 'leaflet/dist/images/marker-icon.png'
+// @ts-ignore
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
+// @ts-ignore
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png'
 
 import { useField } from 'payload/components/forms'
@@ -38,6 +42,7 @@ export const LocationField: React.FC<Props> = ({ path }) => {
       iconUrl,
       shadowUrl,
       iconRetinaUrl,
+      iconSize: [25, 41],
       iconAnchor: [12.5, 41],
     })
 
