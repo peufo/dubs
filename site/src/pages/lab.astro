@@ -1,10 +1,8 @@
 ---
-import { Menu } from '$lib/hexagon/Menu'
-import Main from '$src/layouts/Main.astro'
+import Main from '$layouts/Main.astro';
+import Test from '$lib/connection/Test.svelte'
 ---
 
 <Main>
-  <div class='drop-shadow-none grid place-items-center h-screen'>
-    <Menu size={100} client:load />
-  </div>
+    <Test client:only />
 </Main>
