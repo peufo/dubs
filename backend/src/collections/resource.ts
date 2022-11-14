@@ -1,10 +1,15 @@
-import type { CollectionConfig, Field } from 'payload/types'
+import type { CollectionConfig } from 'payload/types'
 import { LocationField } from '../components/LocationField'
 
 export const Resource: CollectionConfig = {
   slug: 'resource',
   admin: {
     useAsTitle: 'name',
+    defaultColumns: ['name', 'description'],
+    description: `
+      Une resource permet de réalisé des actions sur des produits sans être consomé.
+      Il peut par exemple sagir d'un locale, d'une machine ou d'un logiciel.
+    `,
   },
   access: {
     read: () => true,
@@ -22,12 +27,21 @@ export const Resource: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: 'immaterial',
+      label: 'Non materiel',
+      type: 'checkbox',
+      admin: {
+        position: 'sidebar',
+        description: `Cette resource n'a pas de propriété physique (Ex. un logiciel)`,
+      },
+    },
+    {
       name: 'relative',
       type: 'checkbox',
       admin: {
         position: 'sidebar',
-        description:
-          'Définit si cette ressource est relative à une resource parent.',
+        description: 'Cette ressource est relative à une resource parent.',
+        condition: (data) => !data.immaterial,
       },
     },
     {
@@ -36,7 +50,7 @@ export const Resource: CollectionConfig = {
       relationTo: 'resource',
       filterOptions: ({ id }) => ({ id: { not_equals: id } }),
       admin: {
-        condition: (resource) => resource.relative,
+        condition: (data) => !data.immaterial && data.relative,
       },
     },
     {
@@ -47,7 +61,7 @@ export const Resource: CollectionConfig = {
         components: {
           Field: LocationField,
         },
-        condition: (resource) => !resource.relative,
+        condition: (data) => !data.immaterial && !data.relative,
       },
     },
   ],

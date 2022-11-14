@@ -5,6 +5,7 @@ import { Resource } from './collections/resource'
 import { Action } from './collections/action'
 import { Product } from './collections/product'
 import { Item } from './collections/item'
+import { Tag } from './collections/tag'
 
 import { Logo, Icon } from './components/Graphics'
 
@@ -25,7 +26,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Resource, Action, Product, Item],
+  collections: [Users, Resource, Action, Product, Item, Tag],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },
