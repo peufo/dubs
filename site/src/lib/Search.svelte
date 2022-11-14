@@ -193,7 +193,9 @@
       <!-- Section Actions -->
       {#if actions.length}
         <section class="flex flex-col gap-2">
-          <div class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/90">
+          <div
+            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/50 backdrop-blur-sm"
+          >
             Actions
             <Icon
               path={mdiLightningBolt}
@@ -242,7 +244,7 @@
       {#if resources.length}
         <section class="flex flex-col gap-2">
           <div
-            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white  bg-white/90"
+            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/50 backdrop-blur-sm"
           >
             Resources
             <Icon path={mdiTools} class="opacity-60 ml-1" />
@@ -272,7 +274,7 @@
       {#if products.length}
         <section class="flex flex-col gap-2">
           <div
-            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white  bg-white/90"
+            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/50 backdrop-blur-sm"
           >
             Produits
             <Icon path={mdiDiamondStone} class="opacity-60 ml-1" />
