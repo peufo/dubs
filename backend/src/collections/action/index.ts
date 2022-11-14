@@ -71,6 +71,7 @@ export const Action: CollectionConfig = {
       fields: [
         {
           name: 'inputs',
+          label: 'Entrées',
           type: 'relationship',
           relationTo: ['product', 'action'],
           hasMany: true,
@@ -81,6 +82,7 @@ export const Action: CollectionConfig = {
         },
         {
           name: 'outputs',
+          label: 'Sorties',
           type: 'relationship',
           relationTo: ['product', 'action'],
           hasMany: true,

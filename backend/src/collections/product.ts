@@ -53,5 +53,77 @@ export const Product: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'variables',
+      type: 'blocks',
+      blocks: [
+        {
+          slug: 'text',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'freeValue',
+                  label: 'Valeur libre',
+                  type: 'checkbox',
+                },
+                {
+                  name: 'options',
+                  type: 'array',
+                  admin: {
+                    condition: (data, block) => !block.freeValue,
+                  },
+                  fields: [
+                    {
+                      name: 'value',
+                      type: 'text',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          slug: 'numeric',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'freeValue',
+                  label: 'Valeur libre',
+                  type: 'checkbox',
+                },
+                {
+                  name: 'unit',
+                  label: 'Unité',
+                  type: 'text',
+                },
+              ],
+            },
+            {
+              name: 'options',
+              type: 'array',
+              admin: {
+                condition: (data, block) => !block.freeValue,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'value',
+                      type: 'number',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
 }
