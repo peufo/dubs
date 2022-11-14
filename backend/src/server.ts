@@ -11,7 +11,7 @@ const app = express()
 // Initialize Payload
 payload.init({
   secret: process.env.PAYLOAD_SECRET,
-  mongoURL: 'mongodb://localhost/dubs',
+  mongoURL: process.env.MONGODB_URL,
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: http://localhost:${port}`)
