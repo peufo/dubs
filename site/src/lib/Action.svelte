@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { api } from '$lib//api'
-  import Icon from '$src/material/Icon.svelte'
   import { mdiLightningBolt } from '@mdi/js'
+
+  import { api } from '$lib/api'
+  import Icon from '$src/material/Icon.svelte'
+  import { serialize } from '$lib/utils/serializeSlate'
   import type { Action } from 'types'
 
   export let id: string
@@ -18,10 +20,10 @@
       <Icon path={mdiLightningBolt} classSVG="rotate-12" />
       <span class="text-large">{action.name}</span>
     </header>
-    <p class="mt-2">
-      {(action.desciption && JSON.stringify(action.desciption)) ||
-        'Pas de description'}
-    </p>
+    {#if action.desciption}
+      <!--<pre>{JSON.stringify(action.desciption, null, 2)}</pre>-->
+      {@html serialize(action.desciption)}
+    {/if}
   </div>
 
   <!-- Outputs -->
