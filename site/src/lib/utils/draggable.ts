@@ -17,7 +17,7 @@ export function draggable(node: HTMLDivElement) {
     }
     node.classList.add('drop-shadow-xl')
     document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mouseup', handleMouseUp, { once: true })
   }
 
   function handleMouseMove(event: MouseEvent) {
@@ -28,7 +28,8 @@ export function draggable(node: HTMLDivElement) {
     node.style.translate = `${deltaX}px ${deltaY}px`
   }
 
-  function handleMouseUp() {
+  function handleMouseUp(event: MouseEvent) {
+    handleMouseMove(event)
     node.classList.remove('drop-shadow-xl')
     document.removeEventListener('mousemove', handleMouseMove)
   }
