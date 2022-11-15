@@ -32,6 +32,7 @@ export interface Resource {
   desciption?: {
     [k: string]: unknown;
   }[];
+  immaterial?: boolean;
   relative?: boolean;
   parent?: string | Resource;
   /**
@@ -49,6 +50,11 @@ export interface Resource {
 export interface Action {
   id: string;
   name: string;
+  tags?: string[] | Tag[];
+  temporality: {
+    timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
+    estimatedDuration?: number;
+  };
   desciption?: {
     [k: string]: unknown;
   }[];
@@ -97,7 +103,16 @@ export interface Action {
   resource?: string | Resource;
   moving?: boolean;
   resourceTo?: string | Resource;
-  parent?: string | Action;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tag".
+ */
+export interface Tag {
+  id: string;
+  name?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -108,9 +123,38 @@ export interface Action {
 export interface Product {
   id: string;
   name: string;
+  tags?: string[] | Tag[];
   desciption?: {
     [k: string]: unknown;
   }[];
+  providers: {
+    url?: string;
+    price?: number;
+    id?: string;
+  }[];
+  variables: (
+    | {
+        freeValue?: boolean;
+        options: {
+          value?: string;
+          id?: string;
+        }[];
+        id?: string;
+        blockName?: string;
+        blockType: 'text';
+      }
+    | {
+        freeValue?: boolean;
+        unit?: string;
+        options: {
+          value?: number;
+          id?: string;
+        }[];
+        id?: string;
+        blockName?: string;
+        blockType: 'numeric';
+      }
+  )[];
   createdAt: string;
   updatedAt: string;
 }
