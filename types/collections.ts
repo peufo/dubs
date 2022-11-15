@@ -29,7 +29,7 @@ export interface User {
 export interface Resource {
   id: string;
   name: string;
-  desciption?: {
+  description?: {
     [k: string]: unknown;
   }[];
   immaterial?: boolean;
@@ -51,13 +51,13 @@ export interface Action {
   id: string;
   name: string;
   tags?: string[] | Tag[];
+  description?: {
+    [k: string]: unknown;
+  }[];
   temporality: {
     timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
     estimatedDuration?: number;
   };
-  desciption?: {
-    [k: string]: unknown;
-  }[];
   inputs?:
     | (
         | {
@@ -124,7 +124,7 @@ export interface Product {
   id: string;
   name: string;
   tags?: string[] | Tag[];
-  desciption?: {
+  description?: {
     [k: string]: unknown;
   }[];
   providers: {

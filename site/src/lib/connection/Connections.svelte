@@ -2,7 +2,8 @@
   import { onMount } from 'svelte'
   import { getPath, Position } from '$lib/connection/utils'
 
-  export let connections: { from: HTMLElement; to: HTMLElement }[]
+  export let from: HTMLElement[]
+  export let to: HTMLElement[]
   export let fromPosition: Position = 'center'
   export let toPosition: Position = 'center'
 
@@ -14,9 +15,14 @@
   let paths: string[] = []
   onMount(() => draw())
   export function draw() {
-    paths = connections.map(({ from, to }) =>
-      getPath(from, to, { fromPosition, toPosition, curveIntensity })
-    )
+    paths = from.map((elFrom, index) => {
+      if (!to[index]) return ''
+      return getPath(elFrom, to[index], {
+        fromPosition,
+        toPosition,
+        curveIntensity,
+      })
+    })
   }
 </script>
 

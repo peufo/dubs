@@ -24,7 +24,7 @@ export const Product: CollectionConfig = {
       hasMany: true,
     },
     {
-      name: 'desciption',
+      name: 'description',
       type: 'richText',
     },
     {

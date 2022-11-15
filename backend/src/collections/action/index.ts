@@ -40,6 +40,10 @@ export const Action: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'description',
+      type: 'richText',
+    },
+    {
       name: 'temporality',
       label: 'Temporalité',
       type: 'group',
@@ -57,10 +61,6 @@ export const Action: CollectionConfig = {
           min: 0,
         },
       ],
-    },
-    {
-      name: 'desciption',
-      type: 'richText',
     },
     {
       label: 'Connexions',

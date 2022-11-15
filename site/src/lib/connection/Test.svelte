@@ -29,10 +29,8 @@
 {#if containerFrom && containerTo && containerFrom2 && containerTo2}
   <Connections
     bind:this={connect}
-    connections={[
-      { from: containerFrom, to: containerTo },
-      { from: containerFrom2, to: containerTo2 },
-    ]}
+    from={[containerFrom, containerFrom2]}
+    to={[containerTo, containerTo2]}
   />
 {/if}
 

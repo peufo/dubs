@@ -23,7 +23,7 @@ export const Resource: CollectionConfig = {
       maxLength: 120,
     },
     {
-      name: 'desciption',
+      name: 'description',
       type: 'richText',
     },
     {
