@@ -19,7 +19,8 @@
       <span class="text-large">{action.name}</span>
     </header>
     <p class="mt-2">
-      {action.desciption || 'Pas de description'}
+      {(action.desciption && JSON.stringify(action.desciption)) ||
+        'Pas de description'}
     </p>
   </div>
 

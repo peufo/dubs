@@ -15,16 +15,21 @@ export function draggable(node: HTMLDivElement) {
       offsetX = x
       offsetY = y
     }
+    node.classList.add('drop-shadow-xl')
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
   }
 
   function handleMouseMove(event: MouseEvent) {
     const { pageX, pageY } = event
-    node.style.translate = `${pageX - oX + offsetX}px ${pageY - oY + offsetY}px`
+    const deltaX = pageX - oX + offsetX
+    const deltaY = pageY - oY + offsetY
+    node.dispatchEvent(new CustomEvent('move', { detail: { deltaX, deltaY } }))
+    node.style.translate = `${deltaX}px ${deltaY}px`
   }
 
   function handleMouseUp() {
+    node.classList.remove('drop-shadow-xl')
     document.removeEventListener('mousemove', handleMouseMove)
   }
 

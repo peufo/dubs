@@ -63,7 +63,7 @@ export const Action: CollectionConfig = {
       type: 'richText',
     },
     {
-      label: 'Connections',
+      label: 'Connexions',
       type: 'collapsible',
       admin: {
         position: 'sidebar',
