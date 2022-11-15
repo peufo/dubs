@@ -41,7 +41,7 @@
       {/each}
     </div>
 
-    <div class="flex gap-2 pt-14 overflow-visible">
+    <div class="outputs flex gap-2 pt-14 overflow-x-auto">
       {#each action.outputs as { value, relationTo }}
         {#if typeof value === 'string'}
           <div>goto {value}</div>
@@ -54,3 +54,9 @@
     </div>
   {/if}
 {/if}
+
+<style>
+  .outputs::-webkit-scrollbar {
+    display: none;
+  }
+</style>
