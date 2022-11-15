@@ -21,7 +21,6 @@
       <span class="text-large">{action.name}</span>
     </header>
     {#if action.desciption}
-      <!--<pre>{JSON.stringify(action.desciption, null, 2)}</pre>-->
       {@html serialize(action.desciption)}
     {/if}
   </div>
