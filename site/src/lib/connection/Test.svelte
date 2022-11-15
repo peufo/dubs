@@ -3,34 +3,49 @@
 
   import { draggable } from '$lib/utils/draggable'
   import Connection from '$lib/connection/Connection.svelte'
+  import Connections from '$lib/connection/Connections.svelte'
 
-  let connection: Connection
+  let connect: Connections
   let containerFrom: HTMLDivElement
   let containerTo: HTMLDivElement
+  let containerFrom2: HTMLDivElement
+  let containerTo2: HTMLDivElement
+
   onMount(() => {
-    const handleMove = () => connection.draw()
+    const handleMove = () => connect.draw()
     containerFrom.addEventListener('move', handleMove)
     containerTo.addEventListener('move', handleMove)
+    containerFrom2.addEventListener('move', handleMove)
+    containerTo2.addEventListener('move', handleMove)
     return () => {
       containerFrom.removeEventListener('move', handleMove)
       containerTo.removeEventListener('move', handleMove)
+      containerFrom2.removeEventListener('move', handleMove)
+      containerTo2.removeEventListener('move', handleMove)
     }
   })
 </script>
 
-{#if containerTo && containerTo}
-  <Connection
-    bind:this={connection}
-    from={containerFrom}
-    to={containerTo}
-    fromPosition="bottom"
-    toPosition="top"
+{#if containerFrom && containerTo && containerFrom2 && containerTo2}
+  <Connections
+    bind:this={connect}
+    connections={[
+      { from: containerFrom, to: containerTo },
+      { from: containerFrom2, to: containerTo2 },
+    ]}
   />
 {/if}
+
+<!--
+
+  <Connection bind:this={connect} from={containerFrom} to={containerTo} />
+-->
 
 <div class="grid place-content-center h-screen gap-10">
   <div bind:this={containerFrom} use:draggable class="container drop-shadow" />
   <div bind:this={containerTo} use:draggable class="container drop-shadow" />
+  <div bind:this={containerFrom2} use:draggable class="container drop-shadow" />
+  <div bind:this={containerTo2} use:draggable class="container drop-shadow" />
 </div>
 
 <style>

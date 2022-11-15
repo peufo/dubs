@@ -31,10 +31,11 @@ type GetPathOptions = {
 }
 
 export function getPath(
-  from: HTMLElement,
-  to: HTMLElement,
+  from?: HTMLElement,
+  to?: HTMLElement,
   options?: GetPathOptions
 ): string {
+  if (!from || !to) return ''
   const fromPosition = options?.fromPosition || 'bottom'
   const toPosition = options?.toPosition || 'top'
   const curveIntensity = options?.curveIntensity || 0.75
