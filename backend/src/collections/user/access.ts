@@ -12,7 +12,7 @@ export const isRole: (
   (role, orSelf = false) =>
   ({ req: { user } }) => {
     if (_isRole(role, user)) return true
-    if (orSelf) return { id: { equals: user.id } }
+    if (orSelf) return { id: { equals: user?.id } }
     return false
   }
 
