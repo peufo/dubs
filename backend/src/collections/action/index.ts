@@ -1,4 +1,4 @@
-import type { CollectionConfig, FieldHook } from 'payload/types'
+import type { CollectionConfig, FieldHook, Field } from 'payload/types'
 import type { Action as IAction, ValueWithRelation } from 'types'
 
 import { TIME_UNITS_OPTIONS } from './timeUnits'
@@ -14,6 +14,40 @@ const connectionHook: FieldHook<IAction, ValueWithRelation[]> = async ({
     */
 
   return value
+}
+
+const inputsField: Field = {
+  name: 'inputs',
+  label: 'Entrées',
+  type: 'relationship',
+  relationTo: ['product', 'action'],
+  hasMany: true,
+  filterOptions: ({ id }) => ({ id: { not_equals: id } }),
+  hooks: {
+    afterChange: [connectionHook],
+  },
+}
+
+function getInputsFields(deep: number): Field {
+  return {
+    name: 'inputsCond',
+    label: 'Entrées conditionnelles',
+    type: 'array',
+    fields: [
+      {
+        type: 'row',
+        fields: [
+          {
+            name: 'condition',
+            type: 'select',
+            options: ['and', 'or'],
+          },
+          inputsField,
+          // deep > 0 && getInputsFields(deep - 1),
+        ],
+      },
+    ],
+  }
 }
 
 export const Action: CollectionConfig = {
@@ -44,9 +78,8 @@ export const Action: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'temporality',
       label: 'Temporalité',
-      type: 'group',
+      type: 'collapsible',
       fields: [
         {
           name: 'timeUnit',
@@ -66,20 +99,11 @@ export const Action: CollectionConfig = {
       label: 'Connexions',
       type: 'collapsible',
       admin: {
-        position: 'sidebar',
+        // position: 'sidebar',
       },
       fields: [
-        {
-          name: 'inputs',
-          label: 'Entrées',
-          type: 'relationship',
-          relationTo: ['product', 'action'],
-          hasMany: true,
-          filterOptions: ({ id }) => ({ id: { not_equals: id } }),
-          hooks: {
-            afterChange: [connectionHook],
-          },
-        },
+        getInputsFields(3),
+        inputsField,
         {
           name: 'outputs',
           label: 'Sorties',
