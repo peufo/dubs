@@ -4,7 +4,7 @@ import type { Action as IAction, ValueWithRelation } from 'types'
 import { TIME_UNITS_OPTIONS } from './timeUnits'
 
 /** Assure la cohérance entre input et ouput d'action */
-const connectionHook: FieldHook<IAction, ValueWithRelation[]> = async ({
+const ensureConnection: FieldHook<IAction, ValueWithRelation[]> = async ({
   value,
 }) => {
   /*
@@ -16,7 +16,7 @@ const connectionHook: FieldHook<IAction, ValueWithRelation[]> = async ({
   return value
 }
 
-const inputsField: Field = {
+const connectionField: Field = {
   name: 'inputs',
   label: 'Entrées',
   type: 'relationship',
@@ -24,30 +24,41 @@ const inputsField: Field = {
   hasMany: true,
   filterOptions: ({ id }) => ({ id: { not_equals: id } }),
   hooks: {
-    afterChange: [connectionHook],
+    afterChange: [ensureConnection],
   },
 }
 
-function getInputsFields(deep: number): Field {
-  return {
-    name: 'inputsCond',
-    label: 'Entrées conditionnelles',
+const conditionField: Field = {
+  name: 'condition',
+  type: 'select',
+  options: [
+    { label: 'ET', value: 'and' },
+    { label: 'OU', value: 'or' },
+  ],
+}
+
+/** Génère la logique and/or sur un profondeur prédéfinit */
+function getLogicalConnectionFields(
+  deep: number,
+  name: 'inputs' | 'outputs'
+): Field {
+  const fields: Field[] = [conditionField, connectionField]
+
+  if (deep > 0) fields.push(getLogicalConnectionFields(--deep, name))
+
+  const label = name === 'inputs' ? `Groupe d'entrée` : `Groupe de sortie`
+  const field: Field = {
+    name,
+    label,
+    labels: {
+      singular: `Groupe`,
+      plural: `Groupes`,
+    },
     type: 'array',
-    fields: [
-      {
-        type: 'row',
-        fields: [
-          {
-            name: 'condition',
-            type: 'select',
-            options: ['and', 'or'],
-          },
-          inputsField,
-          // deep > 0 && getInputsFields(deep - 1),
-        ],
-      },
-    ],
+    fields,
   }
+
+  return field
 }
 
 export const Action: CollectionConfig = {
@@ -96,22 +107,21 @@ export const Action: CollectionConfig = {
       ],
     },
     {
-      label: 'Connexions',
+      label: 'Entrées',
       type: 'collapsible',
-      admin: {
-        // position: 'sidebar',
-      },
       fields: [
-        getInputsFields(3),
-        inputsField,
-        {
-          name: 'outputs',
-          label: 'Sorties',
-          type: 'relationship',
-          relationTo: ['product', 'action'],
-          hasMany: true,
-          filterOptions: ({ id }) => ({ id: { not_equals: id } }),
-        },
+        conditionField,
+        connectionField,
+        getLogicalConnectionFields(3, 'inputs'),
+      ],
+    },
+    {
+      label: 'Sorties',
+      type: 'collapsible',
+      fields: [
+        conditionField,
+        connectionField,
+        getLogicalConnectionFields(3, 'outputs'),
       ],
     },
     {
