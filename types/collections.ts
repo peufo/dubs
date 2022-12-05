@@ -54,52 +54,206 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
-  temporality: {
-    timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
-    estimatedDuration?: number;
+  inputs: {
+    condition?: 'and' | 'or';
+    ports?:
+      | (
+          | {
+              value: string;
+              relationTo: 'product';
+            }
+          | {
+              value: string;
+              relationTo: 'action';
+            }
+        )[]
+      | (
+          | {
+              value: Product;
+              relationTo: 'product';
+            }
+          | {
+              value: Action;
+              relationTo: 'action';
+            }
+        )[];
+    groups: {
+      condition?: 'and' | 'or';
+      ports?:
+        | (
+            | {
+                value: string;
+                relationTo: 'product';
+              }
+            | {
+                value: string;
+                relationTo: 'action';
+              }
+          )[]
+        | (
+            | {
+                value: Product;
+                relationTo: 'product';
+              }
+            | {
+                value: Action;
+                relationTo: 'action';
+              }
+          )[];
+      groups: {
+        condition?: 'and' | 'or';
+        ports?:
+          | (
+              | {
+                  value: string;
+                  relationTo: 'product';
+                }
+              | {
+                  value: string;
+                  relationTo: 'action';
+                }
+            )[]
+          | (
+              | {
+                  value: Product;
+                  relationTo: 'product';
+                }
+              | {
+                  value: Action;
+                  relationTo: 'action';
+                }
+            )[];
+        groups: {
+          condition?: 'and' | 'or';
+          ports?:
+            | (
+                | {
+                    value: string;
+                    relationTo: 'product';
+                  }
+                | {
+                    value: string;
+                    relationTo: 'action';
+                  }
+              )[]
+            | (
+                | {
+                    value: Product;
+                    relationTo: 'product';
+                  }
+                | {
+                    value: Action;
+                    relationTo: 'action';
+                  }
+              )[];
+          id?: string;
+        }[];
+        id?: string;
+      }[];
+      id?: string;
+    }[];
   };
-  inputs?:
-    | (
-        | {
-            value: string;
-            relationTo: 'product';
-          }
-        | {
-            value: string;
-            relationTo: 'action';
-          }
-      )[]
-    | (
-        | {
-            value: Product;
-            relationTo: 'product';
-          }
-        | {
-            value: Action;
-            relationTo: 'action';
-          }
-      )[];
-  outputs?:
-    | (
-        | {
-            value: string;
-            relationTo: 'product';
-          }
-        | {
-            value: string;
-            relationTo: 'action';
-          }
-      )[]
-    | (
-        | {
-            value: Product;
-            relationTo: 'product';
-          }
-        | {
-            value: Action;
-            relationTo: 'action';
-          }
-      )[];
+  outputs: {
+    condition?: 'and' | 'or';
+    ports?:
+      | (
+          | {
+              value: string;
+              relationTo: 'product';
+            }
+          | {
+              value: string;
+              relationTo: 'action';
+            }
+        )[]
+      | (
+          | {
+              value: Product;
+              relationTo: 'product';
+            }
+          | {
+              value: Action;
+              relationTo: 'action';
+            }
+        )[];
+    groups: {
+      condition?: 'and' | 'or';
+      ports?:
+        | (
+            | {
+                value: string;
+                relationTo: 'product';
+              }
+            | {
+                value: string;
+                relationTo: 'action';
+              }
+          )[]
+        | (
+            | {
+                value: Product;
+                relationTo: 'product';
+              }
+            | {
+                value: Action;
+                relationTo: 'action';
+              }
+          )[];
+      groups: {
+        condition?: 'and' | 'or';
+        ports?:
+          | (
+              | {
+                  value: string;
+                  relationTo: 'product';
+                }
+              | {
+                  value: string;
+                  relationTo: 'action';
+                }
+            )[]
+          | (
+              | {
+                  value: Product;
+                  relationTo: 'product';
+                }
+              | {
+                  value: Action;
+                  relationTo: 'action';
+                }
+            )[];
+        groups: {
+          condition?: 'and' | 'or';
+          ports?:
+            | (
+                | {
+                    value: string;
+                    relationTo: 'product';
+                  }
+                | {
+                    value: string;
+                    relationTo: 'action';
+                  }
+              )[]
+            | (
+                | {
+                    value: Product;
+                    relationTo: 'product';
+                  }
+                | {
+                    value: Action;
+                    relationTo: 'action';
+                  }
+              )[];
+          id?: string;
+        }[];
+        id?: string;
+      }[];
+      id?: string;
+    }[];
+  };
+  timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
+  estimatedDuration?: number;
   resource?: string | Resource;
   moving?: boolean;
   resourceTo?: string | Resource;

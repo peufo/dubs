@@ -16,9 +16,18 @@ const ensureConnection: FieldHook<IAction, ValueWithRelation[]> = async ({
   return value
 }
 
-const connectionField: Field = {
-  name: 'inputs',
-  label: 'Entrées',
+const conditionField: Field = {
+  name: 'condition',
+  type: 'select',
+  defaultValue: 'and',
+  options: [
+    { label: 'ET', value: 'and' },
+    { label: 'OU', value: 'or' },
+  ],
+}
+
+const portsField: Field = {
+  name: 'ports',
   type: 'relationship',
   relationTo: ['product', 'action'],
   hasMany: true,
@@ -28,28 +37,14 @@ const connectionField: Field = {
   },
 }
 
-const conditionField: Field = {
-  name: 'condition',
-  type: 'select',
-  options: [
-    { label: 'ET', value: 'and' },
-    { label: 'OU', value: 'or' },
-  ],
-}
-
 /** Génère la logique and/or sur un profondeur prédéfinit */
-function getLogicalConnectionFields(
-  deep: number,
-  name: 'inputs' | 'outputs'
-): Field {
-  const fields: Field[] = [conditionField, connectionField]
+function getLogicalPortsFields(deep: number): Field {
+  const fields: Field[] = [conditionField, portsField]
 
-  if (deep > 0) fields.push(getLogicalConnectionFields(--deep, name))
+  if (deep > 0) fields.push(getLogicalPortsFields(--deep))
 
-  const label = name === 'inputs' ? `Groupe d'entrée` : `Groupe de sortie`
   const field: Field = {
-    name,
-    label,
+    name: 'groups',
     labels: {
       singular: `Groupe`,
       plural: `Groupes`,
@@ -88,6 +83,19 @@ export const Action: CollectionConfig = {
       name: 'description',
       type: 'richText',
     },
+
+    {
+      name: 'inputs',
+      label: 'Entrées',
+      type: 'group',
+      fields: [conditionField, portsField, getLogicalPortsFields(2)],
+    },
+    {
+      name: 'outputs',
+      label: 'Sorties',
+      type: 'group',
+      fields: [conditionField, portsField, getLogicalPortsFields(2)],
+    },
     {
       label: 'Temporalité',
       type: 'collapsible',
@@ -104,24 +112,6 @@ export const Action: CollectionConfig = {
           type: 'number',
           min: 0,
         },
-      ],
-    },
-    {
-      label: 'Entrées',
-      type: 'collapsible',
-      fields: [
-        conditionField,
-        connectionField,
-        getLogicalConnectionFields(3, 'inputs'),
-      ],
-    },
-    {
-      label: 'Sorties',
-      type: 'collapsible',
-      fields: [
-        conditionField,
-        connectionField,
-        getLogicalConnectionFields(3, 'outputs'),
       ],
     },
     {
