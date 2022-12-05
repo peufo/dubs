@@ -38,10 +38,10 @@ const portsField: Field = {
 }
 
 /** Génère la logique and/or sur un profondeur prédéfinit */
-function getLogicalPortsFields(deep: number): Field {
+function getPortGroupsField(deep: number): Field {
   const fields: Field[] = [conditionField, portsField]
 
-  if (deep > 0) fields.push(getLogicalPortsFields(--deep))
+  if (deep > 0) fields.push(getPortGroupsField(--deep))
 
   const field: Field = {
     name: 'groups',
@@ -83,18 +83,17 @@ export const Action: CollectionConfig = {
       name: 'description',
       type: 'richText',
     },
-
     {
-      name: 'inputs',
+      name: 'input',
       label: 'Entrées',
       type: 'group',
-      fields: [conditionField, portsField, getLogicalPortsFields(2)],
+      fields: [conditionField, portsField, getPortGroupsField(2)],
     },
     {
-      name: 'outputs',
+      name: 'output',
       label: 'Sorties',
       type: 'group',
-      fields: [conditionField, portsField, getLogicalPortsFields(2)],
+      fields: [conditionField, portsField, getPortGroupsField(2)],
     },
     {
       label: 'Temporalité',

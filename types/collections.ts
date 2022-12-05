@@ -54,7 +54,7 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
-  inputs: {
+  input: {
     condition?: 'and' | 'or';
     ports?:
       | (
@@ -153,7 +153,7 @@ export interface Action {
       id?: string;
     }[];
   };
-  outputs: {
+  output: {
     condition?: 'and' | 'or';
     ports?:
       | (
@@ -278,6 +278,7 @@ export interface Product {
   id: string;
   name: string;
   tags?: string[] | Tag[];
+  unit?: string;
   description?: {
     [k: string]: unknown;
   }[];

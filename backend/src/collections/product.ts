@@ -24,6 +24,12 @@ export const Product: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'unit',
+      label: 'Unité',
+      type: 'text',
+      maxLength: 120,
+    },
+    {
       name: 'description',
       type: 'richText',
     },

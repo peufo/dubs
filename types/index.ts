@@ -1,6 +1,7 @@
 export * from './collections'
 export * from './payload'
 export * from './api'
+export * from './port'
 
 export interface FileInterface {
   id: string
@@ -24,3 +25,4 @@ export interface FileInterface {
   location: null
   tags: null
 }
+
