@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PortGroup } from 'types'
-  import Or from '$src/lib/atom/Or.svelte'
+  import Or from '$src/material/Or.svelte'
 
   export let portGroup: PortGroup | undefined
   export let hooks = false
@@ -10,12 +10,12 @@
 {#if portGroup}
   <div
     class="
-    flex justify-center items-center border-primary 
+    flex justify-center items-center border-primary
     {portGroup.condition === 'and' ? 'gap-4' : 'gap-2'}
     {direction === 'down' ? 'rounded-t-md' : 'rounded-b-md'}
-    {hooks ? 'border-l-2 border-r-2 px-1' : ''}
-    {hooks && direction === 'up' ? 'border-b-2 pb-[2px]' : ''}
-    {hooks && direction === 'down' ? 'border-t-2 pt-[2px]' : ''}
+    {hooks ? 'border-x-2 px-1' : ''}
+    {hooks && direction === 'up' ? 'border-b pb-[2px]' : ''}
+    {hooks && direction === 'down' ? 'border-t pt-[2px]' : ''}
   "
   >
     {#if portGroup?.ports}
