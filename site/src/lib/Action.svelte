@@ -12,10 +12,14 @@
   export let action: ActionRecursivePort | undefined = undefined
 
   $: if (id) api.getById('action', id).then((res) => (action = res))
+
+  $: console.log(action?.input)
 </script>
 
 {#if !!action}
-  <PortGroup portGroup={action.input} direction="up" />
+  <div class="translate-y-1/2">
+    <PortGroup portGroup={action.input} direction="up" />
+  </div>
 
   <div
     class="px-4 py-2 min-w-[50%] border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark"
@@ -34,5 +38,7 @@
     {/if}
   </div>
 
-  <PortGroup portGroup={action.output} direction="down" />
+  <div class="-translate-y-1/2">
+    <PortGroup portGroup={action.output} direction="down" />
+  </div>
 {/if}

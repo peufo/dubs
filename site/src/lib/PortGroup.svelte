@@ -1,17 +1,27 @@
 <script lang="ts">
   import type { PortGroup } from 'types'
+  import Or from '$src/lib/atom/Or.svelte'
 
   export let portGroup: PortGroup | undefined
-  export let direction: 'up' | 'down'
-  $: console.log(portGroup)
+  export let hooks = false
+  export let direction: 'up' | 'down' = 'down'
 </script>
 
-{#if portGroup?.ports}
+{#if portGroup}
   <div
-    class="flex gap-14 {direction === 'down' ? 'flex-col' : 'flex-col-reverse'}"
+    class="
+    flex justify-center items-center border-primary 
+    {portGroup.condition === 'and' ? 'gap-4' : 'gap-2'}
+    {direction === 'down' ? 'rounded-t-md' : 'rounded-b-md'}
+    {hooks ? 'border-l-2 border-r-2 px-1' : ''}
+    {hooks && direction === 'up' ? 'border-b-2 pb-[2px]' : ''}
+    {hooks && direction === 'down' ? 'border-t-2 pt-[2px]' : ''}
+  "
   >
-    <div class="flex justify-center gap-4 -translate-y-1/2">
-      {#each portGroup.ports as { relationTo }}
+    {#if portGroup?.ports}
+      {#each portGroup.ports as { relationTo }, index}
+        <Or if={portGroup.condition === 'or' && index > 0} />
+
         {#if relationTo === 'action'}
           <div class="border w-4 h-4 bg-white border-primary-dark rounded" />
         {:else}
@@ -20,24 +30,33 @@
           />
         {/if}
       {/each}
-    </div>
-    <!--
+    {/if}
 
-      <div class="ports-elements flex gap-2 overflow-x-auto">
-        {#each ports as { value, relationTo }}
-          {#if typeof value === 'string'}
-            <div>goto {value}</div>
-          {:else if relationTo === 'action'}
-            <Action action={value} />
-          {:else}
-            <div>TODO: Product</div>
-          {/if}
-        {/each}
-      </div>
-    -->
+    {#if portGroup.groups && portGroup.groups.length}
+      {#each portGroup.groups as group, index}
+        <Or
+          if={portGroup.condition === 'or' &&
+            (!!portGroup.ports?.length || index > 0)}
+        />
+        <svelte:self portGroup={group} hooks {direction} />
+      {/each}
+    {/if}
   </div>
 {/if}
 
+<!--
+    <div class="ports-elements flex gap-2 overflow-x-auto">
+      {#each ports as { value, relationTo }}
+        {#if typeof value === 'string'}
+          <div>goto {value}</div>
+        {:else if relationTo === 'action'}
+          <Action action={value} />
+        {:else}
+          <div>TODO: Product</div>
+        {/if}
+      {/each}
+    </div>
+  -->
 <style>
   .ports-elements::-webkit-scrollbar {
     display: none;
