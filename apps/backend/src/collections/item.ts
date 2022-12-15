@@ -3,12 +3,19 @@ import type { CollectionConfig } from 'payload/types'
 export const Item: CollectionConfig = {
   slug: 'item',
   admin: {
-    useAsTitle: 'name',
+    useAsTitle: 'product.name',
   },
   access: {
     read: () => true,
   },
   fields: [
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'product',
+      required: true,
+    },
+
     {
       name: 'virtual',
       type: 'checkbox',
@@ -35,12 +42,6 @@ export const Item: CollectionConfig = {
           type: 'date',
         },
       ],
-    },
-    {
-      name: 'product',
-      type: 'relationship',
-      relationTo: 'product',
-      required: true,
     },
   ],
 }

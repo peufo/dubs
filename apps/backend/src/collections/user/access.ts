@@ -1,5 +1,5 @@
 import { Access, FieldAccess } from 'payload/types'
-import { User } from 'types'
+import { User } from '../../old/types'
 
 export const isSelf: Access<any, User> = ({ req: { user } }) => ({
   id: { equals: user.id },
