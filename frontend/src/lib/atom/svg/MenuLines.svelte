@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { spring, tweened } from 'svelte/motion'
+  import { backOut } from 'svelte/easing'
   import Line from '$lib/atom/svg/Line.svelte'
 
   export let open = false
@@ -13,22 +15,26 @@
   const dx1 = viewWidth / 6
   const dx2 = viewWidth / 4
 
-  $: t = open ? 1 : 0
-  $: u = open ? 0 : 1
+  let t = tweened(0, { easing: backOut, duration: 300 })
+
+  export function toggleOpen() {
+    open = !open
+    t.set(open ? 1 : 0)
+  }
 </script>
 
 <Line
-  from={{ x: ox - u * dx2, y: oy }}
-  to={{ x: ox + u * dx2, y: oy }}
+  from={{ x: ox - (1 - $t) * dx2, y: oy }}
+  to={{ x: ox + (1 - $t) * dx2, y: oy }}
   {width}
 />
 <Line
   from={{ x: ox - dx1, y: oy - dy }}
-  to={{ x: ox + dx1, y: oy - dy + t * 2 * dy }}
+  to={{ x: ox + dx1, y: oy - dy + $t * 2 * dy }}
   {width}
 />
 <Line
   from={{ x: ox - dx1, y: oy + dy }}
-  to={{ x: ox + dx1, y: oy + dy - t * 2 * dy }}
+  to={{ x: ox + dx1, y: oy + dy - $t * 2 * dy }}
   {width}
 />

@@ -12,14 +12,12 @@
   let klass = ''
   export { klass as class }
   export let style = ''
-  export let isMenuButton = false
   /* hexagon is a button if label is defined */
   export let label = ''
   /* hexagon is a link if href is defined */
   export let href = ''
   export let origin: Dot = { x: viewWidth / 2, y: viewHeight / 2 }
   export let rotate: FaceIndex = 0
-  export let slice: [FaceIndex, FaceIndex] = [0, 5]
   export let face: FaceIndex | undefined = undefined
   export let hide = true
   export let open = false
@@ -49,15 +47,13 @@
     .fill(null)
     .map((n, i) => (i + (rotate || 0)) * 60)
 
-  const dots = angles
-    .map((angle) => {
-      const radians = degToRad(angle)
-      return {
-        x: _origin.x + Math.cos(radians) * rayon,
-        y: _origin.y - Math.sin(radians) * rayon,
-      }
-    })
-    .slice(...(slice || []))
+  const dots = angles.map((angle) => {
+    const radians = degToRad(angle)
+    return {
+      x: _origin.x + Math.cos(radians) * rayon,
+      y: _origin.y - Math.sin(radians) * rayon,
+    }
+  })
 
   if (label) {
     const horizontalGap = Math.cos(degToRad(30)) * (gap || 0)
@@ -74,14 +70,14 @@
     class:scale-100={visible}
     class:fill-primary-light={label}
     style="
-              transform-origin: ${_origin.x}px ${_origin.y}px;
-              transition-delay: ${open ? showDelay : hideDelay}ms;
-              scale: ${visible || open ? 1 : 0};
-              transition-property: scale;
-              transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
-              z-index: ${+(!!label || !!href)};
-              {style}
-            "
+      transform-origin: ${_origin.x}px ${_origin.y}px;
+      transition-delay: ${open ? showDelay : hideDelay}ms;
+      scale: ${visible || open ? 1 : 0};
+      transition-property: scale;
+      transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+      z-index: ${+(!!label || !!href)};
+      {style}
+    "
     on:click
     on:keydown
     on:keyup
