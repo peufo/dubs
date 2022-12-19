@@ -19,8 +19,8 @@ payload.init({
 })
 
 if (dev) {
-  // Sert le site astro
-  app.use('/', proxy('http://localhost:3000'))
+  // Sert le frontend
+  app.use('/', proxy('http://localhost:5173'))
 }
 
 app.listen(port)

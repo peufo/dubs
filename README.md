@@ -6,6 +6,6 @@
 
 ```sh
 cp backend/.env.example backend/.env
-npm install
-npm run dev
+pnpm install
+pnpm run dev -r
 ```

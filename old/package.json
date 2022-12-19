@@ -7,7 +7,6 @@
     "dev": "run-p dev:*",
     "dev:site": "cd site && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "postinstall": "run-s install:*",
     "install:site": "cd site && npm i",
     "install:backend": "cd backend && npm i",
     "types": "cd backend && npm run generate:types",
