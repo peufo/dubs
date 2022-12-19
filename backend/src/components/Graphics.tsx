@@ -4,7 +4,7 @@ import React from 'react'
 export const Icon = () => (
   <div style={{ display: 'flex', gap: '1.5em', alignItems: 'center' }}>
     <img
-      src='/img/logo-borderless.png'
+      src='/logo-borderless.png'
       width={40}
       style={{ background: '#fff', borderRadius: '50%', padding: '4px' }}
     />
@@ -19,7 +19,7 @@ export const Icon = () => (
 export const Logo = () => (
   <div style={{ display: 'flex', gap: '1.5em', alignItems: 'center' }}>
     <img
-      src='/img/logo-borderless.png'
+      src='/logo-borderless.png'
       width={120}
       style={{ background: '#fff', borderRadius: '50%', padding: '4px' }}
     />
