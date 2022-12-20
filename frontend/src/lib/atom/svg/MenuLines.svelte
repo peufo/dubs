@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { spring, tweened } from 'svelte/motion'
+  import { tweened } from 'svelte/motion'
   import { backOut } from 'svelte/easing'
   import Line from '$lib/atom/svg/Line.svelte'
 
@@ -17,10 +17,7 @@
 
   let t = tweened(0, { easing: backOut, duration: 300 })
 
-  export function toggleOpen() {
-    open = !open
-    t.set(open ? 1 : 0)
-  }
+  $: t.set(open ? 1 : 0)
 </script>
 
 <Line

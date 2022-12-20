@@ -6,7 +6,7 @@
 </script>
 
 {#if href}
-  <a {href} {style} class={klass}><slot /></a>
+  <a {href} {style} class={klass} rel="external"><slot /></a>
 {:else}
   <slot />
 {/if}

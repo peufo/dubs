@@ -5,4 +5,6 @@
 
 <Header />
 
-<slot />
+<main class="pt-12">
+  <slot />
+</main>
