@@ -3,7 +3,6 @@
 
   let klass = ''
   export { klass as class }
-  export let lineWidth = 80
   export let dots: Dot[]
 
   $: d = [
@@ -13,4 +12,4 @@
   ].join(' ')
 </script>
 
-<path {d} class={klass} stroke-width={lineWidth} stroke-linejoin="round" />
+<path {d} class="stroke-[60px] {klass}" stroke-linejoin="round" />

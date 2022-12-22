@@ -95,22 +95,27 @@
 <Link {href}>
   <g
     data-href={href || null}
-    class="duration-300 origin-center {klass}"
+    class="duration-300 origin-center {klass} group"
     class:fill-primary-light={label}
     style="
-          transform-origin: {origin.x}px {origin.y}px;
-          transition-delay: {open ? showDelay : hideDelay}ms;
-          scale: {permanent || open ? 1 : 0};
-          transition-property: scale;
-          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
-          z-index: {+(!!label || !!href)};
-          {style}
-        "
+      transform-origin: {origin.x}px {origin.y}px;
+      transition-delay: {open ? showDelay : hideDelay}ms;
+      scale: {permanent || open ? 1 : 0};
+      transition-property: scale;
+      transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+      z-index: {+(!!label || !!href)};
+      {style}
+    "
     on:click
     on:keydown
     on:keyup
   >
-    <Path {dots} />
+    <Path
+      {dots}
+      class={href
+        ? 'transition-all group-hover:stroke-[240px] group-hover:stroke-primary-light'
+        : ''}
+    />
 
     <slot />
     {#if label}

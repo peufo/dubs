@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { beforeNavigate } from '$app/navigation'
+
   import type { FaceIndex, HexagonSide } from '$lib/atom/svg/types'
   import Svg from '$lib/atom/svg/Svg.svelte'
   import Hexagon from '$lib/atom/svg/Hexagon.svelte'
@@ -9,6 +11,10 @@
   export let items: MenuItem[] = []
   export let size = 60
   let open = true
+
+  beforeNavigate(() => {
+    open = false
+  })
 
   function drawPatern(
     patern: FaceIndex[],

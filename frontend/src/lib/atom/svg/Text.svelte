@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Dot } from './types'
 
+  let klass = ''
+  export { klass as class }
   export let label: string
   export let dots: Dot[]
 
@@ -14,7 +16,7 @@
   {x}
   {y}
   style="font-size: 500px;"
-  class="fill-primary-dark uppercase"
+  class="fill-primary-dark uppercase {klass}"
   dominant-baseline="central"
   text-anchor="middle"
 >
