@@ -35,10 +35,17 @@ importers:
 
   frontend:
     specifiers:
+      '@mdi/js': ^7.1.96
       '@sveltejs/adapter-auto': ^1.0.0
       '@sveltejs/kit': ^1.0.0
+      '@types/debounce': ^1.2.1
+      '@types/escape-html': ^1.0.2
       autoprefixer: ^10.4.13
+      debounce: ^1.2.1
+      escape-html: ^1.0.3
       postcss: ^8.4.20
+      qs: ^6.11.0
+      slate: ^0.87.0
       svelte: ^3.54.0
       svelte-check: ^2.9.2
       tailwindcss: ^3.2.4
@@ -46,11 +53,18 @@ importers:
       typescript: ^4.9.3
       vite: ^4.0.0
     dependencies:
+      '@mdi/js': 7.1.96
       autoprefixer: 10.4.13_postcss@8.4.20
+      debounce: 1.2.1
+      escape-html: 1.0.3
       postcss: 8.4.20
+      qs: 6.11.0
+      slate: 0.87.0
     devDependencies:
       '@sveltejs/adapter-auto': 1.0.0_@sveltejs+kit@1.0.0
       '@sveltejs/kit': 1.0.0_svelte@3.55.0+vite@4.0.1
+      '@types/debounce': 1.2.1
+      '@types/escape-html': 1.0.2
       svelte: 3.55.0
       svelte-check: 2.10.2_qs7rgzvahok4cbkjoy5bgypde4
       tailwindcss: 3.2.4_postcss@8.4.20
@@ -2211,6 +2225,10 @@ packages:
     resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
     dev: false
 
+  /@mdi/js/7.1.96:
+    resolution: {integrity: sha512-wlrJs6Ryhaa5CqhK3FjTfMRnb/s7HeLkKMFqwQySkK86cdN1TGdzpSM3O4tsmzCA1dYBeTbXvOwSE/Y42cUrvA==}
+    dev: false
+
   /@nicolo-ribaudo/chokidar-2/2.1.8-no-fsevents.3:
     resolution: {integrity: sha512-s88O1aVtXftvp5bCPB7WnmXc5IwOZZ7YPuwNPt+GtOOXpPvad1LfbmjYv+qII7zP6RU2QGnqve27dnLycEnyEQ==}
     requiresBuild: true
@@ -2381,6 +2399,14 @@ packages:
 
   /@types/cookie/0.5.1:
     resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
+    dev: true
+
+  /@types/debounce/1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: true
+
+  /@types/escape-html/1.0.2:
+    resolution: {integrity: sha512-gaBLT8pdcexFztLSPRtriHeXY/Kn4907uOCZ4Q3lncFBkheAWOuNt53ypsF8szgxbEJ513UeBzcf4utN0EzEwA==}
     dev: true
 
   /@types/eslint-scope/3.7.4:
@@ -4018,6 +4044,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       mimic-fn: 3.1.0
+    dev: false
+
+  /debounce/1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
     dev: false
 
   /debug/2.6.9:
@@ -9807,6 +9837,14 @@ packages:
 
   /slate/0.72.8:
     resolution: {integrity: sha512-/nJwTswQgnRurpK+bGJFH1oM7naD5qDmHd89JyiKNT2oOKD8marW0QSBtuFnwEbL5aGCS8AmrhXQgNOsn4osAw==}
+    dependencies:
+      immer: 9.0.16
+      is-plain-object: 5.0.0
+      tiny-warning: 1.0.3
+    dev: false
+
+  /slate/0.87.0:
+    resolution: {integrity: sha512-m+IWERpdtb7Zna09MxHlUYIAoo4WVdxp2fSf7c+jSV9pDmJ4QvUTuHghX/TVrxtr+8BKGhyQCWIerZt32B1Ysg==}
     dependencies:
       immer: 9.0.16
       is-plain-object: 5.0.0

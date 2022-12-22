@@ -3,10 +3,10 @@
 
   import type { ActionRecursivePort } from 'types'
   import { api } from '$lib/api'
-  import Icon from '$src/material/Icon.svelte'
-  import IconButton from '$src/material/IconButton.svelte'
+  import Icon from '$lib/atom/Icon.svelte'
+  import IconButton from '$lib/atom/IconButton.svelte'
   import { serialize } from '$lib/utils/serializeSlate'
-  import PortGroup from '$src/lib/PortGroup.svelte'
+  import PortGroup from '$lib/PortGroup.svelte'
 
   export let id: string | undefined
   export let action: ActionRecursivePort | undefined = undefined

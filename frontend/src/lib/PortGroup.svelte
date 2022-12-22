@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PortGroup } from 'types'
-  import Or from '$src/material/Or.svelte'
+  import Or from '$lib/atom/Or.svelte'
 
   export let portGroup: PortGroup | undefined
   export let hooks = false

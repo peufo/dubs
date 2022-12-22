@@ -1,5 +1,6 @@
 import escapeHtml from 'escape-html'
-import { Text, CustomTypes } from 'slate'
+import { Text } from 'slate'
+import type { CustomTypes } from 'slate'
 
 export function serialize(nodes: CustomTypes[]): string {
   return nodes

@@ -1,10 +1,6 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte'
   import debounce from 'debounce'
-
-  import type { Slugs, Action, Resource, Product } from 'types'
-  import { api } from '$lib/api'
-  import Icon from '$material/Icon.svelte'
   import {
     mdiAlertCircleOutline,
     mdiArrowRightThin,
@@ -15,6 +11,10 @@
     mdiMagnify,
     mdiTools,
   } from '@mdi/js'
+
+  import type { Slugs, Action, Resource, Product } from 'types'
+  import { api } from '$lib/api'
+  import Icon from '$lib/atom/Icon.svelte'
 
   let klass = ''
   export { klass as class }
