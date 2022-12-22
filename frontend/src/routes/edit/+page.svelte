@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Edit from '$lib/Edit.svelte'
+  import Edit from '$lib/organism/Edit.svelte'
 </script>
 
 <Edit />

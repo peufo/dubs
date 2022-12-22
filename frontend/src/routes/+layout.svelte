@@ -5,6 +5,6 @@
 
 <Header />
 
-<main class="pt-24">
+<main class="pt-24 min-h-screen">
   <slot />
 </main>

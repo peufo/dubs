@@ -24,7 +24,7 @@
   }
 </script>
 
-<div class="p-2 h-screen">
+<div class="p-2">
   <Search on:select={({ detail }) => searchSelect(detail)} class="fixed" />
   <div class="h-full grid items-center max-w-2xl m-auto">
     <div>
