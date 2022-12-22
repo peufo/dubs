@@ -7,6 +7,7 @@
   type MenuItem = { label: string; href: string }
 
   export let items: MenuItem[] = []
+  export let size = 60
   let open = true
 
   function drawPatern(
@@ -66,7 +67,7 @@
   ]
 </script>
 
-<Svg>
+<Svg {size}>
   <Hexagon
     on:click={() => (open = !open)}
     {open}

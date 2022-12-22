@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Dot, FaceIndex, HexagonProps, HexagonSide } from './types'
-  import Link from '../Link.svelte'
   import Path from './Path.svelte'
   import Text from './Text.svelte'
+  import Link from './Link.svelte'
 
   type $$Props = HexagonProps
 
@@ -79,7 +79,9 @@
 {#if sides}
   {#each sides as side, i}
     <svelte:self
-      {...side}
+      sides={side.sides}
+      label={side.label}
+      href={side.href}
       {gap}
       {maxShowDelay}
       open={side.permanent || open}
@@ -92,17 +94,18 @@
 
 <Link {href}>
   <g
+    data-href={href || null}
     class="duration-300 origin-center {klass}"
     class:fill-primary-light={label}
     style="
-        transform-origin: {origin.x}px {origin.y}px;
-        transition-delay: {open ? showDelay : hideDelay}ms;
-        scale: {permanent || open ? 1 : 0};
-        transition-property: scale;
-        transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
-        z-index: {+(!!label || !!href)};
-        {style}
-      "
+          transform-origin: {origin.x}px {origin.y}px;
+          transition-delay: {open ? showDelay : hideDelay}ms;
+          scale: {permanent || open ? 1 : 0};
+          transition-property: scale;
+          transition-timing-function: cubic-bezier(.5,-0.3,.5,1.3);
+          z-index: {+(!!label || !!href)};
+          {style}
+        "
     on:click
     on:keydown
     on:keyup
@@ -110,11 +113,6 @@
     <Path {dots} />
 
     <slot />
-
-    {#if href}
-      <a {href}>prout</a>
-    {/if}
-
     {#if label}
       <Text {label} {dots} />
     {/if}

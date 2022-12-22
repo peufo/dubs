@@ -1,15 +1,28 @@
 <script lang="ts">
-  export let width = 50
-  export let height = 50
-  export let viewWidth = 1000
-  export let viewHeight = 1000
+  export let size = 50
+
+  /** Ensure all "a" elements inside an SVG node belong to the correct namespace */
+  function ensureSVGA(node: SVGSVGElement) {
+    const namespaceSVG = 'http://www.w3.org/2000/svg'
+    const links = node.querySelectorAll<HTMLLinkElement>('a')
+    for (const link of links) {
+      if (link.namespaceURI === namespaceSVG) continue
+      const a = document.createElementNS(namespaceSVG, 'a')
+      for (const attribute of link.attributes) {
+        a.setAttribute(attribute.name, attribute.value)
+      }
+      a.append(...link.children)
+      link.insertAdjacentElement('beforebegin', a)
+      link.remove()
+    }
+  }
 </script>
 
 <svg
-  xmlns="http://www.w3.org/2000/svg"
-  {width}
-  {height}
-  viewBox="0 0 {viewWidth} {viewHeight}"
+  use:ensureSVGA
+  width={size}
+  height={size}
+  viewBox="0 0 1000 1000"
   class="overflow-visible fill-primary stroke-primary-dark"
 >
   <slot />
