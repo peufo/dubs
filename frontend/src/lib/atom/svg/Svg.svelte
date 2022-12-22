@@ -8,8 +8,8 @@
     for (const link of links) {
       if (link.namespaceURI === namespaceSVG) continue
       const a = document.createElementNS(namespaceSVG, 'a')
-      for (const attribute of link.attributes) {
-        a.setAttribute(attribute.name, attribute.value)
+      for (const { name, value } of link.attributes) {
+        a.setAttribute(name, value)
       }
       a.append(...link.children)
       link.insertAdjacentElement('beforebegin', a)
