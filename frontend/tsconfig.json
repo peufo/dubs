@@ -11,6 +11,7 @@
     "strict": true,
     "paths": {
       "types": ["../types"],
+      "$lib": ["src/lib"],
       "$lib/*": ["./src/lib/*"]
     }
   }

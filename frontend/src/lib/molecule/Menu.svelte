@@ -10,7 +10,7 @@
 
   export let items: MenuItem[] = []
   export let size = 60
-  let open = true
+  let open = false
 
   beforeNavigate(() => {
     open = false
