@@ -1,3 +1,5 @@
+<svelte:options namespace="svg" />
+
 <script lang="ts">
   import type { Dot, FaceIndex, HexagonProps, HexagonSide } from './types'
   import Path from './Path.svelte'

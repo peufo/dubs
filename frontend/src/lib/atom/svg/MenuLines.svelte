@@ -1,3 +1,5 @@
+<svelte:options namespace="svg" />
+
 <script lang="ts">
   import { tweened } from 'svelte/motion'
   import { backOut } from 'svelte/easing'

@@ -1,3 +1,5 @@
+<svelte:options namespace="svg" />
+
 <script lang="ts">
   import Hexagon from './Hexagon.svelte'
   import MenuLines from './MenuLines.svelte'

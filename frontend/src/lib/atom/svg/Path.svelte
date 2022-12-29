@@ -1,3 +1,5 @@
+<svelte:options namespace="svg" />
+
 <script lang="ts">
   import type { Dot } from './types'
 

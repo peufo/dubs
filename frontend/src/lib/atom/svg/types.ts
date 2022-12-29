@@ -1,5 +1,3 @@
-import type Hexagon from './Hexagon.svelte'
-
 export interface Dot {
   x: number
   y: number

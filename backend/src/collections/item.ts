@@ -15,7 +15,17 @@ export const Item: CollectionConfig = {
       relationTo: 'product',
       required: true,
     },
-
+    {
+      name: 'steps',
+      type: 'array',
+      fields: [
+        {
+          name: 'action',
+          type: 'relationship',
+          relationTo: 'action',
+        },
+      ],
+    },
     {
       name: 'virtual',
       type: 'checkbox',
