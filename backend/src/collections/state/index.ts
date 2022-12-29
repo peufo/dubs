@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload/types'
+import { LocationField } from '../../components/LocationField'
 
 export const State: CollectionConfig = {
   slug: 'state',
@@ -27,6 +28,15 @@ export const State: CollectionConfig = {
       name: 'product',
       type: 'relationship',
       relationTo: 'product',
+    },
+    {
+      name: 'location',
+      type: 'point',
+      admin: {
+        components: {
+          Field: LocationField,
+        },
+      },
     },
   ],
 }
