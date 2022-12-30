@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload/types'
 
 import { TIME_UNITS_OPTIONS } from './timeUnits'
-import { conditionField, portsField, getPortGroupsField } from './ports'
+import { createRelationFields } from './relation'
 
 export const Action: CollectionConfig = {
   slug: 'action',
@@ -31,16 +31,21 @@ export const Action: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'input',
+      name: 'inputs',
       label: 'Entrées',
-      type: 'group',
-      fields: [conditionField, portsField, getPortGroupsField(2)],
+      type: 'array',
+      fields: createRelationFields('inputs'),
     },
     {
-      name: 'output',
+      name: 'outputs',
       label: 'Sorties',
-      type: 'group',
-      fields: [conditionField, portsField, getPortGroupsField(2)],
+      type: 'array',
+      fields: createRelationFields('ouputs'),
+    },
+    {
+      name: 'resource',
+      type: 'relationship',
+      relationTo: 'resource',
     },
     {
       label: 'Temporalité',
@@ -57,37 +62,6 @@ export const Action: CollectionConfig = {
           label: 'Durée éstimé',
           type: 'number',
           min: 0,
-        },
-      ],
-    },
-    {
-      label: 'Ressources',
-      type: 'collapsible',
-      admin: {
-        position: 'sidebar',
-        initCollapsed: false,
-      },
-      fields: [
-        {
-          name: 'resource',
-          type: 'relationship',
-          relationTo: 'resource',
-        },
-        {
-          name: 'moving',
-          type: 'checkbox',
-          admin: {
-            description:
-              "L'action déplace le produit d'une ressource à l'autre",
-          },
-        },
-        {
-          name: 'resourceTo',
-          type: 'relationship',
-          relationTo: 'resource',
-          admin: {
-            condition: (data) => data.moving,
-          },
         },
       ],
     },

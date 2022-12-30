@@ -15,16 +15,6 @@ export const State: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'from',
-      type: 'relationship',
-      relationTo: 'action',
-    },
-    {
-      name: 'to',
-      type: 'relationship',
-      relationTo: 'action',
-    },
-    {
       name: 'product',
       type: 'relationship',
       relationTo: 'product',

@@ -24,27 +24,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resource".
- */
-export interface Resource {
-  id: string;
-  name: string;
-  description?: {
-    [k: string]: unknown;
-  }[];
-  immaterial?: boolean;
-  relative?: boolean;
-  parent?: string | Resource;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location: [number, number];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "action".
  */
 export interface Action {
@@ -54,209 +33,19 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
-  input: {
-    condition?: 'and' | 'or';
-    ports?:
-      | (
-          | {
-              value: string;
-              relationTo: 'product';
-            }
-          | {
-              value: string;
-              relationTo: 'action';
-            }
-        )[]
-      | (
-          | {
-              value: Product;
-              relationTo: 'product';
-            }
-          | {
-              value: Action;
-              relationTo: 'action';
-            }
-        )[];
-    groups: {
-      condition?: 'and' | 'or';
-      ports?:
-        | (
-            | {
-                value: string;
-                relationTo: 'product';
-              }
-            | {
-                value: string;
-                relationTo: 'action';
-              }
-          )[]
-        | (
-            | {
-                value: Product;
-                relationTo: 'product';
-              }
-            | {
-                value: Action;
-                relationTo: 'action';
-              }
-          )[];
-      groups: {
-        condition?: 'and' | 'or';
-        ports?:
-          | (
-              | {
-                  value: string;
-                  relationTo: 'product';
-                }
-              | {
-                  value: string;
-                  relationTo: 'action';
-                }
-            )[]
-          | (
-              | {
-                  value: Product;
-                  relationTo: 'product';
-                }
-              | {
-                  value: Action;
-                  relationTo: 'action';
-                }
-            )[];
-        groups: {
-          condition?: 'and' | 'or';
-          ports?:
-            | (
-                | {
-                    value: string;
-                    relationTo: 'product';
-                  }
-                | {
-                    value: string;
-                    relationTo: 'action';
-                  }
-              )[]
-            | (
-                | {
-                    value: Product;
-                    relationTo: 'product';
-                  }
-                | {
-                    value: Action;
-                    relationTo: 'action';
-                  }
-              )[];
-          id?: string;
-        }[];
-        id?: string;
-      }[];
-      id?: string;
-    }[];
-  };
-  output: {
-    condition?: 'and' | 'or';
-    ports?:
-      | (
-          | {
-              value: string;
-              relationTo: 'product';
-            }
-          | {
-              value: string;
-              relationTo: 'action';
-            }
-        )[]
-      | (
-          | {
-              value: Product;
-              relationTo: 'product';
-            }
-          | {
-              value: Action;
-              relationTo: 'action';
-            }
-        )[];
-    groups: {
-      condition?: 'and' | 'or';
-      ports?:
-        | (
-            | {
-                value: string;
-                relationTo: 'product';
-              }
-            | {
-                value: string;
-                relationTo: 'action';
-              }
-          )[]
-        | (
-            | {
-                value: Product;
-                relationTo: 'product';
-              }
-            | {
-                value: Action;
-                relationTo: 'action';
-              }
-          )[];
-      groups: {
-        condition?: 'and' | 'or';
-        ports?:
-          | (
-              | {
-                  value: string;
-                  relationTo: 'product';
-                }
-              | {
-                  value: string;
-                  relationTo: 'action';
-                }
-            )[]
-          | (
-              | {
-                  value: Product;
-                  relationTo: 'product';
-                }
-              | {
-                  value: Action;
-                  relationTo: 'action';
-                }
-            )[];
-        groups: {
-          condition?: 'and' | 'or';
-          ports?:
-            | (
-                | {
-                    value: string;
-                    relationTo: 'product';
-                  }
-                | {
-                    value: string;
-                    relationTo: 'action';
-                  }
-              )[]
-            | (
-                | {
-                    value: Product;
-                    relationTo: 'product';
-                  }
-                | {
-                    value: Action;
-                    relationTo: 'action';
-                  }
-              )[];
-          id?: string;
-        }[];
-        id?: string;
-      }[];
-      id?: string;
-    }[];
-  };
+  inputs: {
+    state: string | State;
+    condition?: string;
+    id?: string;
+  }[];
+  outputs: {
+    state: string | State;
+    condition?: string;
+    id?: string;
+  }[];
+  resource?: string | Resource;
   timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
   estimatedDuration?: number;
-  resource?: string | Resource;
-  moving?: boolean;
-  resourceTo?: string | Resource;
   createdAt: string;
   updatedAt: string;
 }
@@ -267,6 +56,22 @@ export interface Action {
 export interface Tag {
   id: string;
   name?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state".
+ */
+export interface State {
+  id: string;
+  name?: string;
+  product?: string | Product;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location?: [number, number];
   createdAt: string;
   updatedAt: string;
 }
@@ -315,16 +120,41 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource".
+ */
+export interface Resource {
+  id: string;
+  name: string;
+  description?: {
+    [k: string]: unknown;
+  }[];
+  immaterial?: boolean;
+  relative?: boolean;
+  parent?: string | Resource;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location: [number, number];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "item".
  */
 export interface Item {
   id: string;
+  product: string | Product;
+  steps: {
+    action?: string | Action;
+    id?: string;
+  }[];
   virtual?: boolean;
   validity: {
     start?: string;
     end?: string;
   };
-  product: string | Product;
   createdAt: string;
   updatedAt: string;
 }
