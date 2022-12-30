@@ -9,7 +9,7 @@
   type MenuItem = { label: string; href: string }
 
   export let items: MenuItem[] = []
-  export let size = 60
+  export let size = 50
   let open = false
 
   beforeNavigate(() => {
@@ -73,7 +73,7 @@
   ]
 </script>
 
-<Svg {size}>
+<Svg {size} class="fixed right-2 top-2 z-10">
   <Hexagon
     on:click={() => (open = !open)}
     {open}

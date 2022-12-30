@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { title } from '$lib/stores'
-  $title = 'La boutique'
+  import Title from '$lib/molecule/Title.svelte'
 </script>
 
 <svelte:head>
-  <title>Dubs apiculture · La boutique</title>
   <meta name="description" value="Acheter notre miel de Coeuve." />
 </svelte:head>
 
-<h3>Shop</h3>
+<Title subtitle="La boutique" />
+
+<h3>Bienvenu dans la boutique</h3>

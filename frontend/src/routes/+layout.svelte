@@ -1,10 +1,18 @@
 <script lang="ts">
   import '../app.css'
-  import Header from '$lib/organism/Header.svelte'
+  import Menu from '$lib/molecule/Menu.svelte'
 </script>
 
-<Header />
+<header>
+  <Menu
+    items={[
+      { label: 'boutique', href: '/shop' },
+      { label: 'edit', href: '/edit' },
+      { label: 'admin', href: '/admin' },
+    ]}
+  />
+</header>
 
-<main class="pt-24 min-h-screen">
+<main class="p-3 min-h-screen">
   <slot />
 </main>

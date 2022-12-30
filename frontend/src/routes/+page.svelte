@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { headerSubtitle } from '$lib/stores'
-  $headerSubtitle = ''
+  import Title from '$lib/molecule/Title.svelte'
 </script>
 
+<Title />
+
 <svelte:head>
-  <title>Dubs apiculture</title>
   <meta
     name="description"
     value="La famille Dubey vous propose du miel de production artisanal"
