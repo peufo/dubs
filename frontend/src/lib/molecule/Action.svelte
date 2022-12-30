@@ -1,24 +1,24 @@
 <script lang="ts">
   import { mdiLightningBolt, mdiPencil } from '@mdi/js'
 
-  import type { ActionRecursivePort } from 'types'
+  import type { Action } from 'types'
   import { api } from '$lib/api'
   import Icon from '$lib/atom/Icon.svelte'
   import IconButton from '$lib/atom/IconButton.svelte'
   import { serialize } from '$lib/utils/serializeSlate'
-  import PortGroup from '$lib/PortGroup.svelte'
+  import Relations from '$lib/molecule/Relations.svelte'
 
   export let id: string | undefined
-  export let action: ActionRecursivePort | undefined = undefined
+  export let action: Action | undefined = undefined
 
   $: if (id) api.getById('action', id).then((res) => (action = res))
 
-  $: console.log(action?.input)
+  $: console.log(action?.inputs)
 </script>
 
 {#if !!action}
   <div class="translate-y-1/2">
-    <PortGroup portGroup={action.input} direction="up" />
+    <Relations relations={action.inputs} direction="up" />
   </div>
 
   <div
@@ -39,6 +39,6 @@
   </div>
 
   <div class="-translate-y-1/2">
-    <PortGroup portGroup={action.output} direction="down" />
+    <Relations relations={action.outputs} direction="down" />
   </div>
 {/if}

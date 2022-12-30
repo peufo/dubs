@@ -3,7 +3,7 @@
   import qs from 'qs'
 
   import Search from '$lib/Search.svelte'
-  import Action from '$lib/Action.svelte'
+  import Action from '$lib/molecule/Action.svelte'
 
   let slug = ''
   let id = ''

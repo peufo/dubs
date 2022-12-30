@@ -12,15 +12,22 @@ export function createRelationFields(name = 'ports'): Field[] {
           required: true,
         },
         {
-          name: 'condition',
-          type: 'code',
-          defaultValue: `(${name}) => true`,
-          admin: {
-            language: 'js',
-            description: 'return true, false or undefined',
-          },
+          name: 'required',
+          type: 'checkbox',
+          defaultValue: true,
+          required: true,
         },
       ],
+    },
+    {
+      name: 'condition',
+      type: 'code',
+      defaultValue: `(${name}) => true`,
+      admin: {
+        language: 'js',
+        description: 'return true, false or undefined',
+        condition: (data, siblingData) => !siblingData.required,
+      },
     },
   ]
 }

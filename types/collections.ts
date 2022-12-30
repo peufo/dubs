@@ -35,11 +35,13 @@ export interface Action {
   }[];
   inputs: {
     state: string | State;
+    required: boolean;
     condition?: string;
     id?: string;
   }[];
   outputs: {
     state: string | State;
+    required: boolean;
     condition?: string;
     id?: string;
   }[];
