@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { headerSubtitle } from '$lib/stores'
+  $headerSubtitle = ''
 </script>
 
 <svelte:head>
