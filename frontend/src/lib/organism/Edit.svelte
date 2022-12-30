@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import qs from 'qs'
 
-  import Search from '$lib/Search.svelte'
+  import Search from '$lib/molecule/Search.svelte'
   import Action from '$lib/molecule/Action.svelte'
 
   let slug = ''
