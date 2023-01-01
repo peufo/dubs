@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { getPath, Position } from '$lib/connection/utils'
+  import { getPath } from '$lib/molecule/connection/utils'
+  import type { Position } from '$lib/molecule/connection/utils'
 
   export let from: HTMLElement[]
   export let to: HTMLElement[]

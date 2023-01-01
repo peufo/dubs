@@ -12,8 +12,6 @@
   export let action: Action | undefined = undefined
 
   $: if (id) api.getById('action', id).then((res) => (action = res))
-
-  $: console.log(action?.inputs)
 </script>
 
 {#if !!action}

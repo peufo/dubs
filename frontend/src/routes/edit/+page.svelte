@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <meta name="description" value="Édition des flux de travail" />
+  <meta name="description" content="Édition des flux de travail" />
 </svelte:head>
 
 <Title subtitle="Édition des flux" />

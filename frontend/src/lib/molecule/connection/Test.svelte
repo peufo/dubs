@@ -2,8 +2,7 @@
   import { onMount } from 'svelte'
 
   import { draggable } from '$lib/utils/draggable'
-  import Connection from '$lib/connection/Connection.svelte'
-  import Connections from '$lib/connection/Connections.svelte'
+  import Connections from '$lib/molecule/connection/Connections.svelte'
 
   let connect: Connections
   let containerFrom: HTMLDivElement
@@ -39,7 +38,7 @@
   <Connection bind:this={connect} from={containerFrom} to={containerTo} />
 -->
 
-<div class="grid place-content-center h-screen gap-10">
+<div class="grid place-content-center h-[1200px] gap-10">
   <div bind:this={containerFrom} use:draggable class="container drop-shadow" />
   <div bind:this={containerTo} use:draggable class="container drop-shadow" />
   <div bind:this={containerFrom2} use:draggable class="container drop-shadow" />

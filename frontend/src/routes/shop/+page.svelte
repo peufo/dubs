@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <meta name="description" value="Acheter notre miel de Coeuve." />
+  <meta name="description" content="Acheter notre miel de Coeuve." />
 </svelte:head>
 
 <Title subtitle="La boutique" />

@@ -4,7 +4,7 @@
 <svelte:head>
   <meta
     name="description"
-    value="La famille Dubey vous propose du miel de production artisanal"
+    content="La famille Dubey vous propose du miel de production artisanal"
   />
 </svelte:head>
 

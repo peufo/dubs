@@ -10,6 +10,7 @@
     items={[
       { label: 'boutique', href: '/shop' },
       { label: 'edit', href: '/edit' },
+      { label: 'labo', href: '/lab' },
       { label: 'admin', href: '/admin' },
     ]}
   />
