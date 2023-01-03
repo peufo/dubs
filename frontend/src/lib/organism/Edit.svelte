@@ -24,13 +24,12 @@
   }
 </script>
 
-<div class="p-2">
-  <Search on:select={({ detail }) => searchSelect(detail)} class="fixed" />
-  <div class="h-full grid items-center max-w-2xl m-auto">
-    <div>
-      {#if slug === 'action'}
-        <Action {id} />
-      {/if}
-    </div>
+<Search on:select={({ detail }) => searchSelect(detail)} />
+
+<div class="pt-8 grid items-center max-w-2xl m-auto">
+  <div>
+    {#if slug === 'action'}
+      <Action {id} />
+    {/if}
   </div>
 </div>

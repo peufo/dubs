@@ -8,13 +8,13 @@
   />
 </svelte:head>
 
-<div class="flex gap-6 items-center pt-10">
+<div class="flex justify-center gap-6 md:gap-10 items-center pt-10">
   <img
-    class="w-1/2 rotate-12"
+    class="w-1/2 rotate-12 max-w-lg"
     src="/logo.png"
     alt="Logo principal miel de Coeuve"
   />
-  <div class="text-4xl font-semibold">
+  <div class="font-semibold text-3xl md:text-5xl">
     <h3>Dubs</h3>
     <h3>Apiculture</h3>
   </div>

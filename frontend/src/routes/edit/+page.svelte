@@ -7,6 +7,8 @@
   <meta name="description" content="Édition des flux de travail" />
 </svelte:head>
 
-<Title subtitle="Édition des flux" />
+<div class="min-h-screen">
+  <Title subtitle="Édition des flux" />
 
-<Edit />
+  <Edit />
+</div>
