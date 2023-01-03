@@ -14,7 +14,10 @@
   export { klass as class }
 
   let paths: string[] = []
-  onMount(() => draw())
+  onMount(() => {})
+
+  $: if (from || to) draw()
+
   export function draw() {
     paths = from.map((elFrom, index) => {
       if (!to[index]) return ''

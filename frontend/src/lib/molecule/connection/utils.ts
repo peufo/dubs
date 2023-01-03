@@ -21,6 +21,9 @@ export function getPosition(
   if (position.match(/bottom/)) y += rect.height
   else if (!position.match(/top/)) y += rect.height / 2
 
+  x += window.scrollX
+  y += window.scrollY
+
   return { x, y }
 }
 

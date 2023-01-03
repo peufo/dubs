@@ -4,14 +4,14 @@
   import { draggable } from '$lib/utils/draggable'
   import Connections from '$lib/molecule/connection/Connections.svelte'
 
-  let connect: Connections
+  let connections: Connections
   let containerFrom: HTMLDivElement
   let containerTo: HTMLDivElement
   let containerFrom2: HTMLDivElement
   let containerTo2: HTMLDivElement
 
   onMount(() => {
-    const handleMove = () => connect.draw()
+    const handleMove = () => connections.draw()
     containerFrom.addEventListener('move', handleMove)
     containerTo.addEventListener('move', handleMove)
     containerFrom2.addEventListener('move', handleMove)
@@ -25,17 +25,16 @@
   })
 </script>
 
-{#if containerFrom && containerTo && containerFrom2 && containerTo2}
-  <Connections
-    bind:this={connect}
-    from={[containerFrom, containerFrom2]}
-    to={[containerTo, containerTo2]}
-  />
-{/if}
+<Connections
+  bind:this={connections}
+  from={[containerFrom, containerFrom2]}
+  to={[containerTo, containerTo2]}
+  fromPosition="bottom"
+  toPosition="top"
+/>
 
 <!--
-
-  <Connection bind:this={connect} from={containerFrom} to={containerTo} />
+  <Connection bind:this={connections} from={containerFrom} to={containerTo} />
 -->
 
 <div class="grid place-content-center h-[1200px] gap-10">
