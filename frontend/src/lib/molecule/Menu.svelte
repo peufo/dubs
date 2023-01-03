@@ -57,6 +57,11 @@
         drawPatern([5, 3], [{ face: 3 }, drawPatern([5, 3], drawRest)])
       )
     }
+
+    // End patern
+    if (!next && !next2) drawNext.push(drawPatern([5, 3, 2, 3, 2]))
+    if (next && !next2) drawNext.push(drawPatern([5, 3, 5, 3, 2, 3, 3, 2]))
+
     return drawPatern([5, 3], drawNext)
   }
 
