@@ -26,7 +26,7 @@
 
   export let index = 0
   export let gap = 0
-  export let stepDelay = 20
+  export let stepDelay = 15
   export let sides: HexagonSide[] = []
   export let maxShowDelay = getMaxShowDelay()
   export let showDelay = stepDelay * index
