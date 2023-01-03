@@ -14,7 +14,13 @@
   export { klass as class }
 
   let paths: string[] = []
-  onMount(() => {})
+  onMount(() => {
+    if (!window) return
+    window.addEventListener('resize', draw)
+    return () => {
+      window.removeEventListener('resize', draw)
+    }
+  })
 
   $: if (from || to) draw()
 
