@@ -14,6 +14,7 @@ export const api = {
     const data = (await res.json()) as PaginatedDocs<Slugs[Key]>
     return data
   },
+
   async getById<Key extends keyof Slugs>(
     slug: Key,
     id: string,

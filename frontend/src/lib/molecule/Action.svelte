@@ -36,8 +36,6 @@
       .get('state', { where: { 'from.action': { equals: actionId } } })
       .then((res) => (outputs = res.docs))
   }
-
-  $: console.log(inputs)
 </script>
 
 {#if !!action}
