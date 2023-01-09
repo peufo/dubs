@@ -5,6 +5,7 @@
   import Svg from '$lib/atom/svg/Svg.svelte'
   import Hexagon from '$lib/atom/svg/Hexagon.svelte'
   import MenuLines from '$lib/atom/svg/MenuLines.svelte'
+  import ClickOutside from '$lib/atom/ClickOutside.svelte'
 
   type MenuItem = { label: string; href: string }
 
@@ -78,14 +79,16 @@
   ]
 </script>
 
-<Svg {size} class="fixed right-2 top-2 z-10">
-  <Hexagon
-    on:click={() => (open = !open)}
-    {open}
-    class="hover:fill-primary-light cursor-pointer"
-    gap={150}
-    {sides}
-  >
-    <MenuLines {open} />
-  </Hexagon>
-</Svg>
+<ClickOutside on:click_outside={() => (open = false)}>
+  <Svg {size} class="fixed right-2 top-2 z-10">
+    <Hexagon
+      on:click={() => (open = !open)}
+      {open}
+      class="hover:fill-primary-light cursor-pointer"
+      gap={150}
+      {sides}
+    >
+      <MenuLines {open} />
+    </Hexagon>
+  </Svg>
+</ClickOutside>
