@@ -47,6 +47,7 @@
         class="ml-auto"
         path={mdiPencil}
         href="/admin/collections/action/{id}"
+        external
       />
     </header>
     {#if action.description}

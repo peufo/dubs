@@ -4,7 +4,7 @@
   import type { Dot, FaceIndex, HexagonProps, HexagonSide } from './types'
   import Path from './Path.svelte'
   import Text from './Text.svelte'
-  import Link from './Link.svelte'
+  import Link from './SvgLink.svelte'
 
   type $$Props = HexagonProps
 

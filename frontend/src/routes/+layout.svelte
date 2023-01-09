@@ -2,8 +2,6 @@
   import { page } from '$app/stores'
   import '../app.css'
   import Menu from '$lib/molecule/Menu.svelte'
-
-  $: console.log($page)
 </script>
 
 <header>
