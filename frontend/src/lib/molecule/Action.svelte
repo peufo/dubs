@@ -1,7 +1,7 @@
 <script lang="ts">
   import { mdiLightningBolt, mdiPencil } from '@mdi/js'
 
-  import type { Action } from 'types'
+  import type { Action, State } from 'types'
   import { api } from '$lib/api'
   import Icon from '$lib/atom/Icon.svelte'
   import IconButton from '$lib/atom/IconButton.svelte'
@@ -11,13 +11,31 @@
   export let id: string | undefined
   export let action: Action | undefined = undefined
 
-  $: if (id) api.getById('action', id).then((res) => (action = res))
+  $: load(id)
+  //$: getStates(action?.id || id)
+
+  let inputs: State[] = []
+  let outputs: State[] = []
+
+  function load(actionId?: string) {
+    if (!actionId) return
+    loadAction(actionId)
+    getStates(actionId)
+  }
+
+  function loadAction(actionId: string) {
+    api.getById('action', actionId).then((res) => (action = res))
+  }
+
+  function getStates(actionId: string) {
+    api
+      .get('state', { where: { to: { required: { equals: true } } } })
+      .then(console.log)
+  }
 </script>
 
 {#if !!action}
-  <div class="translate-y-1/2">
-    <Relations relations={action.inputs} direction="up" />
-  </div>
+  <Relations relations={inputs} direction="up" />
 
   <div
     class="px-4 py-2 min-w-[50%] border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark"
@@ -36,7 +54,5 @@
     {/if}
   </div>
 
-  <div class="-translate-y-1/2">
-    <Relations relations={action.outputs} direction="down" />
-  </div>
+  <Relations relations={outputs} direction="down" />
 {/if}

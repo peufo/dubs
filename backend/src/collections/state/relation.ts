@@ -6,10 +6,9 @@ export function createRelationFields(name = 'ports'): Field[] {
       type: 'row',
       fields: [
         {
-          name: 'state',
+          name: 'action',
           type: 'relationship',
-          relationTo: 'state',
-          required: true,
+          relationTo: 'action',
         },
         {
           name: 'required',

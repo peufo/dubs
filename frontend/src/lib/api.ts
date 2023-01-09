@@ -1,6 +1,6 @@
 import qs from 'qs'
 
-import type { Slugs, PaginatedDocs, QueryGet, QueryBase } from '../api'
+import type { Slugs, PaginatedDocs, QueryGet, QueryBase } from 'types'
 
 const baseUrl = 'http://localhost:5002/api'
 

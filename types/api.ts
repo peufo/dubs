@@ -1,10 +1,9 @@
-import { User, Resource, Product, Item } from './collections'
-import { ActionRecursivePort } from './port'
+import type { User, Action, State, Product, Item } from './collections'
 
 export interface Slugs {
   user: User
-  action: ActionRecursivePort
-  resource: Resource
+  action: Action
+  state: State
   product: Product
   item: Item
 }

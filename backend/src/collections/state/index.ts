@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload/types'
 import { LocationField } from '../../components/LocationField'
+import { createRelationFields } from './relation'
 
 export const State: CollectionConfig = {
   slug: 'state',
@@ -13,6 +14,16 @@ export const State: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
+    },
+    {
+      name: 'from',
+      type: 'group',
+      fields: createRelationFields(),
+    },
+    {
+      name: 'to',
+      type: 'group',
+      fields: createRelationFields(),
     },
     {
       name: 'product',

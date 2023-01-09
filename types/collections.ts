@@ -33,18 +33,6 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
-  inputs: {
-    state: string | State;
-    required: boolean;
-    condition?: string;
-    id?: string;
-  }[];
-  outputs: {
-    state: string | State;
-    required: boolean;
-    condition?: string;
-    id?: string;
-  }[];
   resource?: string | Resource;
   timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
   estimatedDuration?: number;
@@ -63,11 +51,42 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource".
+ */
+export interface Resource {
+  id: string;
+  name: string;
+  description?: {
+    [k: string]: unknown;
+  }[];
+  immaterial?: boolean;
+  relative?: boolean;
+  parent?: string | Resource;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location: [number, number];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "state".
  */
 export interface State {
   id: string;
   name?: string;
+  from: {
+    action?: string | Action;
+    required: boolean;
+    condition?: string;
+  };
+  to: {
+    action?: string | Action;
+    required: boolean;
+    condition?: string;
+  };
   product?: string | Product;
   /**
    * @minItems 2
@@ -117,27 +136,6 @@ export interface Product {
         blockType: 'numeric';
       }
   )[];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resource".
- */
-export interface Resource {
-  id: string;
-  name: string;
-  description?: {
-    [k: string]: unknown;
-  }[];
-  immaterial?: boolean;
-  relative?: boolean;
-  parent?: string | Resource;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location: [number, number];
   createdAt: string;
   updatedAt: string;
 }

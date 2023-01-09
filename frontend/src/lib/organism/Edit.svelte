@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { goto } from '$app/navigation'
   import qs from 'qs'
 
   import Search from '$lib/molecule/Search.svelte'
@@ -20,7 +21,7 @@
     const url = new URL(window.location.origin + window.location.pathname)
     url.searchParams.set('slug', slug)
     url.searchParams.set('id', id)
-    window.history.pushState({}, '', url)
+    goto(url)
   }
 </script>
 

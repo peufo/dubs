@@ -9,7 +9,7 @@
 <div class="flex gap-4">
   <img
     src="/logo-256.png"
-    class="hidden md:block max-h-20 rotate-12"
+    class="hidden sm:block max-h-20 rotate-12"
     alt="Logo Dubs-Apiculture"
   />
 
