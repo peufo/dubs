@@ -1,11 +1,11 @@
 import type { User, Action, State, Product, Item } from './collections'
 
-export interface Slugs {
-  user: User
-  action: Action
-  state: State
-  product: Product
-  item: Item
+export type Slugs = {
+  user: ToType<User>
+  action: ToType<Action>
+  state: ToType<State>
+  item: ToType<Item>
+  product: ToType<Product>
 }
 
 export type Operator =
@@ -21,18 +21,30 @@ export type Operator =
   | 'less_than_equal'
   | 'like'
   | 'near'
+
+type GenericObject = Record<PropertyKey, unknown>
+type NestedPaths<T extends GenericObject> = {
+  [K in keyof T]: T[K] extends GenericObject
+    ? K | `${K & string}.${NestedPaths<T[K]> & string}`
+    : K
+}[keyof T]
+interface Interface {}
+type ToType<T extends Interface> = {
+  [key in keyof T]: T[key]
+}
+
 export type WhereField = {
   [key in Operator]?: unknown
 }
 
-export type Where<T = any> = {
-  [key in keyof T]?: WhereField | Where<T>[]
+export type Where<T extends GenericObject> = {
+  [key in NestedPaths<T>]?: WhereField | Where<T>[]
 } & {
   or?: Where<T>[]
   and?: Where<T>[]
 }
 
-export type PaginatedDocs<T = any> = {
+export type PaginatedDocs<T = GenericObject> = {
   docs: T[]
   totalDocs: number
   limit: number
@@ -45,13 +57,13 @@ export type PaginatedDocs<T = any> = {
   nextPage: number | null
 }
 
-export type Sort<T = any> = keyof T | `-${string & keyof T}`
+export type Sort<T extends GenericObject> = keyof T | `-${string & keyof T}`
 
-export interface QueryBase {
-  depth: number
+export type QueryBase = {
+  depth?: number
 }
 
-export interface QueryGet<T = any> extends QueryBase {
+export type QueryGet<T extends GenericObject> = QueryBase & {
   limit?: number
   page?: number
   where?: Where<T>

@@ -31,6 +31,7 @@
     api
       .get('state', { where: { 'to.action': { equals: actionId } } })
       .then((res) => (inputs = res.docs))
+
     api
       .get('state', { where: { 'from.action': { equals: actionId } } })
       .then((res) => (outputs = res.docs))
