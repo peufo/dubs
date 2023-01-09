@@ -39,7 +39,7 @@
 
   const angles = Array(6)
     .fill(null)
-    .map((n, i) => (i + rotate) * 60)
+    .map((_, i) => (i + rotate) * 60)
   const degToRad = (angle: number) => angle * (Math.PI / 180)
   const dots = angles.map((angle) => {
     const radians = degToRad(angle)

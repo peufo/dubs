@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { State as IState } from 'types'
   import State from './State.svelte'
-  import Order from './layout/Order.svelte'
 
   export let states: IState[]
 </script>

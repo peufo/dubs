@@ -1,4 +1,11 @@
-import type { User, Action, State, Product, Item } from './collections'
+import type {
+  User,
+  Action,
+  State,
+  Product,
+  Resource,
+  Item,
+} from './collections'
 
 export type Slugs = {
   user: ToType<User>
@@ -6,6 +13,7 @@ export type Slugs = {
   state: ToType<State>
   item: ToType<Item>
   product: ToType<Product>
+  resource: ToType<Resource>
 }
 
 export type Operator =

@@ -3,7 +3,6 @@
   import debounce from 'debounce'
   import {
     mdiAlertCircleOutline,
-    mdiArrowRightThin,
     mdiDiamondStone,
     mdiEmoticonConfusedOutline,
     mdiLightningBolt,
@@ -48,27 +47,30 @@
     isLoading = true
     isError = false
     try {
-      const [resActions, resResource, resProduct] = await Promise.all([
-        api.get('action', {
-          where: { name: { like: searchValue } },
-          depth: 1,
-          limit: 5,
-        }),
-        api.get('resource', {
-          where: { name: { like: searchValue } },
-          depth: 0,
-          limit: 5,
-        }),
-        api.get('product', {
-          where: { name: { like: searchValue } },
-          depth: 0,
-          limit: 5,
-        }),
+      ;[actions, resources, products] = await Promise.all([
+        api
+          .get('action', {
+            where: { name: { like: searchValue } },
+            depth: 1,
+            limit: 5,
+          })
+          .then((res) => res.docs),
+        api
+          .get('resource', {
+            where: { name: { like: searchValue } },
+            depth: 0,
+            limit: 5,
+          })
+          .then((res) => res.docs),
+        api
+          .get('product', {
+            where: { name: { like: searchValue } },
+            depth: 0,
+            limit: 5,
+          })
+          .then((res) => res.docs),
       ])
 
-      actions = resActions.docs
-      resources = resResource.docs
-      products = resProduct.docs
       resultCount = actions.length + resources.length + products.length
     } catch (err: any) {
       isError = true
@@ -226,12 +228,6 @@
                     <div class="bg-white border px-2 py-1">
                       {action.resource.name}
                     </div>
-                    {#if typeof action.resourceTo === 'object'}
-                      <Icon path={mdiArrowRightThin} />
-                      <div class="bg-white border px-2 py-1">
-                        {action.resourceTo.name}
-                      </div>
-                    {/if}
                   </div>
                 {/if}
               </li>

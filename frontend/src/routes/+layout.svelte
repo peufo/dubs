@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from '$app/stores'
   import '../app.css'
   import Menu from '$lib/molecule/Menu.svelte'
 </script>
