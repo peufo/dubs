@@ -5,7 +5,9 @@
 {#if !reverse}
   <slot name="a" />
   <slot name="b" />
+  <slot name="c" />
 {:else}
+  <slot name="c" />
   <slot name="b" />
   <slot name="a" />
 {/if}

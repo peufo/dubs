@@ -9,8 +9,6 @@
 </script>
 
 <div>
-  <div class="border w-4 h-4 bg-white border-primary-dark rounded-full" />
-
   {#if typeof state !== 'string'}
     <div>{state.name}</div>
   {/if}
