@@ -10,9 +10,9 @@
   <Menu
     items={[
       { label: 'boutique', href: '/shop' },
-      { label: 'edit', href: '/edit' },
-      { label: 'labo', href: '/lab' },
+      { label: 'process', href: '/process' },
       { label: 'admin', href: '/admin' },
+      { label: 'labo', href: '/lab' },
     ]}
   />
 </header>
