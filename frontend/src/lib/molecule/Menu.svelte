@@ -7,7 +7,7 @@
   import MenuLines from '$lib/atom/svg/MenuLines.svelte'
   import ClickOutside from '$lib/atom/ClickOutside.svelte'
 
-  type MenuItem = { label: string; href: string }
+  type MenuItem = { label: string; href: string; external?: boolean }
 
   export let items: MenuItem[] = []
   export let size = 50
@@ -32,10 +32,9 @@
     return drawPatern(patern, [repeat(nb - 1, patern)])
   }
 
-  function drawItem({ label, href }: MenuItem): HexagonSide {
+  function drawItem(item: MenuItem): HexagonSide {
     return {
-      label,
-      href,
+      ...item,
       face: 3,
       sides: [
         {
@@ -59,7 +58,7 @@
       )
     }
 
-    // End patern
+    // Add special ending to the patern
     if (!next && !next2) drawNext.push(drawPatern([5, 3, 2, 3, 2]))
     if (next && !next2) drawNext.push(drawPatern([5, 3, 5, 3, 2, 3, 3, 2]))
 

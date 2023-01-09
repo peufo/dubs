@@ -12,6 +12,8 @@ export type HexagonProps = {
   label?: string
   /* hexagon is a link if href is defined */
   href?: string
+  external?: boolean
+
   origin?: Dot
   rotate?: FaceIndex
   permanent?: boolean

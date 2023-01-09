@@ -19,6 +19,8 @@
   export let label = ''
   /* hexagon is a link if href is defined */
   export let href = ''
+  export let external = false
+
   export let origin: Dot = { x: viewWidth / 2, y: viewHeight / 2 }
   export let rotate: FaceIndex = 0
   export let open = false
@@ -84,6 +86,7 @@
       sides={side.sides}
       label={side.label}
       href={side.href}
+      external={side.external}
       {gap}
       {maxShowDelay}
       open={side.permanent || open}
@@ -94,7 +97,7 @@
   {/each}
 {/if}
 
-<Link {href}>
+<Link {href} {external}>
   <g
     data-href={href || null}
     class="duration-300 origin-center {klass} group"
