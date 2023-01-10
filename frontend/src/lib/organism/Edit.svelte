@@ -3,7 +3,6 @@
   import { goto } from '$app/navigation'
   import qs from 'qs'
 
-  import Search from '$lib/molecule/Search.svelte'
   import Action from '$lib/molecule/Action.svelte'
 
   let slug = ''
@@ -24,8 +23,6 @@
     goto(url)
   }
 </script>
-
-<Search on:select={({ detail }) => searchSelect(detail)} />
 
 <div class="pt-8 grid items-center max-w-2xl m-auto">
   <div>

@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte'
+  import { goto } from '$app/navigation'
+
   import debounce from 'debounce'
   import {
     mdiAlertCircleOutline,
@@ -112,13 +114,16 @@
     }
   }
 
-  function toggleDialog() {
+  export function toggleDialog() {
     if (dialogElement.open) dialogElement.close()
-    else {
-      searchValue = ''
-      search()
-      dialogElement.showModal()
-    }
+    else openDialog()
+  }
+
+  export function openDialog() {
+    if (dialogElement.open) return
+    searchValue = ''
+    search()
+    dialogElement.showModal()
   }
 
   function scrollToSelected() {
@@ -143,6 +148,7 @@
     toggleDialog()
     if (index < actions.length) {
       dispatch('select', { slug: 'action', id: actions[index].id })
+      // goto(`/process/${actions[index].id}`)
       return
     }
     index -= actions.length
@@ -185,7 +191,9 @@
         />
       </label>
 
-      <kbd class="bg-primary-light text-primary text-xs px-1 rounded">ESC</kbd>
+      <kbd class="bg-primary-light text-primary-dark text-xs px-1 rounded">
+        ESC
+      </kbd>
     </header>
 
     <div
@@ -208,29 +216,31 @@
 
           <ul class="flex flex-col gap-2">
             {#each actions as action, index}
-              <li
-                on:mousemove={() => (selectedIndex = index)}
-                on:click={() => select(index)}
-                data-index={index}
-                class="
+              <a href="/process/{action.id}">
+                <li
+                  on:mousemove={() => (selectedIndex = index)}
+                  on:click={() => select(index)}
+                  data-index={index}
+                  class="
                   flex items-center
                   px-3 py-1 text-primary-dark cursor-pointer rounded
                   {selectedIndex === index
-                  ? 'bg-primary-light'
-                  : 'bg-primary/10'}
+                    ? 'bg-primary-light'
+                    : 'bg-primary/10'}
                 "
-              >
-                <div>{action.name}</div>
-                {#if typeof action.resource === 'object'}
-                  <div
-                    class="ml-auto flex items-center text-xs fill-primary-dark"
-                  >
-                    <div class="bg-white border px-2 py-1">
-                      {action.resource.name}
+                >
+                  <div>{action.name}</div>
+                  {#if typeof action.resource === 'object'}
+                    <div
+                      class="ml-auto flex items-center text-xs fill-primary-dark"
+                    >
+                      <div class="bg-white border px-2 py-1">
+                        {action.resource.name}
+                      </div>
                     </div>
-                  </div>
-                {/if}
-              </li>
+                  {/if}
+                </li>
+              </a>
             {/each}
           </ul>
         </section>
