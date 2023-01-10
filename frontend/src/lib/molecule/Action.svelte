@@ -8,24 +8,12 @@
   import { serialize } from '$lib/utils/serializeSlate'
   import Relations from '$lib/molecule/States.svelte'
 
-  export let id: string | undefined
-  export let action: Action | undefined = undefined
+  export let action: Action
 
-  $: load(id)
   //$: getStates(action?.id || id)
 
   let inputs: State[] = []
   let outputs: State[] = []
-
-  function load(actionId?: string) {
-    if (!actionId) return
-    loadAction(actionId)
-    getStates(actionId)
-  }
-
-  function loadAction(actionId: string) {
-    api.getById('action', actionId).then((res) => (action = res))
-  }
 
   function getStates(actionId: string) {
     api
@@ -50,7 +38,7 @@
       <IconButton
         class="ml-auto"
         path={mdiPencil}
-        href="/admin/collections/action/{id}"
+        href="/admin/collections/action/{action.id}"
         external
       />
     </header>

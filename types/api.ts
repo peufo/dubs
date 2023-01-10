@@ -8,12 +8,12 @@ import type {
 } from './collections'
 
 export type Slugs = {
-  user: ToType<User>
-  action: ToType<Action>
-  state: ToType<State>
-  item: ToType<Item>
-  product: ToType<Product>
-  resource: ToType<Resource>
+  user: User
+  action: Action
+  state: State
+  item: Item
+  product: Product
+  resource: Resource
 }
 
 export type Operator =
@@ -45,8 +45,8 @@ export type WhereField = {
   [key in Operator]?: unknown
 }
 
-export type Where<T extends GenericObject> = {
-  [key in NestedPaths<T>]?: WhereField | Where<T>[]
+export type Where<T extends any> = {
+  [key in NestedPaths<ToType<T>>]?: WhereField | Where<T>[]
 } & {
   or?: Where<T>[]
   and?: Where<T>[]
@@ -65,13 +65,13 @@ export type PaginatedDocs<T = GenericObject> = {
   nextPage: number | null
 }
 
-export type Sort<T extends GenericObject> = keyof T | `-${string & keyof T}`
+export type Sort<T extends any> = keyof T | `-${string & keyof T}`
 
 export type QueryBase = {
   depth?: number
 }
 
-export type QueryGet<T extends GenericObject> = QueryBase & {
+export type QueryGet<T extends any> = QueryBase & {
   limit?: number
   page?: number
   where?: Where<T>
