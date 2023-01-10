@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte'
   import { goto } from '$app/navigation'
-
   import debounce from 'debounce'
   import {
     mdiAlertCircleOutline,
@@ -16,6 +15,7 @@
   import type { Slugs, Action, Resource, Product } from 'types'
   import { api } from '$lib/api'
   import Icon from '$lib/atom/Icon.svelte'
+  import ClickOutside from '$lib/atom/ClickOutside.svelte'
 
   let klass = ''
   export { klass as class }
@@ -145,10 +145,11 @@
   }
 
   function select(index: number) {
-    toggleDialog()
+    dialogElement.close()
+
     if (index < actions.length) {
       dispatch('select', { slug: 'action', id: actions[index].id })
-      // goto(`/process/${actions[index].id}`)
+      goto(`/process/${actions[index].id}`)
       return
     }
     index -= actions.length
@@ -158,6 +159,10 @@
     }
     index -= resources.length
     dispatch('select', { slug: 'product', id: products[index].id })
+  }
+
+  function handleDialogClick(event: MouseEvent) {
+    if (event.target === dialogElement) dialogElement.close()
   }
 </script>
 
@@ -172,13 +177,13 @@
   <kbd class="font-semibold text-xs">Ctrl K</kbd>
 </button>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <dialog
   bind:this={dialogElement}
-  on:click={() => dialogElement.close()}
-  class="border border-primary-dark rounded-md p-0 w-11/12 sm:w-5/6 max-w-2xl "
+  on:click={handleDialogClick}
+  on:keyup={() => {}}
+  class="border border-primary-dark rounded-md p-0 w-11/12 sm:w-5/6 max-w-2xl"
 >
-  <div on:click|stopPropagation class="flex flex-col">
+  <div class="flex flex-col">
     <header class="flex py-2 px-3 gap-2 items-center border-b">
       <label class="grow">
         <Icon path={mdiMagnify} class="fill-primary-dark" />
@@ -216,18 +221,17 @@
 
           <ul class="flex flex-col gap-2">
             {#each actions as action, index}
-              <a href="/process/{action.id}">
-                <li
+              <li data-index={index}>
+                <a
+                  href="/process/{action.id}"
                   on:mousemove={() => (selectedIndex = index)}
-                  on:click={() => select(index)}
-                  data-index={index}
+                  on:click={() => dialogElement.close()}
                   class="
-                  flex items-center
-                  px-3 py-1 text-primary-dark cursor-pointer rounded
-                  {selectedIndex === index
+                    flex items-center px-3 py-1 text-primary-dark cursor-pointer rounded
+                    {selectedIndex === index
                     ? 'bg-primary-light'
                     : 'bg-primary/10'}
-                "
+                  "
                 >
                   <div>{action.name}</div>
                   {#if typeof action.resource === 'object'}
@@ -239,8 +243,8 @@
                       </div>
                     </div>
                   {/if}
-                </li>
-              </a>
+                </a>
+              </li>
             {/each}
           </ul>
         </section>
@@ -263,11 +267,11 @@
                 on:click={() => select(index + actions.length)}
                 data-index={index + actions.length}
                 class="
-                  px-3 py-1 text-primary-dark cursor-pointer border
-                  {selectedIndex === index + actions.length
+                    px-3 py-1 text-primary-dark cursor-pointer border
+                    {selectedIndex === index + actions.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
-                "
+                  "
               >
                 {resource.name}
               </li>
@@ -295,11 +299,11 @@
                   select(index + actions.length + resources.length)}
                 data-index={index + actions.length + resources.length}
                 class="
-                  px-3 py-1 text-primary-dark cursor-pointer rounded-full
-                  {selectedIndex === index + actions.length + resources.length
+                    px-3 py-1 text-primary-dark cursor-pointer rounded-full
+                    {selectedIndex === index + actions.length + resources.length
                   ? 'bg-primary-light'
                   : 'bg-primary/10'}
-                "
+                  "
               >
                 {product.name}
               </li>

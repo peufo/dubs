@@ -8,8 +8,7 @@
   let search: Search
 
   onMount(() => {
-    if ($page.route.id !== '/process') return
-    search.openDialog()
+    if ($page.route.id === '/process') search.openDialog()
   })
 </script>
 
