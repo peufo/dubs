@@ -14,7 +14,7 @@ export function createRelationField(port: Port): Field {
     name: port,
     type: 'array',
     hooks: {
-      afterChange: [ensureRelation(port)],
+      beforeChange: [ensureRelation(port)],
     },
     fields: [
       {
@@ -65,12 +65,12 @@ export function createRelationField(port: Port): Field {
 }
 
 function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
-  return async ({ value, previousValue, originalDoc }) => {
-    // TODO: handle remove relation
+  return async ({ value, originalDoc }) => {
     // TODO: handle update relation
     // |- remove remote relation
     // |- add new remote relation
 
+    const previousValue = originalDoc[port]
     const previousIds = previousValue?.map((rel) => rel.id) || []
     const ids = value.map((rel) => rel.id)
 
@@ -90,7 +90,7 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
     }
 
     for (const rel of removed) {
-      removeRelation(originalDoc.id, port, rel)
+      removeRelation(port, rel)
     }
 
     if (added.length) console.log('added', added)
@@ -116,16 +116,12 @@ async function addRelation(
   return
 }
 
-async function removeRelation(
-  fromId: string,
-  port: Port,
-  rel: Action[Port][number]
-) {
+async function removeRelation(port: Port, rel: Action[Port][number]) {
   if (typeof rel.action !== 'string') return
   if (rel.copy) return
   const action = await getAction(rel.action)
   const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
-  action[opposite] = action[opposite].filter((rel) => rel.id !== fromId)
+  action[opposite] = action[opposite].filter(({ id }) => id !== rel.id)
   console.log('REMOVE RELATION', action[opposite])
   await updateAction(action)
 }
