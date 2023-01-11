@@ -26,6 +26,14 @@ export function createRelationField(port: Port): Field {
         name: 'action',
         type: 'relationship',
         relationTo: 'action',
+        filterOptions({ id: docId, data }) {
+          return {
+            and: [
+              { id: { not_equals: docId } },
+              { id: { not_in: data[port].map((rel) => rel.action) } },
+            ],
+          }
+        },
       },
       {
         name: 'groups',
