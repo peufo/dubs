@@ -182,3 +182,13 @@ export interface Item {
   createdAt: string;
   updatedAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doc".
+ */
+export interface Doc {
+  id: string;
+  name?: string;
+  createdAt: string;
+  updatedAt: string;
+}
