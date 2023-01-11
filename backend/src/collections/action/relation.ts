@@ -1,13 +1,14 @@
 import deepEqual from 'deep-equal'
 import type { Field } from 'payload/types'
 import payload from 'payload'
-import type { FieldHook } from 'payload/types'
+import type { FieldHook, PayloadRequest } from 'payload/types'
 
 import type { Action } from 'types'
 
 import { LocationField } from '../../components/LocationField'
 
 type Port = 'inputs' | 'outputs'
+type RequestWithFlag = PayloadRequest & { isSecondCall?: true }
 
 export function createRelationField(port: Port): Field {
   return {
@@ -50,7 +51,10 @@ export function createRelationField(port: Port): Field {
 
 function beforeChange(port: Port): FieldHook<Action, Action[Port]> {
   return async ({ value, originalDoc, req }) => {
-    // TODO: stop hook call propagation
+    // stop hook call propagation
+    if ((req as RequestWithFlag).isSecondCall) return
+    ;(req as RequestWithFlag).isSecondCall = true
+
     // TODO: handle remove relation
     // TODO: handle update relation
     // |- remove remote relation
