@@ -35,6 +35,7 @@ export interface Action {
   }[];
   inputs: {
     name?: string;
+    copy?: boolean;
     action?: string | Action;
     groups?: string;
     product?: string | Product;
@@ -47,6 +48,7 @@ export interface Action {
   }[];
   outputs: {
     name?: string;
+    copy?: boolean;
     action?: string | Action;
     groups?: string;
     product?: string | Product;
@@ -188,7 +190,14 @@ export interface Item {
  */
 export interface Doc {
   id: string;
-  name?: string;
+  a: {
+    name?: string;
+    id?: string;
+  }[];
+  b: {
+    name?: string;
+    id?: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }

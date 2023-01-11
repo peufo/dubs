@@ -1,63 +1,28 @@
-import type {
-  CollectionConfig,
-  CollectionBeforeChangeHook,
-  CollectionAfterChangeHook,
-  FieldHook,
-} from 'payload/types'
+import type { CollectionConfig, Field, FieldHook } from 'payload/types'
 
-/* Result of "payload generate:types" */
-interface IDoc {
-  id: string
-  name?: string
-  createdAt: string
-  updatedAt: string
+function createField(name: string): Field {
+  return {
+    name,
+    type: 'array',
+    hooks: {
+      afterChange: [createHook(name)],
+    },
+    fields: [
+      {
+        type: 'text',
+        name: 'name',
+      },
+    ],
+  }
 }
 
-interface IDocWithNativeFields extends IDoc {
-  _id?: string
-  __v?: number
-}
-
-function testDocType(labels: string[], doc: IDocWithNativeFields) {
-  const correct = doc && doc.id && !doc._id && !doc.__v
-  console.log(correct ? '✔️' : '❌', labels.join('\t'))
-}
-
-const fieldBeforeChange: FieldHook<IDoc> = ({ originalDoc, previousDoc }) => {
-  testDocType(['field', 'beforeChange', 'previousDoc'], previousDoc)
-  testDocType(['field', 'beforeChange', 'originalDoc'], originalDoc)
-}
-
-const fieldAfterChange: FieldHook<IDoc> = ({ originalDoc, previousDoc }) => {
-  testDocType(['field', 'afterChange', 'previousDoc'], previousDoc)
-  testDocType(['field', 'afterChange', 'originalDoc'], originalDoc)
-}
-
-const collectionBeforeChange: CollectionBeforeChangeHook<IDoc> = ({
-  originalDoc,
-}) => {
-  testDocType(['collection', 'beforeChange', 'originalDoc'], originalDoc)
-}
-const collectionAfterChange: CollectionAfterChangeHook<IDoc> = ({
-  previousDoc,
-}) => {
-  testDocType(['collection', 'afterChange', 'originalDoc'], previousDoc)
+function createHook(name: string): FieldHook {
+  return async ({ value, previousValue }) => {
+    console.log(name, { value, previousValue })
+  }
 }
 
 export const Doc: CollectionConfig = {
   slug: 'doc',
-  hooks: {
-    beforeChange: [collectionBeforeChange],
-    afterChange: [collectionAfterChange],
-  },
-  fields: [
-    {
-      name: 'name',
-      type: 'text',
-      hooks: {
-        beforeChange: [fieldBeforeChange],
-        afterChange: [fieldAfterChange],
-      },
-    },
-  ],
+  fields: [createField('a'), createField('b')],
 }

@@ -1,21 +1,20 @@
 import deepEqual from 'deep-equal'
 import type { Field } from 'payload/types'
 import payload from 'payload'
-import type { FieldHook, PayloadRequest } from 'payload/types'
+import type { FieldHook } from 'payload/types'
 
 import type { Action } from 'types'
 
 import { LocationField } from '../../components/LocationField'
 
 type Port = 'inputs' | 'outputs'
-type RequestWithFlag = PayloadRequest & { isSecondCall?: true }
 
 export function createRelationField(port: Port): Field {
   return {
     name: port,
     type: 'array',
     hooks: {
-      beforeChange: [beforeChange(port)],
+      afterChange: [ensureRelation(port)],
     },
     fields: [
       {
@@ -23,16 +22,24 @@ export function createRelationField(port: Port): Field {
         type: 'text',
       },
       {
+        name: 'copy',
+        type: 'checkbox',
+        admin: {
+          hidden: false,
+          description: 'Flag to avoid hook propagation',
+        },
+      },
+      {
         name: 'action',
         type: 'relationship',
         relationTo: 'action',
-        filterOptions({ id: docId, data }) {
-          return {
-            and: [
-              { id: { not_equals: docId } },
-              { id: { not_in: data[port].map((rel) => rel.action) } },
-            ],
-          }
+        filterOptions({ id: docId, data, siblingData }) {
+          const actionId = (siblingData as { action: string }).action
+          const relations = data[port] || []
+          const actionIds = relations
+            .map((rel) => rel.action)
+            .filter((action) => action !== actionId)
+          return { id: { not_in: [docId, ...actionIds] } }
         },
       },
       {
@@ -57,38 +64,40 @@ export function createRelationField(port: Port): Field {
   }
 }
 
-function beforeChange(port: Port): FieldHook<Action, Action[Port]> {
-  return async ({ value, originalDoc, req }) => {
-    // stop hook call propagation
-    if ((req as RequestWithFlag).isSecondCall) return
-    ;(req as RequestWithFlag).isSecondCall = true
-
+function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
+  return async ({ value, previousValue, originalDoc }) => {
     // TODO: handle remove relation
     // TODO: handle update relation
     // |- remove remote relation
     // |- add new remote relation
 
-    const original = originalDoc[port]
-    const originalIds = original?.map((rel) => rel.id) || []
-    const valueIds = value.map((rel) => rel.id)
+    const previousIds = previousValue?.map((rel) => rel.id) || []
+    const ids = value.map((rel) => rel.id)
 
-    const added = value.filter((rel) => !originalIds.includes(rel.id))
-    const removed = original?.filter((rel) => !valueIds.includes(rel.id)) || []
+    const added = value.filter((rel) => !previousIds.includes(rel.id))
+    const removed = previousValue?.filter((rel) => !ids.includes(rel.id)) || []
     const updated =
-      original
-        ?.filter((rel) => valueIds.includes(rel.id))
-        .map((rel) => ({ rel, newRel: value.find((_) => _.id === rel.id) }))
-        .filter(({ rel, newRel }) => !deepEqual(rel, newRel)) || []
+      previousValue
+        ?.filter((rel) => ids.includes(rel.id))
+        .map((previousRel) => ({
+          previousRel,
+          rel: value.find((_) => _.id === previousRel.id),
+        }))
+        .filter(({ previousRel, rel }) => !deepEqual(previousRel, rel)) || []
 
     for (const rel of added) {
-      addRelation(originalDoc._id, port, rel)
+      addRelation(originalDoc.id, port, rel)
+    }
+
+    for (const rel of removed) {
+      removeRelation(originalDoc.id, port, rel)
     }
 
     if (added.length) console.log('added', added)
     if (removed.length) console.log('removed', removed)
     if (updated.length) console.log('updated', updated)
 
-    return value
+    return value.map((rel) => ({ ...rel, copy: false }))
   }
 }
 
@@ -98,50 +107,64 @@ async function addRelation(
   rel: Action[Port][number]
 ) {
   if (typeof rel.action !== 'string') return
+  if (rel.copy) return
+  console.log('ADD RELATION')
   const action = await getAction(rel.action)
   const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
-  action[opposite].push({ ...rel, action: fromId })
-
-  console.log({ [opposite]: action[opposite] })
+  action[opposite].push({ ...rel, action: fromId, copy: true })
   await updateAction(action)
   return
 }
 
+async function removeRelation(
+  fromId: string,
+  port: Port,
+  rel: Action[Port][number]
+) {
+  if (typeof rel.action !== 'string') return
+  if (rel.copy) return
+  const action = await getAction(rel.action)
+  const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
+  action[opposite] = action[opposite].filter((rel) => rel.id !== fromId)
+  console.log('REMOVE RELATION', action[opposite])
+  await updateAction(action)
+}
+
 /** Copy relation into the linked actions */
-async function ensureRelation(
+async function ensureRelation2(
   from: string | Action,
   to: string | Action,
-  newRel: Action[Port][number]
+  rel: Action[Port][number]
 ): Promise<void> {
   const actionFrom = typeof from === 'object' ? from : await getAction(from)
   const actionTo = typeof to === 'object' ? to : await getAction(to)
 
-  let relFrom = actionFrom.outputs.find((rel) => rel.id === newRel.id)
-  let relTo = actionTo.inputs.find((rel) => rel.id === newRel.id)
+  let relFrom = actionFrom.outputs.find((rel) => rel.id === rel.id)
+  let relTo = actionTo.inputs.find((rel) => rel.id === rel.id)
 
   let diffFrom = false
   let diffTo = false
 
   if (!relFrom) {
     diffFrom = true
-    actionFrom.outputs.push(newRel)
+    actionFrom.outputs.push(rel)
   } else {
-    for (const key in newRel) {
-      if (relFrom[key] !== newRel[key]) {
+    for (const key in rel) {
+      if (relFrom[key] !== rel[key]) {
         diffFrom = true
-        relFrom[key] = newRel[key]
+        relFrom[key] = rel[key]
       }
     }
   }
 
   if (!relTo) {
     diffTo = true
-    actionTo.inputs.push(newRel)
+    actionTo.inputs.push(rel)
   } else {
-    for (const key in newRel) {
-      if (relTo[key] !== newRel[key]) {
+    for (const key in rel) {
+      if (relTo[key] !== rel[key]) {
         diffTo = true
-        relTo[key] = newRel[key]
+        relTo[key] = rel[key]
       }
     }
   }
