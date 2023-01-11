@@ -9,6 +9,10 @@
   <meta name="description" content="Processus de fabrication" />
 </svelte:head>
 
-<div class="pt-8 grid items-center max-w-2xl m-auto">
-  <Action action={data.action} />
+<div class="max-w-2xl m-auto flex flex-col gap-8 pt-8">
+  <Action
+    action={data.action}
+    inputs={data.action.inputs}
+    outputs={data.action.outputs}
+  />
 </div>

@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload/types'
 
 import { TIME_UNITS_OPTIONS } from './timeUnits'
+import { createRelationField } from './relation'
 
 export const Action: CollectionConfig = {
   slug: 'action',
@@ -13,22 +14,29 @@ export const Action: CollectionConfig = {
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-      minLength: 3,
-      maxLength: 120,
-    },
-    {
-      name: 'tags',
-      type: 'relationship',
-      relationTo: 'tag',
-      hasMany: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+          minLength: 3,
+          maxLength: 120,
+        },
+        {
+          name: 'tags',
+          type: 'relationship',
+          relationTo: 'tag',
+          hasMany: true,
+        },
+      ],
     },
     {
       name: 'description',
       type: 'richText',
     },
+    createRelationField('inputs'),
+    createRelationField('outputs'),
     {
       name: 'resource',
       type: 'relationship',

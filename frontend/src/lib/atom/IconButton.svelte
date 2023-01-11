@@ -9,11 +9,11 @@
   export let classIcon = ''
   export let classSVG = ''
   export let size = 24
-  export let padding = 12
+  export let padding = 6
 </script>
 
 <button
-  class="{klass} relative border border-primary rounded-full hover:bg-primary"
+  class="{klass} relative rounded-full hover:bg-primary"
   style="width: {size + padding}px; height: {size + padding}px;"
   on:click
   on:dblclick

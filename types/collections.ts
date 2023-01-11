@@ -11,158 +11,174 @@ export interface Config {}
  * via the `definition` "users".
  */
 export interface User {
-  id: string
-  name: string
-  role: 'admin' | 'editor' | 'user'
-  email?: string
-  resetPasswordToken?: string
-  resetPasswordExpiration?: string
-  loginAttempts?: number
-  lockUntil?: string
-  createdAt: string
-  updatedAt: string
+  id: string;
+  name: string;
+  role: 'admin' | 'editor' | 'user';
+  email?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpiration?: string;
+  loginAttempts?: number;
+  lockUntil?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "action".
  */
 export interface Action {
-  id: string
-  name: string
-  tags?: string[] | Tag[]
+  id: string;
+  name: string;
+  tags?: string[] | Tag[];
   description?: {
-    [k: string]: unknown
-  }[]
-  resource?: string | Resource
-  timeUnit?:
-    | 'millisecond'
-    | 'second'
-    | 'minute'
-    | 'hour'
-    | 'day'
-    | 'week'
-    | 'month'
-    | 'year'
-  estimatedDuration?: number
-  createdAt: string
-  updatedAt: string
+    [k: string]: unknown;
+  }[];
+  inputs: {
+    name?: string;
+    action?: string | Action;
+    groups?: string;
+    product?: string | Product;
+    /**
+     * @minItems 2
+     * @maxItems 2
+     */
+    location?: [number, number];
+    id?: string;
+  }[];
+  outputs: {
+    name?: string;
+    action?: string | Action;
+    groups?: string;
+    product?: string | Product;
+    /**
+     * @minItems 2
+     * @maxItems 2
+     */
+    location?: [number, number];
+    id?: string;
+  }[];
+  resource?: string | Resource;
+  timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
+  estimatedDuration?: number;
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tag".
  */
 export interface Tag {
-  id: string
-  name?: string
-  createdAt: string
-  updatedAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resource".
- */
-export interface Resource {
-  id: string
-  name: string
-  description?: {
-    [k: string]: unknown
-  }[]
-  immaterial?: boolean
-  relative?: boolean
-  parent?: string | Resource
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location: [number, number]
-  createdAt: string
-  updatedAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "state".
- */
-export interface State {
-  id: string
-  name?: string
-  from: {
-    action?: string | Action
-    required: boolean
-    condition?: string
-  }
-  to: {
-    action?: string | Action
-    required: boolean
-    condition?: string
-  }
-  product?: string | Product
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location?: [number, number]
-  createdAt: string
-  updatedAt: string
+  id: string;
+  name?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product".
  */
 export interface Product {
-  id: string
-  name: string
-  tags?: string[] | Tag[]
-  unit?: string
+  id: string;
+  name: string;
+  tags?: string[] | Tag[];
+  unit?: string;
   description?: {
-    [k: string]: unknown
-  }[]
+    [k: string]: unknown;
+  }[];
   providers: {
-    url?: string
-    price?: number
-    id?: string
-  }[]
+    url?: string;
+    price?: number;
+    id?: string;
+  }[];
   variables: (
     | {
-        freeValue?: boolean
+        freeValue?: boolean;
         options: {
-          value?: string
-          id?: string
-        }[]
-        id?: string
-        blockName?: string
-        blockType: 'text'
+          value?: string;
+          id?: string;
+        }[];
+        id?: string;
+        blockName?: string;
+        blockType: 'text';
       }
     | {
-        freeValue?: boolean
-        unit?: string
+        freeValue?: boolean;
+        unit?: string;
         options: {
-          value?: number
-          id?: string
-        }[]
-        id?: string
-        blockName?: string
-        blockType: 'numeric'
+          value?: number;
+          id?: string;
+        }[];
+        id?: string;
+        blockName?: string;
+        blockType: 'numeric';
       }
-  )[]
-  createdAt: string
-  updatedAt: string
+  )[];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource".
+ */
+export interface Resource {
+  id: string;
+  name: string;
+  description?: {
+    [k: string]: unknown;
+  }[];
+  immaterial?: boolean;
+  relative?: boolean;
+  parent?: string | Resource;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location: [number, number];
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "state".
+ */
+export interface State {
+  id: string;
+  name?: string;
+  from: {
+    action?: string | Action;
+    required: boolean;
+    condition?: string;
+  };
+  to: {
+    action?: string | Action;
+    required: boolean;
+    condition?: string;
+  };
+  product?: string | Product;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location?: [number, number];
+  createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "item".
  */
 export interface Item {
-  id: string
-  product: string | Product
+  id: string;
+  product: string | Product;
   steps: {
-    action?: string | Action
-    id?: string
-  }[]
-  virtual?: boolean
+    action?: string | Action;
+    id?: string;
+  }[];
+  virtual?: boolean;
   validity: {
-    start?: string
-    end?: string
-  }
-  createdAt: string
-  updatedAt: string
+    start?: string;
+    end?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
 }

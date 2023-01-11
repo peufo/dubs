@@ -1,51 +1,49 @@
 <script lang="ts">
-  import { mdiLightningBolt, mdiPencil } from '@mdi/js'
+  import { mdiPencilOutline } from '@mdi/js'
 
   import type { Action, State } from 'types'
-  import { api } from '$lib/api'
-  import Icon from '$lib/atom/Icon.svelte'
   import IconButton from '$lib/atom/IconButton.svelte'
   import { serialize } from '$lib/utils/serializeSlate'
-  import Relations from '$lib/molecule/States.svelte'
+  import Ports from '$lib/molecule/Ports.svelte'
 
   export let action: Action
-
-  //$: getStates(action?.id || id)
-
-  let inputs: State[] = []
-  let outputs: State[] = []
-
-  function getStates(actionId: string) {
-    api
-      .get('state', { where: { 'to.action': { equals: actionId } } })
-      .then((res) => (inputs = res.docs))
-
-    api
-      .get('state', { where: { 'from.action': { equals: actionId } } })
-      .then((res) => (outputs = res.docs))
-  }
+  export let inputs: State[] = []
+  export let outputs: State[] = []
 </script>
 
 {#if !!action}
-  <Relations states={inputs} />
-
   <div
-    class="px-4 py-2 min-w-[50%] border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark"
+    class="border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark group"
   >
-    <header class="pb-2 flex">
-      <Icon path={mdiLightningBolt} classSVG="rotate-12" />
-      <span class="text-lg">{action.name}</span>
-      <IconButton
-        class="ml-auto"
-        path={mdiPencil}
-        href="/admin/collections/action/{action.id}"
-        external
-      />
-    </header>
-    {#if action.description}
-      {@html serialize(action.description)}
-    {/if}
-  </div>
+    <Ports states={inputs} type="input" />
 
-  <Relations states={outputs} />
+    <div class="px-4 py-2">
+      <header class="pb-2 flex gap-4">
+        <h3 class="text-lg">{action.name}</h3>
+        <IconButton
+          class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+          path={mdiPencilOutline}
+          href="/admin/collections/action/{action.id}"
+          external
+        />
+      </header>
+      {#if action.description}
+        {@html serialize(action.description)}
+      {/if}
+    </div>
+
+    <Ports states={outputs} type="output" />
+  </div>
 {/if}
+
+<!--
+  {#if direction === 'backward'}
+    <div class="flex justify-center items-center gap-2">
+      {#each states as { from }}
+        {#if typeof from.action === 'object'}
+          <Action action={from.action} />
+        {/if}
+      {/each}
+    </div>
+  {/if}
+-->
