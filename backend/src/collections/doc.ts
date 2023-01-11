@@ -20,7 +20,7 @@ interface IDocWithNativeFields extends IDoc {
 
 function testDocType(labels: string[], doc: IDocWithNativeFields) {
   const correct = doc && doc.id && !doc._id && !doc.__v
-  console.log(...labels, correct ? '✔️' : '❌')
+  console.log(correct ? '✔️' : '❌', labels.join('\t'))
 }
 
 const fieldBeforeChange: FieldHook<IDoc> = ({ originalDoc, previousDoc }) => {
