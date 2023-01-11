@@ -62,7 +62,12 @@ export const LocationField: React.FC<Props> = ({ path }) => {
     <div>
       <div
         ref={mapRef}
-        style={{ height: '380px', marginBottom: '2em', borderRadius: '6px' }}
+        style={{
+          height: '380px',
+          marginBottom: '2em',
+          borderRadius: '6px',
+          zIndex: 0,
+        }}
       ></div>
 
       <div style={{ display: 'flex', gap: '1em', marginBottom: '2em' }}>
