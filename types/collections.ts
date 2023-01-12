@@ -33,9 +33,9 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
+  remoteUpdate?: boolean;
   inputs: {
     name?: string;
-    copy?: boolean;
     action?: string | Action;
     groups?: string;
     product?: string | Product;
@@ -48,7 +48,6 @@ export interface Action {
   }[];
   outputs: {
     name?: string;
-    copy?: boolean;
     action?: string | Action;
     groups?: string;
     product?: string | Product;

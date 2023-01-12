@@ -1,13 +1,14 @@
 import deepEqual from 'deep-equal'
 import type { Field } from 'payload/types'
 import payload from 'payload'
-import type { FieldHook } from 'payload/types'
+import type { FieldHook, CollectionAfterChangeHook } from 'payload/types'
 
 import type { Action } from 'types'
 
 import { LocationField } from '../../components/LocationField'
 
 type Port = 'inputs' | 'outputs'
+type Relation = Action[Port][number]
 
 export function createRelationField(port: Port): Field {
   return {
@@ -20,14 +21,6 @@ export function createRelationField(port: Port): Field {
       {
         name: 'name',
         type: 'text',
-      },
-      {
-        name: 'copy',
-        type: 'checkbox',
-        admin: {
-          hidden: false,
-          description: 'Flag to avoid hook propagation',
-        },
       },
       {
         name: 'action',
@@ -65,10 +58,17 @@ export function createRelationField(port: Port): Field {
 }
 
 function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
-  return async ({ value, originalDoc }) => {
-    // TODO: handle update relation
-    // |- remove remote relation
-    // |- add new remote relation
+  const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
+
+  return async ({ value, originalDoc, data }) => {
+    // Prevent infinit execution
+    if (data.remoteUpdate) {
+      data.remoteUpdate = false
+      return value
+    }
+
+    // See: https://github.com/payloadcms/payload/discussions/1851
+    const docId = (originalDoc as Action & { _id: string })._id
 
     const previousValue = originalDoc[port]
     const previousIds = previousValue?.map((rel) => rel.id) || []
@@ -86,101 +86,65 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
         .filter(({ previousRel, rel }) => !deepEqual(previousRel, rel)) || []
 
     for (const rel of added) {
-      addRelation(originalDoc.id, port, rel)
+      await addRelation(docId, rel)
     }
 
     for (const rel of removed) {
-      removeRelation(port, rel)
+      await removeRelation(rel)
     }
 
-    if (added.length) console.log('added', added)
-    if (removed.length) console.log('removed', removed)
+    for (const { rel, previousRel } of updated) {
+      if (rel.action === previousRel.action) updateRelation(docId, rel)
+      else {
+        await removeRelation(previousRel)
+        if (rel.action) await addRelation(docId, rel)
+      }
+    }
+
     if (updated.length) console.log('updated', updated)
 
-    return value.map((rel) => ({ ...rel, copy: false }))
+    return value.map((rel) => ({ ...rel }))
+  }
+
+  async function addRelation(fromId: string, rel: Relation) {
+    console.count('ADD RELATION')
+    const remote = await getAction(rel.action)
+    remote[opposite].push({ ...rel, action: fromId })
+    return updateRemoteAction(remote)
+  }
+
+  async function removeRelation(rel: Relation) {
+    console.count('REMOVE')
+    const remote = await getAction(rel.action)
+    remote[opposite] = remote[opposite].filter(({ id }) => id !== rel.id)
+    return updateRemoteAction(remote)
+  }
+
+  async function updateRelation(fromId: string, rel: Relation) {
+    console.count('UPDATE RELATION')
+    const remote = await getAction(rel.action)
+    remote[opposite] = remote[opposite].map((r) => {
+      if (r.id !== rel.id) return r
+      return { ...rel, action: fromId }
+    })
+    return updateRemoteAction(remote)
   }
 }
 
-async function addRelation(
-  fromId: string,
-  port: Port,
-  rel: Action[Port][number]
-) {
-  if (typeof rel.action !== 'string') return
-  if (rel.copy) return
-  console.log('ADD RELATION')
-  const action = await getAction(rel.action)
-  const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
-  action[opposite].push({ ...rel, action: fromId, copy: true })
-  await updateAction(action)
-  return
-}
-
-async function removeRelation(port: Port, rel: Action[Port][number]) {
-  if (typeof rel.action !== 'string') return
-  if (rel.copy) return
-  const action = await getAction(rel.action)
-  const opposite: Port = port === 'inputs' ? 'outputs' : 'inputs'
-  action[opposite] = action[opposite].filter(({ id }) => id !== rel.id)
-  console.log('REMOVE RELATION', action[opposite])
-  await updateAction(action)
-}
-
-/** Copy relation into the linked actions */
-async function ensureRelation2(
-  from: string | Action,
-  to: string | Action,
-  rel: Action[Port][number]
-): Promise<void> {
-  const actionFrom = typeof from === 'object' ? from : await getAction(from)
-  const actionTo = typeof to === 'object' ? to : await getAction(to)
-
-  let relFrom = actionFrom.outputs.find((rel) => rel.id === rel.id)
-  let relTo = actionTo.inputs.find((rel) => rel.id === rel.id)
-
-  let diffFrom = false
-  let diffTo = false
-
-  if (!relFrom) {
-    diffFrom = true
-    actionFrom.outputs.push(rel)
-  } else {
-    for (const key in rel) {
-      if (relFrom[key] !== rel[key]) {
-        diffFrom = true
-        relFrom[key] = rel[key]
-      }
-    }
-  }
-
-  if (!relTo) {
-    diffTo = true
-    actionTo.inputs.push(rel)
-  } else {
-    for (const key in rel) {
-      if (relTo[key] !== rel[key]) {
-        diffTo = true
-        relTo[key] = rel[key]
-      }
-    }
-  }
-
-  if (diffFrom) await updateAction(actionFrom)
-  if (diffTo) await updateAction(actionTo)
-}
-
-function getAction(id: string) {
+function getAction(action: string | Action) {
+  if (typeof action === 'object') return action
   return payload.findByID<Action>({
     collection: 'action',
     depth: 0,
-    id,
+    id: action,
   })
 }
 
-function updateAction(action: Action) {
+function updateRemoteAction(action: Action) {
   return payload.update({
     collection: 'action',
+    depth: 0,
     id: action.id,
-    data: action,
+    data: { ...action, remoteUpdate: true },
   })
 }

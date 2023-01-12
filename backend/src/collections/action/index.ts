@@ -12,6 +12,7 @@ export const Action: CollectionConfig = {
   access: {
     read: () => true,
   },
+
   fields: [
     {
       type: 'row',
@@ -34,6 +35,14 @@ export const Action: CollectionConfig = {
     {
       name: 'description',
       type: 'richText',
+    },
+    {
+      name: 'remoteUpdate',
+      type: 'checkbox',
+      admin: {
+        hidden: false,
+        description: 'Flag to avoid hook propagation',
+      },
     },
     createRelationField('inputs'),
     createRelationField('outputs'),
