@@ -1,7 +1,7 @@
 import deepEqual from 'deep-equal'
 import type { Field } from 'payload/types'
 import payload from 'payload'
-import type { FieldHook, CollectionAfterChangeHook } from 'payload/types'
+import type { FieldHook } from 'payload/types'
 
 import type { Action } from 'types'
 
@@ -75,7 +75,8 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
     const ids = value.map((rel) => rel.id)
 
     const added = value.filter((rel) => !previousIds.includes(rel.id))
-    const removed = previousValue?.filter((rel) => !ids.includes(rel.id)) || []
+    const removed =
+      previousValue?.filter((rel) => rel.action && !ids.includes(rel.id)) || []
     const updated =
       previousValue
         ?.filter((rel) => ids.includes(rel.id))
@@ -96,32 +97,27 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
     for (const { rel, previousRel } of updated) {
       if (rel.action === previousRel.action) updateRelation(docId, rel)
       else {
-        await removeRelation(previousRel)
+        if (previousRel.action) await removeRelation(previousRel)
         if (rel.action) await addRelation(docId, rel)
       }
     }
-
-    if (updated.length) console.log('updated', updated)
 
     return value.map((rel) => ({ ...rel }))
   }
 
   async function addRelation(fromId: string, rel: Relation) {
-    console.count('ADD RELATION')
     const remote = await getAction(rel.action)
     remote[opposite].push({ ...rel, action: fromId })
     return updateRemoteAction(remote)
   }
 
   async function removeRelation(rel: Relation) {
-    console.count('REMOVE')
     const remote = await getAction(rel.action)
     remote[opposite] = remote[opposite].filter(({ id }) => id !== rel.id)
     return updateRemoteAction(remote)
   }
 
   async function updateRelation(fromId: string, rel: Relation) {
-    console.count('UPDATE RELATION')
     const remote = await getAction(rel.action)
     remote[opposite] = remote[opposite].map((r) => {
       if (r.id !== rel.id) return r
