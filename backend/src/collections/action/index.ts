@@ -12,62 +12,86 @@ export const Action: CollectionConfig = {
   access: {
     read: () => true,
   },
-
   fields: [
     {
-      type: 'row',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'name',
-          type: 'text',
-          required: true,
-          minLength: 3,
-          maxLength: 120,
+          label: 'Général',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                  minLength: 3,
+                  maxLength: 120,
+                },
+                {
+                  name: 'tags',
+                  type: 'relationship',
+                  relationTo: 'tag',
+                  hasMany: true,
+                },
+              ],
+            },
+            {
+              name: 'description',
+              type: 'richText',
+            },
+          ],
         },
         {
-          name: 'tags',
-          type: 'relationship',
-          relationTo: 'tag',
-          hasMany: true,
+          label: 'Relations',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                createRelationField('inputs'),
+                createRelationField('outputs'),
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Détails',
+          fields: [
+            {
+              name: 'resource',
+              type: 'relationship',
+              relationTo: 'resource',
+            },
+            {
+              label: 'Temporalité',
+              type: 'collapsible',
+              fields: [
+                {
+                  name: 'timeUnit',
+                  label: 'Unité de temps',
+                  type: 'select',
+                  options: TIME_UNITS_OPTIONS,
+                },
+                {
+                  name: 'estimatedDuration',
+                  label: 'Durée éstimé',
+                  type: 'number',
+                  min: 0,
+                },
+              ],
+            },
+          ],
         },
       ],
-    },
-    {
-      name: 'description',
-      type: 'richText',
     },
     {
       name: 'remoteUpdate',
       type: 'checkbox',
       admin: {
-        hidden: false,
+        hidden: true,
         description: 'Flag to avoid hook propagation',
       },
-    },
-    createRelationField('inputs'),
-    createRelationField('outputs'),
-    {
-      name: 'resource',
-      type: 'relationship',
-      relationTo: 'resource',
-    },
-    {
-      label: 'Temporalité',
-      type: 'collapsible',
-      fields: [
-        {
-          name: 'timeUnit',
-          label: 'Unité de temps',
-          type: 'select',
-          options: TIME_UNITS_OPTIONS,
-        },
-        {
-          name: 'estimatedDuration',
-          label: 'Durée éstimé',
-          type: 'number',
-          min: 0,
-        },
-      ],
     },
   ],
 }

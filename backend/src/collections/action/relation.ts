@@ -35,23 +35,33 @@ export function createRelationField(port: Port): Field {
           return { id: { not_in: [docId, ...actionIds] } }
         },
       },
+
       {
-        name: 'groups',
-        type: 'text',
-      },
-      {
-        name: 'product',
-        type: 'relationship',
-        relationTo: 'product',
-      },
-      {
-        name: 'location',
-        type: 'point',
+        type: 'collapsible',
+        label: 'details',
         admin: {
-          components: {
-            Field: LocationField,
-          },
+          initCollapsed: true,
         },
+        fields: [
+          {
+            name: 'groups',
+            type: 'text',
+          },
+          {
+            name: 'product',
+            type: 'relationship',
+            relationTo: 'product',
+          },
+          {
+            name: 'location',
+            type: 'point',
+            admin: {
+              components: {
+                Field: LocationField,
+              },
+            },
+          },
+        ],
       },
     ],
   }
