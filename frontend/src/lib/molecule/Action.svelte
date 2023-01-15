@@ -1,21 +1,19 @@
 <script lang="ts">
   import { mdiPencilOutline } from '@mdi/js'
 
-  import type { Action, State } from 'types'
+  import type { Action } from 'types'
   import IconButton from '$lib/atom/IconButton.svelte'
   import { serialize } from '$lib/utils/serializeSlate'
-  import Ports from '$lib/molecule/Ports.svelte'
+  import Relations from '$lib/molecule/Relations.svelte'
 
   export let action: Action
-  export let inputs: State[] = []
-  export let outputs: State[] = []
 </script>
 
 {#if !!action}
   <div
     class="border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark group"
   >
-    <Ports states={inputs} type="input" />
+    <Relations relations={action.inputs} type="input" />
 
     <div class="px-4 py-2">
       <header class="pb-2 flex gap-4">
@@ -32,7 +30,7 @@
       {/if}
     </div>
 
-    <Ports states={outputs} type="output" />
+    <Relations relations={action.outputs} type="output" />
   </div>
 {/if}
 

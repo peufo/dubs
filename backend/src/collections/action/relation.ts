@@ -3,12 +3,9 @@ import type { Field } from 'payload/types'
 import payload from 'payload'
 import type { FieldHook } from 'payload/types'
 
-import type { Action } from 'types'
+import type { Action, Port, Relation } from 'types'
 
 import { LocationField } from '../../components/LocationField'
-
-type Port = 'inputs' | 'outputs'
-type Relation = Action[Port][number]
 
 export function createRelationField(port: Port): Field {
   return {
@@ -35,7 +32,6 @@ export function createRelationField(port: Port): Field {
           return { id: { not_in: [docId, ...actionIds] } }
         },
       },
-
       {
         type: 'collapsible',
         label: 'details',
@@ -107,8 +103,8 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
     for (const { rel, previousRel } of updated) {
       if (rel.action === previousRel.action) updateRelation(docId, rel)
       else {
-        if (previousRel.action) await removeRelation(previousRel)
-        if (rel.action) await addRelation(docId, rel)
+        await removeRelation(previousRel)
+        await addRelation(docId, rel)
       }
     }
 
@@ -116,18 +112,21 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
   }
 
   async function addRelation(fromId: string, rel: Relation) {
+    if (!rel.action) return
     const remote = await getAction(rel.action)
     remote[opposite].push({ ...rel, action: fromId })
     return updateRemoteAction(remote)
   }
 
   async function removeRelation(rel: Relation) {
+    if (!rel.action) return
     const remote = await getAction(rel.action)
     remote[opposite] = remote[opposite].filter(({ id }) => id !== rel.id)
     return updateRemoteAction(remote)
   }
 
   async function updateRelation(fromId: string, rel: Relation) {
+    if (!rel.action) return
     const remote = await getAction(rel.action)
     remote[opposite] = remote[opposite].map((r) => {
       if (r.id !== rel.id) return r

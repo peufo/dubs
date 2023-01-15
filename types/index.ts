@@ -4,7 +4,5 @@ export * from './collections'
 export * from './payload'
 export * from './api'
 
-export interface ActionWithConnections extends Action {
-  inputs: State[]
-  outputs: State[]
-}
+export type Port = 'inputs' | 'outputs'
+export type Relation = Action[Port][number]

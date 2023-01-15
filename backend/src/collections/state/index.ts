@@ -16,16 +16,6 @@ export const State: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'from',
-      type: 'group',
-      fields: createRelationFields(),
-    },
-    {
-      name: 'to',
-      type: 'group',
-      fields: createRelationFields(),
-    },
-    {
       name: 'product',
       type: 'relationship',
       relationTo: 'product',
