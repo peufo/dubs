@@ -7,13 +7,21 @@
   import Relations from '$lib/molecule/Relations.svelte'
 
   export let action: Action
+  export let inputsEl: HTMLElement[] = []
+  export let outputsEl: HTMLElement[] = []
+
+  $: console.log(inputsEl)
 </script>
 
 {#if !!action}
   <div
     class="border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark group"
   >
-    <Relations relations={action.inputs} type="input" />
+    <Relations
+      type="input"
+      bind:elements={inputsEl}
+      relations={action.inputs}
+    />
 
     <div class="px-4 py-2">
       <header class="pb-2 flex gap-4">
@@ -30,7 +38,11 @@
       {/if}
     </div>
 
-    <Relations relations={action.outputs} type="output" />
+    <Relations
+      type="output"
+      bind:elements={outputsEl}
+      relations={action.outputs}
+    />
   </div>
 {/if}
 

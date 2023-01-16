@@ -20,10 +20,6 @@
   <meta name="description" content="Processus de fabrication" />
 </svelte:head>
 
-<Actions actions={inputs} direction="backward" />
-
-<div class="max-w-2xl m-auto flex flex-col gap-8 pt-8">
-  <Action action={data.action} />
+<div class="flex flex-col gap-10 pt-6">
+  <Actions actions={[data.action]} />
 </div>
-
-<Actions actions={outputs} direction="forward" />
