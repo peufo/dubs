@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import { draggable } from '$lib/utils/draggable'
   import Connections from '$lib/molecule/connection/Connections.svelte'
+  // import Connection from '$lib/molecule/connection/Connection.svelte'
+  import { draggable } from '$lib/utils/draggable'
 
   let connections: Connections
   let containerFrom: HTMLDivElement
@@ -12,6 +13,7 @@
 
   onMount(() => {
     const handleMove = () => connections.draw()
+
     containerFrom.addEventListener('move', handleMove)
     containerTo.addEventListener('move', handleMove)
     containerFrom2.addEventListener('move', handleMove)
@@ -34,12 +36,13 @@
 />
 
 <!--
-  <Connection bind:this={connections} from={containerFrom} to={containerTo} />
+  <Connection from={containerFrom} to={containerTo} />
 -->
 
 <div class="grid place-content-center h-[1200px] gap-10">
   <div bind:this={containerFrom} use:draggable class="container drop-shadow" />
   <div bind:this={containerTo} use:draggable class="container drop-shadow" />
+
   <div bind:this={containerFrom2} use:draggable class="container drop-shadow" />
   <div bind:this={containerTo2} use:draggable class="container drop-shadow" />
 </div>

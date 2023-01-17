@@ -15,7 +15,10 @@
 
 {#if !!action}
   <div
-    class="border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark group"
+    class="
+      border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
+      group shrink-0 snap-center
+    "
   >
     <Relations
       type="input"
@@ -25,7 +28,7 @@
 
     <div class="px-4 py-2">
       <header class="pb-2 flex gap-4">
-        <h3 class="text-lg">{action.name}</h3>
+        <h3 class="text-xl">{action.name}</h3>
         <IconButton
           class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
           path={mdiPencilOutline}

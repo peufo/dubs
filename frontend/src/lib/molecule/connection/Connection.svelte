@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { getPath } from '$lib/molecule/connection/utils'
   import type { Position } from '$lib/molecule/connection/utils'
 
@@ -14,7 +13,9 @@
   export { klass as class }
 
   let d = ''
-  onMount(() => draw())
+
+  $: if (from || to) draw()
+
   export function draw() {
     d = getPath(from, to, { fromPosition, toPosition, curveIntensity })
   }

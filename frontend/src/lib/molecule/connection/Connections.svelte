@@ -16,10 +16,8 @@
   let paths: string[] = []
   onMount(() => {
     if (!window) return
-    window.addEventListener('resize', draw)
-    return () => {
-      window.removeEventListener('resize', draw)
-    }
+
+    return () => {}
   })
 
   $: if (from || to) draw()

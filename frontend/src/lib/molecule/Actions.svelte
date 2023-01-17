@@ -24,7 +24,8 @@
 {/if}
 
 {#if actions.length}
-  <div class="flex justify-center items-center gap-2">
+  <div class="flex items-center gap-2 p-2 snap-x overflow-auto">
+    <div class="shrink-0 w-[48%]" />
     {#each actions as action, index}
       <Action
         {action}
@@ -32,6 +33,7 @@
         outputsEl={outputsEl[index]}
       />
     {/each}
+    <div class="shrink-0 w-[48%]" />
   </div>
 {/if}
 
