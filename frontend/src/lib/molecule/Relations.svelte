@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import type { Relation } from 'types'
 
   export let relations: Relation[]
@@ -18,6 +19,7 @@
       title={relation.name}
       class="border w-4 h-4 bg-white border-primary-dark rounded-full"
       bind:this={elements[index]}
+      data-id={relation.id}
     />
   {/each}
 </div>
