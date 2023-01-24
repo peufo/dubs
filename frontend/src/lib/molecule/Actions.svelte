@@ -1,12 +1,16 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
 
-  import { actionsPorts, connections } from '$lib/molecule/connection/store'
   import type { Action as IAction, Port } from 'types'
   import Action from '$lib/molecule/Action.svelte'
+  import Connections from '$lib/molecule/connection/Connections.svelte'
 
   export let actions: IAction[]
   export let direction: 'forward' | 'backward' | undefined = undefined
+  export let previousScrollEl: HTMLElement | undefined = undefined
+  export let previousPortsEl: HTMLElement[] = []
+
+  let scrollEl: HTMLElement
 
   const isObject = (v: unknown) => v && typeof v === 'object'
   const getPorts = (port: Port) => (_actions: IAction[]) =>
@@ -18,51 +22,48 @@
   $: inputs = getPorts('inputs')(actions)
   $: outputs = getPorts('outputs')(actions)
 
-  let scrollContainer: HTMLElement
+  // Recover in Action component
   let inputsEl: HTMLElement[][] = []
   let outputsEl: HTMLElement[][] = []
 
-  onMount(() => {
-    connections.update((v) => {
-      const addElement = (key: 'from' | 'to') => (el: HTMLElement) => {
-        const { id = '' } = el.dataset
-        const prev = v.get(id) || {}
-        v.set(id, { scrollContainer, ...prev, [key]: el })
-      }
-      inputsEl.flat().forEach(addElement('to'))
-      outputsEl.flat().forEach(addElement('from'))
-      return v
-    })
+  // Connections props (from self to previous)
+  let connections: Connections
+  let from: HTMLElement[]
+  let to: HTMLElement[]
 
-    actionsPorts.update((v) =>
-      v.set(scrollContainer, {
-        inputs: inputsEl.flat(),
-        outputs: outputsEl.flat(),
-      })
-    )
+  onMount(async () => {
+    await tick()
+    if (!direction || !previousScrollEl) return
+    const isForward = direction === 'forward'
+    const containerFrom = isForward ? previousScrollEl : scrollEl
+    const containerTo = isForward ? scrollEl : previousScrollEl
+    from = isForward ? previousPortsEl : outputsEl.flat()
+    to = isForward ? inputsEl.flat() : previousPortsEl
+
+    containerFrom.addEventListener('scroll', connections.draw)
+    containerTo.addEventListener('scroll', connections.draw)
+
     return () => {
-      connections.update((v) => {
-        const removeElement = (el: HTMLElement) => v.delete(el.dataset.id || '')
-        inputsEl.flat().forEach(removeElement)
-        outputsEl.flat().forEach(removeElement)
-        return v
-      })
-
-      actionsPorts.update((v) => {
-        v.delete(scrollContainer)
-        return v
-      })
+      containerFrom.removeEventListener('scroll', connections.draw)
+      containerTo.removeEventListener('scroll', connections.draw)
     }
   })
 </script>
 
+<Connections bind:this={connections} {from} {to} />
+
 {#if inputs.length && (!direction || direction === 'backward')}
-  <svelte:self actions={inputs} direction="backward" />
+  <svelte:self
+    actions={inputs}
+    direction="backward"
+    previousScrollEl={scrollEl}
+    previousPortsEl={inputsEl.flat()}
+  />
 {/if}
 
 {#if actions.length}
   <div
-    bind:this={scrollContainer}
+    bind:this={scrollEl}
     class="flex items-center gap-2 p-2 snap-x overflow-auto"
   >
     <div class="shrink-0 w-[48%]" />
@@ -80,5 +81,10 @@
 {/if}
 
 {#if outputs.length && (!direction || direction === 'forward')}
-  <svelte:self actions={outputs} direction="forward" />
+  <svelte:self
+    actions={outputs}
+    direction="forward"
+    previousScrollEl={scrollEl}
+    previousPortsEl={outputsEl.flat()}
+  />
 {/if}
