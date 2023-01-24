@@ -28,8 +28,8 @@
 
   // Connections props (from self to previous)
   let connections: Connections
-  let from: HTMLElement[]
-  let to: HTMLElement[]
+  let from: HTMLElement[] = []
+  let to: HTMLElement[] = []
 
   onMount(async () => {
     await tick()

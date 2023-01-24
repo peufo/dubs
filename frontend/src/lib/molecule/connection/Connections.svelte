@@ -34,18 +34,20 @@
   }
 </script>
 
-<svg width={1} height={1}>
-  {#each paths as d}
-    <path
-      {d}
-      fill="none"
-      stroke="black"
-      stroke-width={strokeWidth}
-      class={klass}
-      stroke-linecap="round"
-    />
-  {/each}
-</svg>
+{#if paths.length}
+  <svg width={1} height={1}>
+    {#each paths as d}
+      <path
+        {d}
+        fill="none"
+        stroke="black"
+        stroke-width={strokeWidth}
+        class={klass}
+        stroke-linecap="round"
+      />
+    {/each}
+  </svg>
+{/if}
 
 <style>
   svg {
