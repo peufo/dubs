@@ -8,6 +8,7 @@
   export let fromPosition: Position = 'center'
   export let toPosition: Position = 'center'
 
+  export let drawOnResize = false
   export let curveIntensity = 0.75
   export let strokeWidth = 2
   let klass = ''
@@ -16,8 +17,11 @@
   let paths: string[] = []
   onMount(() => {
     if (!window) return
-
-    return () => {}
+    if (!drawOnResize) return
+    window.addEventListener('resize', draw)
+    return () => {
+      window.removeEventListener('resize', draw)
+    }
   })
 
   $: if (from || to) draw()
@@ -35,12 +39,11 @@
 </script>
 
 {#if paths.length}
-  <svg width={1} height={1}>
+  <svg width={1} height={1} class="stroke-primary-dark">
     {#each paths as d}
       <path
         {d}
         fill="none"
-        stroke="black"
         stroke-width={strokeWidth}
         class={klass}
         stroke-linecap="round"

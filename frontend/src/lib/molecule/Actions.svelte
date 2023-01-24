@@ -27,7 +27,7 @@
   let outputsEl: HTMLElement[][] = []
 
   // Connections props (from self to previous)
-  let connections: Connections
+  let draw: Connections['draw']
   let from: HTMLElement[] = []
   let to: HTMLElement[] = []
 
@@ -40,17 +40,24 @@
     from = isForward ? previousPortsEl : outputsEl.flat()
     to = isForward ? inputsEl.flat() : previousPortsEl
 
-    containerFrom.addEventListener('scroll', connections.draw)
-    containerTo.addEventListener('scroll', connections.draw)
-
+    if (!draw) return
+    containerFrom.addEventListener('scroll', draw)
+    containerTo.addEventListener('scroll', draw)
     return () => {
-      containerFrom.removeEventListener('scroll', connections.draw)
-      containerTo.removeEventListener('scroll', connections.draw)
+      containerFrom.removeEventListener('scroll', draw)
+      containerTo.removeEventListener('scroll', draw)
     }
   })
 </script>
 
-<Connections bind:this={connections} {from} {to} />
+<Connections
+  bind:draw
+  {from}
+  {to}
+  fromPosition="bottom"
+  toPosition="top"
+  drawOnResize
+/>
 
 {#if inputs.length && (!direction || direction === 'backward')}
   <svelte:self
@@ -66,7 +73,7 @@
     bind:this={scrollEl}
     class="flex items-center gap-2 p-2 snap-x overflow-auto"
   >
-    <div class="shrink-0 w-[48%]" />
+    <div class="shrink-0 w-[45%]" />
 
     {#each actions as action, index}
       <Action
@@ -76,7 +83,7 @@
       />
     {/each}
 
-    <div class="shrink-0 w-[48%]" />
+    <div class="shrink-0 w-[45%]" />
   </div>
 {/if}
 

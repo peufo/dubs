@@ -10,13 +10,39 @@
 
   export let inputsEl: HTMLElement[] = []
   export let outputsEl: HTMLElement[] = []
+
+  let mouseDown = false
+
+  function mousedownHandler(event: MouseEvent) {
+    mouseDown = true
+    const origin = event.clientX
+
+    const mouseMoveHandler = (e: MouseEvent) => {
+      const delta = e.clientX - origin
+      console.log(delta)
+    }
+
+    const mouseUpHandler = () => {
+      mouseDown = false
+      document.removeEventListener('mousemove', mouseMoveHandler)
+      console.log('up')
+    }
+
+    document.addEventListener('mousemove', mouseMoveHandler)
+
+    console.log('down')
+
+    document.addEventListener('mouseup', mouseUpHandler, { once: true })
+  }
 </script>
 
 <div
+  on:mousedown={mousedownHandler}
   class="
       border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
-      group shrink-0 snap-center
+      group shrink-0 snap-center select-none
     "
+  style="cursor: {mouseDown ? 'grabbing' : 'grab'};"
 >
   <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />
 
