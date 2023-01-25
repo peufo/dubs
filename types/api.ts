@@ -16,6 +16,10 @@ export type Slugs = {
   resource: Resource
 }
 
+export type ErrorsResponse = {
+  errors: { message: string }[]
+}
+
 export type Operator =
   | 'equals'
   | 'contains'
