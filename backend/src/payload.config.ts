@@ -7,7 +7,7 @@ import { Product } from './collections/product'
 import { Item } from './collections/item'
 import { Tag } from './collections/tag'
 import { State } from './collections/state'
-import { Doc } from './collections/doc'
+import { Media } from './collections/media'
 
 import { Logo, Icon } from './components/Graphics'
 
@@ -27,7 +27,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Action, State, Resource, Product, Item, Tag, Doc],
+  collections: [Users, Action, State, Resource, Product, Item, Tag, Media],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },

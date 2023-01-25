@@ -28,9 +28,11 @@
   $: if (from || to) draw()
 
   export function draw() {
-    paths = from.map((elFrom, index) => {
-      if (!to[index]) return ''
-      return getPath(elFrom, to[index], {
+    paths = from.map((fromEl) => {
+      const id = fromEl.dataset.relationId
+      const index = to.findIndex((el) => el.dataset.relationId === id)
+      if (index === -1) return ''
+      return getPath(fromEl, to[index], {
         fromPosition,
         toPosition,
         curveIntensity,

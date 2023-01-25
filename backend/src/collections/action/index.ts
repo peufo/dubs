@@ -41,6 +41,11 @@ export const Action: CollectionConfig = {
               name: 'description',
               type: 'richText',
             },
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+            },
           ],
         },
         {

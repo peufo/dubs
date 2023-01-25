@@ -30,7 +30,7 @@
 <div
   on:mousedown={mousedownHandler}
   class="
-    border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
+    border rounded fill-primary-dark border-primary-light
     group shrink-0 select-none snap-center max-w-[95%]
   "
   class:border-primary-dark={$page.params.actionId === action.id}
@@ -38,8 +38,10 @@
 >
   <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />
 
-  <div class="px-4 py-2">
-    <header class="pb-2 flex gap-4">
+  <div>
+    <header
+      class="p-2 flex gap-4 bg-primary-light border-primary text-primary-dark"
+    >
       <h2 class="text-xl">{action.name}</h2>
       <div class="ml-auto transition-opacity translate-x-2">
         <IconButton
@@ -56,10 +58,20 @@
       </div>
     </header>
     {#if action.description}
-      <div class="pb-2">
+      <div class="p-2 pb-6">
         {@html serialize(action.description)}
       </div>
     {/if}
+    <!--
+
+      {#if typeof action.image === 'object'}
+        <img
+          src={action.image.sizes.card.url}
+          alt={action.image.title}
+          width="400"
+        />
+      {/if}
+    -->
   </div>
 
   <Relations

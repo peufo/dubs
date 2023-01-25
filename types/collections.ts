@@ -33,7 +33,7 @@ export interface Action {
   description?: {
     [k: string]: unknown;
   }[];
-  remoteUpdate?: boolean;
+  image?: string | Media;
   inputs: {
     name?: string;
     action?: string | Action;
@@ -61,6 +61,7 @@ export interface Action {
   resource?: string | Resource;
   timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
   estimatedDuration?: number;
+  remoteUpdate?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -71,6 +72,48 @@ export interface Action {
 export interface Tag {
   id: string;
   name?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  title?: string;
+  url?: string;
+  filename?: string;
+  mimeType?: string;
+  filesize?: number;
+  width?: number;
+  height?: number;
+  sizes: {
+    thumbnail: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    card: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    tablet: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -145,16 +188,6 @@ export interface Resource {
 export interface State {
   id: string;
   name?: string;
-  from: {
-    action?: string | Action;
-    required: boolean;
-    condition?: string;
-  };
-  to: {
-    action?: string | Action;
-    required: boolean;
-    condition?: string;
-  };
   product?: string | Product;
   /**
    * @minItems 2
@@ -180,23 +213,6 @@ export interface Item {
     start?: string;
     end?: string;
   };
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "doc".
- */
-export interface Doc {
-  id: string;
-  a: {
-    name?: string;
-    id?: string;
-  }[];
-  b: {
-    name?: string;
-    id?: string;
-  }[];
   createdAt: string;
   updatedAt: string;
 }

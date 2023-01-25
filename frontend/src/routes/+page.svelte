@@ -1,10 +1,3 @@
-<script lang="ts">
-  import { onMount } from 'svelte'
-
-  let mounted = false
-  onMount(() => (mounted = true))
-</script>
-
 <svelte:head>
   <meta
     name="description"
@@ -22,4 +15,17 @@
     <h3>Dubs</h3>
     <h3>Apiculture</h3>
   </div>
+</div>
+
+<div class="flex">
+  <div class="p-4 w-1/2 shrink-0 text-3xl">
+    C'est ici que tu pourras découvrir comment on produit le meilleur miel du
+    monde !
+  </div>
+
+  <img
+    class="w-1/2 rounded-l-3xl translate-x-4"
+    src="http://localhost:5002/media/IMG_9589-1-400x300.jpg"
+    alt=""
+  />
 </div>
