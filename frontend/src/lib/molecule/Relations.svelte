@@ -9,7 +9,7 @@
 
 <div
   class="
-    flex justify-center h-0 items-center gap-2 
+    flex justify-center h-0 items-center gap-2
     {type === 'input' ? '-translate-y-1/2' : 'translate-y-1/2'}
   "
 >
@@ -23,7 +23,9 @@
       bind:this={elements[index]}
       data-relation-id={relation.id}
     >
-      {(type === 'output' && relation.name) || ''}
+      {#if type === 'output' && !!relation.name}
+        {relation.name}
+      {/if}
     </div>
   {/each}
 </div>
