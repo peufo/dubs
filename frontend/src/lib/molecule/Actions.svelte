@@ -37,6 +37,7 @@
 
   onMount(async () => {
     await tick()
+    placeScrollCenter()
     if (!direction || !scrollEl || !previousScrollEl) return
 
     const containerFrom = isForward ? previousScrollEl : scrollEl
@@ -57,6 +58,12 @@
   function updatePorts() {
     from = isForward ? previousPortsEl : outputsEl.flat()
     to = isForward ? inputsEl.flat() : previousPortsEl
+  }
+
+  function placeScrollCenter() {
+    if (!scrollEl) return
+    const left = (scrollEl.scrollWidth - scrollEl.offsetWidth) / 2
+    scrollEl.scrollTo({ left, behavior: 'smooth' })
   }
 </script>
 
