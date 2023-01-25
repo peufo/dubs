@@ -4,6 +4,7 @@
   import type { Action as IAction, Port } from 'types'
   import Action from '$lib/molecule/Action.svelte'
   import Connections from '$lib/molecule/connection/Connections.svelte'
+  import { isMobile } from '$lib/stores'
 
   export let actions: IAction[]
   export let direction: 'forward' | 'backward' | undefined = undefined
@@ -33,7 +34,7 @@
 
   onMount(async () => {
     await tick()
-    if (!direction || !previousScrollEl) return
+    if (!direction || !scrollEl || !previousScrollEl) return
     const isForward = direction === 'forward'
     const containerFrom = isForward ? previousScrollEl : scrollEl
     const containerTo = isForward ? scrollEl : previousScrollEl
@@ -71,7 +72,8 @@
 {#if actions.length}
   <div
     bind:this={scrollEl}
-    class="flex items-center gap-2 p-2 snap-x overflow-auto"
+    class="flex items-center gap-2 p-2 overflow-auto scrollbar-hide"
+    class:snap-x={$isMobile}
   >
     <div class="shrink-0 w-[45%]" />
 
@@ -80,6 +82,7 @@
         {action}
         bind:inputsEl={inputsEl[index]}
         bind:outputsEl={outputsEl[index]}
+        {scrollEl}
       />
     {/each}
 
@@ -95,3 +98,15 @@
     previousPortsEl={outputsEl.flat()}
   />
 {/if}
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+</style>
