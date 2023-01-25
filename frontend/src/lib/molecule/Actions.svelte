@@ -58,8 +58,8 @@
 
   function updatePorts() {
     if (!previousScrollEl) return
-    from = isForward ? previousPortsEl : outputsEl.flat()
-    to = isForward ? inputsEl.flat() : previousPortsEl
+    from = isForward ? previousPortsEl : outputsEl.flat().filter(Boolean)
+    to = isForward ? inputsEl.flat().filter(Boolean) : previousPortsEl
     const rect = scrollEl.getBoundingClientRect()
     const previousRect = previousScrollEl.getBoundingClientRect()
     const { bottom } = isForward ? previousRect : rect
@@ -92,7 +92,7 @@
     actions={inputs}
     direction="backward"
     previousScrollEl={scrollEl}
-    previousPortsEl={inputsEl.flat()}
+    previousPortsEl={inputsEl.flat().filter(Boolean)}
   />
 {/if}
 
@@ -122,7 +122,7 @@
     actions={outputs}
     direction="forward"
     previousScrollEl={scrollEl}
-    previousPortsEl={outputsEl.flat()}
+    previousPortsEl={outputsEl.flat().filter(Boolean)}
   />
 {/if}
 
