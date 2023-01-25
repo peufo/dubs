@@ -39,7 +39,7 @@
 </script>
 
 {#if paths.length}
-  <svg width={1} height={1} class="stroke-primary-dark">
+  <svg width={10} height={10} class="stroke-primary-dark">
     {#each paths as d}
       <path
         {d}
