@@ -29,7 +29,6 @@
   // Recover in Action component
   let inputsEl: HTMLElement[][] = []
   let outputsEl: HTMLElement[][] = []
-  let actionsEl: HTMLElement[] = []
 
   // Connections props (from self to previous)
   let draw: Connections['draw']
@@ -110,7 +109,6 @@
         {action}
         bind:inputsEl={inputsEl[index]}
         bind:outputsEl={outputsEl[index]}
-        bind:element={actionsEl[index]}
         {scrollEl}
       />
     {/each}

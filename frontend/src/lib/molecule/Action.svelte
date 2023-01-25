@@ -11,32 +11,22 @@
   export let inputsEl: HTMLElement[] = []
   export let outputsEl: HTMLElement[] = []
   export let scrollEl: HTMLElement
-  export let element: HTMLElement
-
-  let mouseDown = false
 
   function mousedownHandler() {
     if ($isMobile) return
-    mouseDown = true
-
     const mouseMoveHandler = ({ movementX }: MouseEvent) => {
       scrollEl.scrollBy({ left: -movementX })
     }
-
     document.addEventListener('mousemove', mouseMoveHandler)
     document.addEventListener(
       'mouseup',
-      () => {
-        mouseDown = false
-        document.removeEventListener('mousemove', mouseMoveHandler)
-      },
+      () => document.removeEventListener('mousemove', mouseMoveHandler),
       { once: true }
     )
   }
 </script>
 
 <div
-  bind:this={element}
   on:mousedown={mousedownHandler}
   class="
       border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
