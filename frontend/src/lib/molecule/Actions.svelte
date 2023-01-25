@@ -29,12 +29,17 @@
   // Recover in Action component
   let inputsEl: HTMLElement[][] = []
   let outputsEl: HTMLElement[][] = []
+  let actionsEl: HTMLElement[] = []
 
   // Connections props (from self to previous)
   let draw: Connections['draw']
   let from: HTMLElement[] = []
   let to: HTMLElement[] = []
+  // Prevent collision
+  let fromStraight: number[] = []
+  let toStraight: number[] = []
 
+  afterNavigate(updatePorts)
   onMount(async () => {
     await tick()
     placeScrollCenter()
@@ -42,7 +47,6 @@
 
     const containerFrom = isForward ? previousScrollEl : scrollEl
     const containerTo = isForward ? scrollEl : previousScrollEl
-    updatePorts()
 
     if (!draw) return
     containerFrom.addEventListener('scroll', draw)
@@ -53,11 +57,16 @@
     }
   })
 
-  afterNavigate(updatePorts)
-
   function updatePorts() {
+    if (!previousScrollEl) return
     from = isForward ? previousPortsEl : outputsEl.flat()
     to = isForward ? inputsEl.flat() : previousPortsEl
+    const rect = scrollEl.getBoundingClientRect()
+    const previousRect = previousScrollEl.getBoundingClientRect()
+    const { bottom } = isForward ? previousRect : rect
+    const { top } = isForward ? rect : previousRect
+    fromStraight = from.map((el) => bottom - el.getBoundingClientRect().bottom)
+    toStraight = to.map((el) => el.getBoundingClientRect().top - top)
   }
 
   function placeScrollCenter() {
@@ -74,6 +83,9 @@
   fromPosition="bottom"
   toPosition="top"
   drawOnResize
+  {fromStraight}
+  {toStraight}
+  curveIntensity={1}
 />
 
 {#if inputs.length && (!direction || direction === 'backward')}
@@ -88,7 +100,7 @@
 {#if actions.length}
   <div
     bind:this={scrollEl}
-    class="flex items-center gap-2 p-2 overflow-auto scrollbar-hide"
+    class="flex items-center gap-3 p-2 overflow-auto scrollbar-hide"
     class:snap-x={$isMobile}
   >
     <div class="shrink-0 w-[45%]" />
@@ -98,6 +110,7 @@
         {action}
         bind:inputsEl={inputsEl[index]}
         bind:outputsEl={outputsEl[index]}
+        bind:element={actionsEl[index]}
         {scrollEl}
       />
     {/each}

@@ -31,23 +31,30 @@ type GetPathOptions = {
   fromPosition?: Position
   toPosition?: Position
   curveIntensity?: number
+  /** Straight line before the curve */
+  fromStraight?: number
+  /** Straight line after the curve */
+  toStraight?: number
 }
 
 export function getPath(
-  from?: HTMLElement,
-  to?: HTMLElement,
-  options?: GetPathOptions
+  from: HTMLElement,
+  to: HTMLElement,
+  {
+    fromPosition = 'bottom',
+    toPosition = 'top',
+    curveIntensity = 0.75,
+    fromStraight = 0,
+    toStraight = 0,
+  }: GetPathOptions = {}
 ): string {
   if (!from || !to) return ''
-  const fromPosition = options?.fromPosition || 'bottom'
-  const toPosition = options?.toPosition || 'top'
-  const curveIntensity = options?.curveIntensity || 0.75
 
   const posFrom = getPosition(from.getBoundingClientRect(), fromPosition)
   const posTo = getPosition(to.getBoundingClientRect(), toPosition)
 
   const width = posTo.x - posFrom.x
-  const height = posTo.y - posFrom.y
+  const height = posTo.y - posFrom.y - fromStraight - toStraight
   const left = posFrom.x
   const top = posFrom.y
 
@@ -58,5 +65,5 @@ export function getPath(
   const x = width
   const y = height
 
-  return `M ${left} ${top} c ${x1} ${y1}, ${x2} ${y2}, ${x} ${y}`
+  return `M ${left} ${top} v ${fromStraight} c ${x1} ${y1}, ${x2} ${y2}, ${x} ${y} v ${toStraight}`
 }

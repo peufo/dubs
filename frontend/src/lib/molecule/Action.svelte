@@ -11,42 +11,37 @@
   export let inputsEl: HTMLElement[] = []
   export let outputsEl: HTMLElement[] = []
   export let scrollEl: HTMLElement
+  export let element: HTMLElement
 
   let mouseDown = false
 
-  function mousedownHandler(event: MouseEvent) {
+  function mousedownHandler() {
     if ($isMobile) return
     mouseDown = true
 
-    const mouseOrigin = event.clientX
-    const scrollOrigin = scrollEl.scrollLeft
-
-    const mouseMoveHandler = (_event: MouseEvent) => {
-      const mouseDelta = _event.clientX - mouseOrigin
-      _event.offsetX
-      const left = scrollOrigin - mouseDelta
-      scrollEl.scrollBy({ left: -_event.movementX })
-    }
-
-    const mouseUpHandler = (_event: MouseEvent) => {
-      mouseDown = false
-      document.removeEventListener('mousemove', mouseMoveHandler)
+    const mouseMoveHandler = ({ movementX }: MouseEvent) => {
+      scrollEl.scrollBy({ left: -movementX })
     }
 
     document.addEventListener('mousemove', mouseMoveHandler)
-
-    document.addEventListener('mouseup', mouseUpHandler, { once: true })
+    document.addEventListener(
+      'mouseup',
+      () => {
+        mouseDown = false
+        document.removeEventListener('mousemove', mouseMoveHandler)
+      },
+      { once: true }
+    )
   }
 </script>
 
 <div
+  bind:this={element}
   on:mousedown={mousedownHandler}
   class="
       border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
       group shrink-0 select-none snap-center
     "
-  class:cursor-grab={!mouseDown}
-  class:cursor-grabbing={mouseDown}
 >
   <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />
 

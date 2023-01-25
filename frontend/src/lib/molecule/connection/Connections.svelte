@@ -7,6 +7,8 @@
   export let to: HTMLElement[]
   export let fromPosition: Position = 'center'
   export let toPosition: Position = 'center'
+  export let fromStraight: number[] = []
+  export let toStraight: number[] = []
 
   export let drawOnResize = false
   export let curveIntensity = 0.75
@@ -33,6 +35,8 @@
         fromPosition,
         toPosition,
         curveIntensity,
+        fromStraight: fromStraight[index],
+        toStraight: toStraight[index],
       })
     })
   }
