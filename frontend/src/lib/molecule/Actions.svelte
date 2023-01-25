@@ -99,7 +99,7 @@
 {#if actions.length}
   <div
     bind:this={scrollEl}
-    class="flex items-center gap-3 p-2 overflow-auto scrollbar-hide"
+    class="flex items-center gap-3 p-2 overflow-auto scrollbar-hide snap-mandatory md:snap-none"
     class:snap-x={$isMobile}
   >
     <div class="shrink-0 w-[45%]" />
