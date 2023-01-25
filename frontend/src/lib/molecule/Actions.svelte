@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte'
+  import { afterNavigate } from '$app/navigation'
 
   import type { Action as IAction, Port } from 'types'
   import Action from '$lib/molecule/Action.svelte'
@@ -10,6 +11,8 @@
   export let direction: 'forward' | 'backward' | undefined = undefined
   export let previousScrollEl: HTMLElement | undefined = undefined
   export let previousPortsEl: HTMLElement[] = []
+
+  $: isForward = direction === 'forward'
 
   let scrollEl: HTMLElement
 
@@ -35,11 +38,10 @@
   onMount(async () => {
     await tick()
     if (!direction || !scrollEl || !previousScrollEl) return
-    const isForward = direction === 'forward'
+
     const containerFrom = isForward ? previousScrollEl : scrollEl
     const containerTo = isForward ? scrollEl : previousScrollEl
-    from = isForward ? previousPortsEl : outputsEl.flat()
-    to = isForward ? inputsEl.flat() : previousPortsEl
+    updatePorts()
 
     if (!draw) return
     containerFrom.addEventListener('scroll', draw)
@@ -49,6 +51,13 @@
       containerTo.removeEventListener('scroll', draw)
     }
   })
+
+  afterNavigate(updatePorts)
+
+  function updatePorts() {
+    from = isForward ? previousPortsEl : outputsEl.flat()
+    to = isForward ? inputsEl.flat() : previousPortsEl
+  }
 </script>
 
 <Connections
