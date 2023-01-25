@@ -26,8 +26,10 @@ export function serialize(nodes: CustomTypes[]): string {
       const html = serialize(node.children as CustomTypes[])
 
       if (node.type === 'link') {
+        klass.push('underline')
         const href = escapeHtml(node.url as string)
-        return `<a href="${href}" class="${klass}">${html}</a>`
+        const target = node.newTab ? '_blank' : ''
+        return `<a href="${href}" class="${klass}" target="${target}">${html}</a>`
       }
 
       let tag = node.type || 'p'

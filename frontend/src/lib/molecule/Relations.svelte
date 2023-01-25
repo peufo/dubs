@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import type { Relation } from 'types'
 
   export let relations: Relation[]
@@ -17,9 +16,14 @@
   {#each relations as relation, index}
     <div
       title={relation.name}
-      class="border w-4 h-4 bg-white border-primary-dark rounded-full"
+      class="border bg-white border-primary-dark rounded-full text-xs"
+      class:w-2={type === 'input' || !relation.name}
+      class:h-2={type === 'input' || !relation.name}
+      class:px-1={type === 'output' && !!relation.name}
       bind:this={elements[index]}
-      data-id={relation.id}
-    />
+      data-relation-id={relation.id}
+    >
+      {(type === 'output' && relation.name) || ''}
+    </div>
   {/each}
 </div>

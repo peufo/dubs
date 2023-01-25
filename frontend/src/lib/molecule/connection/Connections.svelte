@@ -12,7 +12,6 @@
 
   export let drawOnResize = false
   export let curveIntensity = 0.75
-  export let strokeWidth = 2
   let klass = ''
   export { klass as class }
 
@@ -44,12 +43,11 @@
 
 {#if paths.length}
   <svg width={10} height={10} class="stroke-primary-dark">
-    {#each paths as d}
+    {#each paths as d, index}
       <path
         {d}
         fill="none"
-        stroke-width={strokeWidth}
-        class={klass}
+        class="stroke-2 hover:stroke-[4px] {klass}"
         stroke-linecap="round"
       />
     {/each}

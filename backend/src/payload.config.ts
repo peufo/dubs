@@ -31,4 +31,5 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },
+  cors: '*',
 })

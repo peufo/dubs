@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mdiPencilOutline } from '@mdi/js'
+  import { mdiPencilOutline, mdiSelect } from '@mdi/js'
   import { page } from '$app/stores'
 
   import type { Action } from 'types'
@@ -37,18 +37,28 @@
   class:border-2={$page.params.actionId === action.id}
 >
   <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />
+
   <div class="px-4 py-2">
     <header class="pb-2 flex gap-4">
-      <a href="/process/{action.id}" class="text-xl">{action.name}</a>
-      <IconButton
-        class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
-        path={mdiPencilOutline}
-        href="/admin/collections/action/{action.id}"
-        external
-      />
+      <h2 class="text-xl">{action.name}</h2>
+      <div class="ml-auto transition-opacity translate-x-2">
+        <IconButton
+          class="opacity-0 group-hover:opacity-100"
+          path={mdiSelect}
+          href="/process/{action.id}"
+        />
+        <IconButton
+          class="opacity-0 group-hover:opacity-100"
+          path={mdiPencilOutline}
+          href="/admin/collections/action/{action.id}"
+          external
+        />
+      </div>
     </header>
     {#if action.description}
-      {@html serialize(action.description)}
+      <div class="pb-2">
+        {@html serialize(action.description)}
+      </div>
     {/if}
   </div>
 
