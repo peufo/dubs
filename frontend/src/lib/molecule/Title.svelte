@@ -6,7 +6,7 @@
   <title>Dubs Apiculture{subtitle ? ` · ${subtitle}` : ''}</title>
 </svelte:head>
 
-<div class="flex flex-wrap gap-4 pr-32">
+<div class="p-3 flex flex-wrap gap-4 pr-32">
   <a href="/" class="hidden sm:block">
     <img
       src="/logo-256.png"

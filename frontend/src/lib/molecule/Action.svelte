@@ -30,7 +30,7 @@
   on:mousedown={mousedownHandler}
   class="
       border rounded bg-primary-light border-primary text-primary-dark fill-primary-dark
-      group shrink-0 select-none snap-center w-11/12 md:w-auto
+      group shrink-0 select-none snap-center max-w-[95%]
     "
 >
   <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />

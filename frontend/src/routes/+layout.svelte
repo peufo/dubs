@@ -2,8 +2,7 @@
   import '../app.css'
   import Menu from '$lib/molecule/Menu.svelte'
 
-  import Watermark from '$lib/atom/Watermark.svelte';
-
+  import Watermark from '$lib/atom/Watermark.svelte'
 </script>
 
 <header>
@@ -17,7 +16,7 @@
   />
 </header>
 
-<main class="p-3 min-h-screen">
-  <Watermark/>
+<main class="min-h-screen">
+  <Watermark />
   <slot />
 </main>

@@ -73,7 +73,7 @@
     },
     { face: 0, permanent: true },
     { face: 1, permanent: true },
-    { face: 2, permanent: true },
+    { face: 2, permanent: true, sides: [{ face: 2, permanent: true }] },
     { face: 5, permanent: true },
   ]
 </script>
