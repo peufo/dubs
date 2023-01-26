@@ -40,4 +40,5 @@ jobs:
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
             cp ~/dubs/.env ~/dubs/app/backend/.env
+            cd ~/dubs/app
             pnpm start
