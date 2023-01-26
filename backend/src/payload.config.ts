@@ -8,8 +8,11 @@ import { Media } from './collections/media'
 import { Logo, Icon } from './components/Graphics'
 import { Landing } from './globals/landing'
 
+require('dotenv').config()
+const dev = process.env.NODE_ENV !== 'production'
+
 export default buildConfig({
-  serverURL: `http://localhost:5002`,
+  serverURL: dev ? 'http://localhost:5002' : 'https://dubs-apiculture.ch/',
   admin: {
     user: Users.slug,
     meta: {
