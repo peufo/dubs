@@ -1,9 +1,0 @@
-{
-  "name": "dubs",
-  "scripts": {
-    "start": "pm2 startOrRestart ecosystem.config.js"
-  },
-  "dependencies": {
-    "pm2": "^5.2.2"
-  }
-}

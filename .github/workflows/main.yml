@@ -31,18 +31,13 @@ jobs:
 
       - name: Replace and restart application
         uses: appleboy/ssh-action@master
-        env:
-          MONGODB_URL: 'mongodb://localhost/dubs'
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          envs: MONGODB_URL,MONGODB_URL
           script: |
             . .profile
-            mkdir -p ~/dubs/media
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
             cd ~/dubs/app
-            pnpm start
+            pnpm run -r serve

@@ -2,12 +2,6 @@ lockfileVersion: 5.4
 
 importers:
 
-  .:
-    specifiers:
-      pm2: ^5.2.2
-    dependencies:
-      pm2: 5.2.2
-
   backend:
     specifiers:
       '@types/deep-equal': ^1.0.1
@@ -23,6 +17,7 @@ importers:
       nodemon: ^2.0.6
       npm-run-all: ^4.1.5
       payload: ^1.5.4
+      pm2: ^5.2.2
       react: ^18.2.0
       ts-node: ^9.1.1
       typescript: ^4.1.3
@@ -34,6 +29,7 @@ importers:
       leaflet: 1.9.3
       npm-run-all: 4.1.5
       payload: 1.5.4_typescript@4.9.4
+      pm2: 5.2.2
       react: 18.2.0
     devDependencies:
       '@types/deep-equal': 1.0.1
@@ -56,6 +52,7 @@ importers:
       autoprefixer: ^10.4.13
       debounce: ^1.2.1
       escape-html: ^1.0.3
+      pm2: ^5.2.2
       postcss: ^8.4.20
       qs: ^6.11.0
       slate: ^0.87.0
@@ -71,6 +68,7 @@ importers:
       autoprefixer: 10.4.13_postcss@8.4.20
       debounce: 1.2.1
       escape-html: 1.0.3
+      pm2: 5.2.2
       postcss: 8.4.20
       qs: 6.11.0
       slate: 0.87.0
