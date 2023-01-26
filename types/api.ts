@@ -1,20 +1,8 @@
-import type {
-  User,
-  Action,
-  State,
-  Product,
-  Resource,
-  Item,
-  Landing,
-} from './collections'
+import type { User, Action, Landing } from './collections'
 
 export type Slugs = {
   user: User
   action: Action
-  state: State
-  item: Item
-  product: Product
-  resource: Resource
 }
 
 export type SlugsGlobal = {

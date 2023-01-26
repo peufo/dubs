@@ -56,11 +56,13 @@ export const Action: CollectionConfig = {
         {
           label: 'Détails',
           fields: [
+            /*
             {
               name: 'resource',
               type: 'relationship',
               relationTo: 'resource',
             },
+            */
             {
               label: 'Temporalité',
               type: 'collapsible',

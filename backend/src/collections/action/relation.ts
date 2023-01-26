@@ -43,11 +43,13 @@ export function createRelationField(port: Port): Field {
             name: 'groups',
             type: 'text',
           },
+          /*
           {
             name: 'product',
             type: 'relationship',
             relationTo: 'product',
           },
+          */
           {
             name: 'location',
             type: 'point',

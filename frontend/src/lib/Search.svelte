@@ -4,15 +4,13 @@
   import debounce from 'debounce'
   import {
     mdiAlertCircleOutline,
-    mdiDiamondStone,
     mdiEmoticonConfusedOutline,
     mdiLightningBolt,
     mdiLoading,
     mdiMagnify,
-    mdiTools,
   } from '@mdi/js'
 
-  import type { Slugs, Action, Resource, Product } from 'types'
+  import type { Slugs, Action } from 'types'
   import { api } from '$lib/api'
   import Icon from '$lib/material/Icon.svelte'
 
@@ -23,8 +21,6 @@
   let wrapper: HTMLDivElement
   let searchValue = ''
   let actions: Action[] = []
-  let resources: Resource[] = []
-  let products: Product[] = []
   let selectedIndex = -1
   let resultCount = 0
   let isLoading = false
@@ -48,31 +44,14 @@
     isLoading = true
     isError = false
     try {
-      ;[actions, resources, products] = await Promise.all([
-        api
-          .get('action', {
-            where: { name: { like: searchValue } },
-            depth: 1,
-            limit: 5,
-          })
-          .then((res) => res.docs),
-        api
-          .get('resource', {
-            where: { name: { like: searchValue } },
-            depth: 0,
-            limit: 5,
-          })
-          .then((res) => res.docs),
-        api
-          .get('product', {
-            where: { name: { like: searchValue } },
-            depth: 0,
-            limit: 5,
-          })
-          .then((res) => res.docs),
-      ])
-
-      resultCount = actions.length + resources.length + products.length
+      ;(actions = await api
+        .get('action', {
+          where: { name: { like: searchValue } },
+          depth: 1,
+          limit: 20,
+        })
+        .then((res) => res.docs)),
+        (resultCount = actions.length)
     } catch (err: any) {
       isError = true
       console.error(err)
@@ -145,19 +124,9 @@
 
   function select(index: number) {
     dialogElement.close()
-
-    if (index < actions.length) {
-      dispatch('select', { slug: 'action', id: actions[index].id })
-      goto(`/process/${actions[index].id}`)
-      return
-    }
-    index -= actions.length
-    if (index < resources.length) {
-      dispatch('select', { slug: 'resource', id: resources[index].id })
-      return
-    }
-    index -= resources.length
-    dispatch('select', { slug: 'product', id: products[index].id })
+    const action = actions[index]
+    if (!action) return
+    goto(`/process/${action.id}`)
   }
 
   function handleDialogClick(event: MouseEvent) {
@@ -233,15 +202,6 @@
                   "
                 >
                   <div>{action.name}</div>
-                  {#if typeof action.resource === 'object'}
-                    <div
-                      class="ml-auto flex items-center text-xs fill-primary-dark"
-                    >
-                      <div class="bg-white border px-2 py-1">
-                        {action.resource.name}
-                      </div>
-                    </div>
-                  {/if}
                 </a>
               </li>
             {/each}
@@ -249,69 +209,7 @@
         </section>
       {/if}
 
-      <!-- Section Resources -->
-      {#if resources.length}
-        <section class="flex flex-col gap-2">
-          <div
-            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/50 backdrop-blur-sm"
-          >
-            Resources
-            <Icon path={mdiTools} class="opacity-60 ml-1" />
-          </div>
-
-          <ul class="flex flex-col gap-2">
-            {#each resources as resource, index}
-              <li
-                on:mousemove={() => (selectedIndex = index + actions.length)}
-                on:click={() => select(index + actions.length)}
-                data-index={index + actions.length}
-                class="
-                    px-3 py-1 text-primary-dark cursor-pointer border
-                    {selectedIndex === index + actions.length
-                  ? 'bg-primary-light'
-                  : 'bg-primary/10'}
-                  "
-              >
-                {resource.name}
-              </li>
-            {/each}
-          </ul>
-        </section>
-      {/if}
-
-      <!-- Section Product -->
-      {#if products.length}
-        <section class="flex flex-col gap-2">
-          <div
-            class="sticky text-lg font-semibold mt-4 pb-2 top-0 bg-white/50 backdrop-blur-sm"
-          >
-            Produits
-            <Icon path={mdiDiamondStone} class="opacity-60 ml-1" />
-          </div>
-
-          <ul class="flex flex-col gap-2">
-            {#each products as product, index}
-              <li
-                on:mousemove={() =>
-                  (selectedIndex = index + actions.length + resources.length)}
-                on:click={() =>
-                  select(index + actions.length + resources.length)}
-                data-index={index + actions.length + resources.length}
-                class="
-                    px-3 py-1 text-primary-dark cursor-pointer rounded-full
-                    {selectedIndex === index + actions.length + resources.length
-                  ? 'bg-primary-light'
-                  : 'bg-primary/10'}
-                  "
-              >
-                {product.name}
-              </li>
-            {/each}
-          </ul>
-        </section>
-      {/if}
-
-      {#if !actions.length && !resources.length && !products.length}
+      {#if !actions.length}
         <div class="grid place-content-center h-full opacity-70 text-center">
           {#if isLoading}
             <Icon

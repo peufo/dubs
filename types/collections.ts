@@ -103,7 +103,6 @@ export interface Action {
     name?: string;
     action?: string | Action;
     groups?: string;
-    product?: string | Product;
     /**
      * @minItems 2
      * @maxItems 2
@@ -115,7 +114,6 @@ export interface Action {
     name?: string;
     action?: string | Action;
     groups?: string;
-    product?: string | Product;
     /**
      * @minItems 2
      * @maxItems 2
@@ -123,7 +121,6 @@ export interface Action {
     location?: [number, number];
     id?: string;
   }[];
-  resource?: string | Resource;
   timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
   estimatedDuration?: number;
   remoteUpdate?: boolean;
@@ -137,105 +134,6 @@ export interface Action {
 export interface Tag {
   id: string;
   name?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product".
- */
-export interface Product {
-  id: string;
-  name: string;
-  tags?: string[] | Tag[];
-  unit?: string;
-  description?: {
-    [k: string]: unknown;
-  }[];
-  providers: {
-    url?: string;
-    price?: number;
-    id?: string;
-  }[];
-  variables: (
-    | {
-        freeValue?: boolean;
-        options: {
-          value?: string;
-          id?: string;
-        }[];
-        id?: string;
-        blockName?: string;
-        blockType: 'text';
-      }
-    | {
-        freeValue?: boolean;
-        unit?: string;
-        options: {
-          value?: number;
-          id?: string;
-        }[];
-        id?: string;
-        blockName?: string;
-        blockType: 'numeric';
-      }
-  )[];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resource".
- */
-export interface Resource {
-  id: string;
-  name: string;
-  description?: {
-    [k: string]: unknown;
-  }[];
-  immaterial?: boolean;
-  relative?: boolean;
-  parent?: string | Resource;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location: [number, number];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "state".
- */
-export interface State {
-  id: string;
-  name?: string;
-  product?: string | Product;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  location?: [number, number];
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "item".
- */
-export interface Item {
-  id: string;
-  product: string | Product;
-  steps: {
-    action?: string | Action;
-    id?: string;
-  }[];
-  virtual?: boolean;
-  validity: {
-    start?: string;
-    end?: string;
-  };
   createdAt: string;
   updatedAt: string;
 }
