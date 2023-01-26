@@ -1,14 +1,10 @@
 import { buildConfig } from 'payload/config'
 import path from 'path'
-import { Users } from './collections/user'
-import { Resource } from './collections/resource'
-import { Action } from './collections/action'
-import { Product } from './collections/product'
-import { Item } from './collections/item'
-import { Tag } from './collections/tag'
-import { State } from './collections/state'
-import { Media } from './collections/media'
 
+import { Users } from './collections/user'
+import { Action } from './collections/action'
+import { Tag } from './collections/tag'
+import { Media } from './collections/media'
 import { Logo, Icon } from './components/Graphics'
 import { Landing } from './globals/landing'
 
@@ -28,7 +24,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Action, State, Resource, Product, Item, Tag, Media],
+  collections: [Users, Action, Tag, Media],
   globals: [Landing],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
