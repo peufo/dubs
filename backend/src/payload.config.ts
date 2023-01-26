@@ -8,7 +8,6 @@ import { Media } from './collections/media'
 import { Logo, Icon } from './components/Graphics'
 import { Landing } from './globals/landing'
 
-require('dotenv').config()
 const dev = process.env.NODE_ENV !== 'production'
 
 export default buildConfig({
