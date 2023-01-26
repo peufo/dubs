@@ -17,10 +17,12 @@
   </div>
 </div>
 
-<div class="flex flex-col mt-10 gap-6 max-w-2xl m-auto">
-  <div class="flex">
-    <div class="px-4 text-lg">
-      <div class="pb-2">Bienvenu, 🙋‍♀️</div>
+<div
+  class="flex flex-col mt-10 gap-12 text-lg sm:text-xl sm:gap-8 max-w-2xl m-auto"
+>
+  <div class="flex gap-6 sm:gap-10">
+    <div class="ml-4 sm:ml-0">
+      <div class="pb-2 text-2xl">Bienvenu, 🙋‍♀️</div>
       <p>
         C'est ici que tu pourras découvrir comment on produit le meilleur miel
         du monde !
@@ -35,14 +37,15 @@
     />
   </div>
 
-  <div class="flex">
+  <div class="flex gap-6 sm:gap-10">
     <div
       class="
-        h-48 w-44 sm:h-72 sm:w-64 sm:rounded-2xl -translate-y-1/4 sm:-translate-y-1/4
+        h-48 w-44
+        sm:h-72 sm:w-64 sm:rounded-2xl sm:-translate-y-1/4
         bg-[url('/media/IMG_9589-1-400x300.jpg')] bg-cover shrink-0 rounded-r-2xl
       "
     />
-    <div class="px-4 text-lg">
+    <div class="mr-4 sm:mr-0">
       <p>
         Nous somme une équipe de choque constituer de Pierre, Paule, Juaque.
       </p>
