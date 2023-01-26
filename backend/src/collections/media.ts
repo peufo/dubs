@@ -1,5 +1,8 @@
 import { CollectionConfig } from 'payload/types'
 
+require('dotenv').config()
+const dev = process.env.NODE_ENV !== 'production'
+
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
@@ -11,7 +14,7 @@ export const Media: CollectionConfig = {
   fields: [{ type: 'text', name: 'title' }],
   upload: {
     staticURL: '/media',
-    staticDir: '../media',
+    staticDir: dev ? '../media' : '~/dubs/media',
     imageSizes: [
       {
         name: 'thumbnail',
