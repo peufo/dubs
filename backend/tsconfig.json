@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "rootDirs": ["./src", "../types"],
+    "outDir": "./build",
     "baseUrl": ".",
     "paths": {
       "types": ["../types"]
@@ -11,8 +12,6 @@
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
     "jsx": "react"
   },
   "include": ["src"],

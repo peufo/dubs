@@ -1,4 +1,4 @@
-import type { Action, State } from './collections'
+import type { Action } from './collections'
 
 export * from './collections'
 export * from './payload'

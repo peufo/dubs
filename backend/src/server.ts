@@ -18,9 +18,11 @@ payload.init({
   },
 })
 
+// Sert le frontend
 if (dev) {
-  // Sert le frontend
   app.use('/', proxy('http://localhost:5173'))
+} else {
+  app.use('/', proxy('http://localhost:3000'))
 }
 
 app.listen(port)

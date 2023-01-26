@@ -1,0 +1,43 @@
+name: Dubs apiculture CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    environment: Nestor - clients
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run -r build
+
+      - name: Copy source on host
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: ./
+          target: ~/dubs/tmp
+
+      - name: Replace old application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            mkdir -p ~/dubs/media
+            rm -rf ~/dubs/app
+            mv ~/dubs/tmp ~/dubs/app
+
+      - run: pnpm run -r serve
