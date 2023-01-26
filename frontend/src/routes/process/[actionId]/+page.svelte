@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types'
 
-  import Actions from '$lib/molecule/Actions.svelte'
+  import Actions from '$lib/Actions.svelte'
 
   export let data: PageData
 </script>

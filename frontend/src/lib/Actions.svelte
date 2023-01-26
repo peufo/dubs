@@ -3,8 +3,8 @@
   import { afterNavigate } from '$app/navigation'
 
   import type { Action as IAction, Port } from 'types'
-  import Action from '$lib/molecule/Action.svelte'
-  import Connections from '$lib/molecule/connection/Connections.svelte'
+  import Action from '$lib/Action.svelte'
+  import Connections from '$lib/connection/Connections.svelte'
   import { isMobile } from '$lib/stores'
 
   export let actions: IAction[]

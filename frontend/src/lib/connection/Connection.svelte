@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getPath } from '$lib/molecule/connection/utils'
-  import type { Position } from '$lib/molecule/connection/utils'
+  import { getPath } from '$lib/connection/utils'
+  import type { Position } from '$lib/connection/utils'
 
   export let from: HTMLElement
   export let to: HTMLElement

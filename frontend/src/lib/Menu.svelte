@@ -1,11 +1,11 @@
 <script lang="ts">
   import { beforeNavigate } from '$app/navigation'
 
-  import type { FaceIndex, HexagonSide } from '$lib/atom/svg/types'
-  import Svg from '$lib/atom/svg/Svg.svelte'
-  import Hexagon from '$lib/atom/svg/Hexagon.svelte'
-  import MenuLines from '$lib/atom/svg/MenuLines.svelte'
-  import ClickOutside from '$lib/atom/ClickOutside.svelte'
+  import type { FaceIndex, HexagonSide } from '$lib/material/svg/types'
+  import Svg from '$lib/material/svg/Svg.svelte'
+  import Hexagon from '$lib/material/svg/Hexagon.svelte'
+  import MenuLines from '$lib/material/svg/MenuLines.svelte'
+  import ClickOutside from '$lib/material/ClickOutside.svelte'
 
   type MenuItem = { label: string; href: string; external?: boolean }
 

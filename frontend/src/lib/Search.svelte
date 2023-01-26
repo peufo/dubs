@@ -14,7 +14,7 @@
 
   import type { Slugs, Action, Resource, Product } from 'types'
   import { api } from '$lib/api'
-  import Icon from '$lib/atom/Icon.svelte'
+  import Icon from '$lib/material/Icon.svelte'
 
   let klass = ''
   export { klass as class }

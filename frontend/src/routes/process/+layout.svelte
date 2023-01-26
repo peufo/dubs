@@ -2,8 +2,8 @@
   import { onMount } from 'svelte'
   import { page } from '$app/stores'
 
-  import Title from '$lib/molecule/Title.svelte'
-  import Search from '$lib/molecule/Search.svelte'
+  import Title from '$lib/Title.svelte'
+  import Search from '$lib/Search.svelte'
 
   let search: Search
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Test from '$lib/molecule/connection/Test.svelte'
+  import Test from '$lib/connection/Test.svelte'
 </script>
 
 <Test />

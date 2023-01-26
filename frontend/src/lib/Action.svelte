@@ -3,9 +3,9 @@
   import { page } from '$app/stores'
 
   import type { Action } from 'types'
-  import IconButton from '$lib/atom/IconButton.svelte'
+  import IconButton from '$lib/material/IconButton.svelte'
   import { serialize } from '$lib/utils/serializeSlate'
-  import Relations from '$lib/molecule/Relations.svelte'
+  import Relations from '$lib/Relations.svelte'
   import { isMobile } from '$lib/stores'
 
   export let action: Action

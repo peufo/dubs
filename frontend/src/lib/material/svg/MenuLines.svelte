@@ -3,7 +3,7 @@
 <script lang="ts">
   import { tweened } from 'svelte/motion'
   import { backOut } from 'svelte/easing'
-  import Line from '$lib/atom/svg/Line.svelte'
+  import Line from '$lib/material/svg/Line.svelte'
 
   export let open = false
 

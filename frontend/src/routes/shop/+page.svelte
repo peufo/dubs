@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Title from '$lib/molecule/Title.svelte'
+  import Title from '$lib/Title.svelte'
 </script>
 
 <svelte:head>

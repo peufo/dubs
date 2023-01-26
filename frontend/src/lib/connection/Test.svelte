@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import Connections from '$lib/molecule/connection/Connections.svelte'
-  // import Connection from '$lib/molecule/connection/Connection.svelte'
+  import Connections from '$lib/connection/Connections.svelte'
+  // import Connection from '$lib/connection/Connection.svelte'
   import { draggable } from '$lib/utils/draggable'
 
   let connections: Connections

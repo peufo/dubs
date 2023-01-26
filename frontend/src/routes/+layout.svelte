@@ -1,8 +1,8 @@
 <script lang="ts">
   import '../app.css'
-  import Menu from '$lib/molecule/Menu.svelte'
+  import Menu from '$lib/Menu.svelte'
 
-  import Watermark from '$lib/atom/Watermark.svelte'
+  import Watermark from '$lib/material/Watermark.svelte'
 </script>
 
 <header>
