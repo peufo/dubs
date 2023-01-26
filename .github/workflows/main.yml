@@ -40,5 +40,5 @@ jobs:
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
             cd ~/dubs/app
-            pnpm run --filter frontend serve
-            pnpm run --filter backend serve
+            pnpm run --filter ./frontend serve
+            pnpm run --filter ./backend serve
