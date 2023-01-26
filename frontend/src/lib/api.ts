@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit'
+import { dev } from '$app/environment'
 import qs from 'qs'
 
 import type {
@@ -10,7 +11,7 @@ import type {
   ErrorsResponse,
 } from 'types'
 
-const baseUrl = 'http://localhost:5002/api'
+const baseUrl = dev ? 'http://localhost:5002/api' : '/api'
 
 export const useApi = (_fetch: typeof fetch) => ({
   async get<Key extends keyof Slugs>(
