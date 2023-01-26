@@ -38,10 +38,12 @@
   let fromStraight: number[] = []
   let toStraight: number[] = []
 
-  afterNavigate(updatePorts)
+  afterNavigate(() => {
+    updatePorts()
+    placeScrollCenter()
+  })
   onMount(async () => {
     await tick()
-    placeScrollCenter()
     if (!direction || !scrollEl || !previousScrollEl) return
 
     const containerFrom = isForward ? previousScrollEl : scrollEl
@@ -99,10 +101,10 @@
 {#if actions.length}
   <div
     bind:this={scrollEl}
-    class="flex items-center gap-3 p-2 overflow-auto scrollbar-hide snap-mandatory md:snap-none"
+    class="flex items-center gap-3 p-2 overflow-x-auto scrollbar-hide snap-mandatory md:snap-none"
     class:snap-x={$isMobile}
   >
-    <div class="shrink-0 w-[45%]" />
+    <div class="shrink-0 w-[48%]" />
 
     {#each actions as action, index}
       <Action
@@ -113,7 +115,7 @@
       />
     {/each}
 
-    <div class="shrink-0 w-[45%]" />
+    <div class="shrink-0 w-[48%]" />
   </div>
 {/if}
 

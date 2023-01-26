@@ -44,8 +44,8 @@
 </script>
 
 {#if paths.length}
-  <svg width={10} height={10} class="stroke-primary-dark">
-    {#each paths as d, index}
+  <svg width={20} height={20} class="stroke-primary-dark">
+    {#each paths as d}
       <path
         {d}
         fill="none"

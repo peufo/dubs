@@ -5,6 +5,9 @@ export const Media: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
   },
+  access: {
+    read: () => true,
+  },
   fields: [{ type: 'text', name: 'title' }],
   upload: {
     staticURL: '/media',
@@ -18,12 +21,12 @@ export const Media: CollectionConfig = {
       },
       {
         name: 'card',
-        width: 768,
-        height: 1024,
+        width: 400,
+        height: null,
         position: 'centre',
       },
       {
-        name: 'tablet',
+        name: 'large',
         width: 1024,
         height: null,
         position: 'centre',

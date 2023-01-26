@@ -46,6 +46,12 @@ export const Action: CollectionConfig = {
               type: 'upload',
               relationTo: 'media',
             },
+            {
+              name: 'display',
+              type: 'select',
+              options: ['row', 'row_reverse', 'col', 'col_reverse'],
+              defaultValue: 'row',
+            },
           ],
         },
         {

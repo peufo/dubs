@@ -34,6 +34,7 @@ export interface Action {
     [k: string]: unknown;
   }[];
   image?: string | Media;
+  display?: 'row' | 'row_reverse' | 'col' | 'col_reverse';
   inputs: {
     name?: string;
     action?: string | Action;
@@ -105,7 +106,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    tablet: {
+    large: {
       url?: string;
       width?: number;
       height?: number;

@@ -1,6 +1,7 @@
 import escapeHtml from 'escape-html'
 import { Text } from 'slate'
 import type { CustomTypes } from 'slate'
+import type { Media } from 'types'
 
 export function serialize(nodes: CustomTypes[]): string {
   return nodes
@@ -20,8 +21,16 @@ export function serialize(nodes: CustomTypes[]): string {
       if (node.type === 'indent') klass.push('indent-2')
       if (node.type === 'code') klass.push('font-mono')
 
-      if (Text.isText(node))
+      if (Text.isText(node)) {
+        if (node.text === '') return '<br/>'
         return `<span class="${klass}">${escapeHtml(node.text)}</span>`
+      }
+
+      if (node.type === 'upload') {
+        const img = node.value as Media
+        const url = img.sizes.card.url
+        return `<img src="${url}" alt="${img.title}" />`
+      }
 
       const html = serialize(node.children as CustomTypes[])
 
