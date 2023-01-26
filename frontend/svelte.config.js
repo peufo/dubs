@@ -8,7 +8,9 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+      envPrefix: 'DUBS_',
+    }),
     alias: {
       $lib: './src/lib',
       types: '../types',

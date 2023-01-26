@@ -19,10 +19,7 @@ payload.init({
 })
 
 // Sert le frontend
-if (dev) {
-  app.use('/', proxy('http://localhost:5173'))
-} else {
-  app.use('/', proxy('http://localhost:3000'))
-}
+const DUBS_PORT = dev ? '5173' : process.env['DUBS_PORT'] || 3000
+app.use('/', proxy(`http://localhost:${DUBS_PORT}`))
 
 app.listen(port)
