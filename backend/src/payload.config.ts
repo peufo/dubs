@@ -10,6 +10,7 @@ import { State } from './collections/state'
 import { Media } from './collections/media'
 
 import { Logo, Icon } from './components/Graphics'
+import { Landing } from './globals/landing'
 
 export default buildConfig({
   serverURL: `http://localhost:5002`,
@@ -28,6 +29,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Action, State, Resource, Product, Item, Tag, Media],
+  globals: [Landing],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },

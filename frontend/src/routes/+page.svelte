@@ -1,3 +1,14 @@
+<script lang="ts">
+  import type { PageData } from './$types'
+  import { serialize } from '$lib/utils/serializeSlate'
+
+  export let data: PageData
+
+  const { sectionA, sectionB } = data.landing
+
+  const getPathname = (url?: string) => new URL(url || '').pathname
+</script>
+
 <svelte:head>
   <meta
     name="description"
@@ -22,34 +33,42 @@
 >
   <div class="flex gap-6 sm:gap-10">
     <div class="ml-4 sm:ml-0">
-      <div class="pb-2 text-2xl">Bienvenu, 🙋‍♀️</div>
-      <p>
-        C'est ici que tu pourras découvrir comment on produit le meilleur miel
-        du monde !
-      </p>
+      {#if sectionA.text}
+        {@html serialize(sectionA.text)}
+      {/if}
     </div>
 
-    <div
-      class="
-        h-48 w-48 sm:h-72 sm:w-72 sm:rounded-2xl
-        bg-[url('/media/IMG_9589-1-400x300.jpg')] bg-cover shrink-0 rounded-l-2xl
-      "
-    />
+    {#if typeof sectionA.image === 'object'}
+      <div
+        title={sectionA.image.title}
+        class="
+          h-48 w-48 sm:h-72 sm:w-72 sm:rounded-2xl
+          bg-cover shrink-0 rounded-l-2xl
+        "
+        style="background-image: url('{getPathname(
+          sectionA.image.sizes.card.url
+        )}')"
+      />
+    {/if}
   </div>
 
   <div class="flex gap-6 sm:gap-10">
-    <div
-      class="
-        h-48 w-44
-        sm:h-72 sm:w-64 sm:rounded-2xl sm:-translate-y-1/4
-        bg-[url('/media/IMG_9589-1-400x300.jpg')] bg-cover shrink-0 rounded-r-2xl
-      "
-    />
+    {#if typeof sectionB.image === 'object'}
+      <div
+        title={sectionB.image.title}
+        class="
+          h-48 w-44 bg-cover shrink-0 rounded-r-2xl
+          sm:h-72 sm:w-64 sm:rounded-2xl sm:-translate-y-1/4
+        "
+        style="background-image: url('{getPathname(
+          sectionB.image.sizes.card.url
+        )}')"
+      />
+    {/if}
     <div class="mr-4 sm:mr-0">
-      <p>
-        Nous somme une équipe de choque constituer de Pierre, Paule, Juaque.
-      </p>
-      <p>On fait des trucs de ouf !</p>
+      {#if sectionB.text}
+        {@html serialize(sectionB.text)}
+      {/if}
     </div>
   </div>
 </div>

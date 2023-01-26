@@ -22,8 +22,13 @@ export function serialize(nodes: CustomTypes[]): string {
       if (node.type === 'code') klass.push('font-mono')
 
       if (Text.isText(node)) {
-        if (node.text === '') return '<br/>'
-        return `<span class="${klass}">${escapeHtml(node.text)}</span>`
+        if (node.text === '') return ''
+        node.text.replaceAll('\n', '<br/>')
+        const text = node.text
+          .split('\n')
+          .map((txt) => escapeHtml(txt))
+          .join('</br>')
+        return `<p class="${klass}">${text}</p>`
       }
 
       if (node.type === 'upload') {
@@ -43,6 +48,7 @@ export function serialize(nodes: CustomTypes[]): string {
 
       let tag = node.type || 'p'
       if (node.type === 'quote') tag = 'blockquote'
+
       return `<${tag} class="${klass}">${html}</${tag}>`
     })
     .join('')

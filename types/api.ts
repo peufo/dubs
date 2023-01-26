@@ -5,6 +5,7 @@ import type {
   Product,
   Resource,
   Item,
+  Landing,
 } from './collections'
 
 export type Slugs = {
@@ -14,6 +15,10 @@ export type Slugs = {
   item: Item
   product: Product
   resource: Resource
+}
+
+export type SlugsGlobal = {
+  landing: Landing
 }
 
 export type ErrorsResponse = {
