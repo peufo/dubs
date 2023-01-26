@@ -15,6 +15,7 @@ module.exports = {
       env: {
         PAYLOAD_CONFIG_PATH: './backend/build/backend/src/payload.config.js',
         NODE_ENV: 'production',
+        MONGODB_URL: 'mongodb://localhost/dubs',
         DUBS_PORT,
       },
     },
