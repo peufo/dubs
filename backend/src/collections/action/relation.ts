@@ -113,26 +113,38 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
 
   async function addRelation(fromId: string, rel: Relation) {
     if (!rel.action) return
-    const remote = await getAction(rel.action)
-    remote[opposite].push({ ...rel, action: fromId })
-    return updateRemoteAction(remote)
+    try {
+      const remote = await getAction(rel.action)
+      remote[opposite].push({ ...rel, action: fromId })
+      return updateRemoteAction(remote)
+    } catch (error) {
+      console.log('addRelation', error)
+    }
   }
 
   async function removeRelation(rel: Relation) {
     if (!rel.action) return
-    const remote = await getAction(rel.action)
-    remote[opposite] = remote[opposite].filter(({ id }) => id !== rel.id)
-    return updateRemoteAction(remote)
+    try {
+      const remote = await getAction(rel.action)
+      remote[opposite] = remote[opposite].filter(({ id }) => id !== rel.id)
+      return updateRemoteAction(remote)
+    } catch (error) {
+      console.log('removeRelation', error)
+    }
   }
 
   async function updateRelation(fromId: string, rel: Relation) {
     if (!rel.action) return
-    const remote = await getAction(rel.action)
-    remote[opposite] = remote[opposite].map((r) => {
-      if (r.id !== rel.id) return r
-      return { ...rel, action: fromId }
-    })
-    return updateRemoteAction(remote)
+    try {
+      const remote = await getAction(rel.action)
+      remote[opposite] = remote[opposite].map((r) => {
+        if (r.id !== rel.id) return r
+        return { ...rel, action: fromId }
+      })
+      return updateRemoteAction(remote)
+    } catch (error) {
+      console.log('updateRelation', error)
+    }
   }
 }
 

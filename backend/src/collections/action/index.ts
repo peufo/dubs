@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload/types'
 
 import { TIME_UNITS_OPTIONS } from './timeUnits'
 import { createRelationField } from './relation'
+import { sections } from './sections'
 
 export const Action: CollectionConfig = {
   slug: 'action',
@@ -37,21 +38,7 @@ export const Action: CollectionConfig = {
                 },
               ],
             },
-            {
-              name: 'description',
-              type: 'richText',
-            },
-            {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
-            },
-            {
-              name: 'display',
-              type: 'select',
-              options: ['row', 'row_reverse', 'col', 'col_reverse'],
-              defaultValue: 'row',
-            },
+            sections,
           ],
         },
         {

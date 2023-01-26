@@ -91,11 +91,14 @@ export interface Action {
   id: string;
   name: string;
   tags?: string[] | Tag[];
-  description?: {
-    [k: string]: unknown;
+  sections: {
+    text?: {
+      [k: string]: unknown;
+    }[];
+    image?: string | Media;
+    layout?: 'row' | 'row_reverse' | 'col' | 'col_reverse';
+    id?: string;
   }[];
-  image?: string | Media;
-  display?: 'row' | 'row_reverse' | 'col' | 'col_reverse';
   inputs: {
     name?: string;
     action?: string | Action;
