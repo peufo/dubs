@@ -8,6 +8,7 @@ module.exports = {
         NODE_ENV: 'production',
         MONGODB_URL: 'mongodb://localhost/dubs',
         DUBS_PORT: 5004,
+        DUBS_ORIGIN: 'https://dubs-apiculture.ch/',
       },
     },
   ],
