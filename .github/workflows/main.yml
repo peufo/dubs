@@ -39,5 +39,6 @@ jobs:
             mkdir -p ~/dubs/media
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
+            cp ~/dubs/.env ~/dubs/backend/.env
 
       - run: pnpm run -r serve
