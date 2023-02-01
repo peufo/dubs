@@ -18,7 +18,7 @@ export const Media: CollectionConfig = {
   fields: [{ type: 'text', name: 'title' }],
   upload: {
     staticURL: '/media',
-    staticDir: dev ? '../media' : path.resolve(home, '/dubs/media'),
+    staticDir: dev ? '../media' : path.resolve(home, 'dubs', 'media'),
     imageSizes: [
       {
         name: 'thumbnail',
