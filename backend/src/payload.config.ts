@@ -9,9 +9,10 @@ import { Logo, Icon } from './components/Graphics'
 import { Landing } from './globals/landing'
 
 const dev = process.env.NODE_ENV !== 'production'
+const serverURL = dev ? 'http://localhost:5002' : 'https://dubs-apiculture.ch'
 
 export default buildConfig({
-  serverURL: dev ? 'http://localhost:5002' : process.env.DUBS_ORIGIN,
+  serverURL,
   admin: {
     user: Users.slug,
     meta: {
