@@ -23,6 +23,8 @@
     class="w-1/2 rotate-12 max-w-sm"
     src="/logo.png"
     alt="Logo principal miel de Coeuve"
+    width="1200"
+    height="1200"
   />
   <div class="font-semibold text-3xl sm:text-5xl">
     <h3>Dubs</h3>
