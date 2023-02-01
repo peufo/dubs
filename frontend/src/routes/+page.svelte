@@ -12,8 +12,10 @@
 <svelte:head>
   <meta
     name="description"
-    content="La famille Dubey vous propose du miel de production artisanal"
+    content="La famille Dubey vous propose du miel de production artisanal ajoulote."
   />
+
+  <title>Dubs Apiculture • Miel de Coeuve</title>
 </svelte:head>
 
 <div class="flex justify-center gap-6 md:gap-10 items-center pt-10">
