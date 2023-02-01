@@ -69,7 +69,7 @@
     { face: 3, sides: [repeat(2, [2, 3])] },
     {
       face: 4,
-      sides: [drawItem({ label: 'Acceuil', href: '/' }), nextItem(items)],
+      sides: [drawItem({ label: 'Accueil', href: '/' }), nextItem(items)],
     },
     { face: 0, permanent: true },
     { face: 1, permanent: true },

@@ -9,7 +9,7 @@
   <Menu
     items={[
       { label: 'boutique', href: '/shop' },
-      { label: 'process', href: '/process' },
+      { label: 'processus', href: '/process' },
       { label: 'admin', href: '/admin', external: true },
     ]}
   />
