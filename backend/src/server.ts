@@ -8,12 +8,6 @@ const port = process.env.PORT || 5002
 
 const app = express()
 
-// DEBUG
-app.use((req, res, next) => {
-  payload.logger.info(`${req.method}: ${req.url}`)
-  next()
-})
-
 // Initialize Payload
 payload.init({
   secret: process.env.PAYLOAD_SECRET,
