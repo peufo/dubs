@@ -15,9 +15,10 @@
   let klass = ''
   export { klass as class }
   export let style = ''
-  /* hexagon is a button if label is defined */
+
+  // Clickable props
   export let label = ''
-  /* hexagon is a link if href is defined */
+  export let icon = ''
   export let href = ''
   export let external = false
 
@@ -49,7 +50,7 @@
     }
   })
 
-  if (label) {
+  if (label && !icon) {
     const horizontalGap = Math.cos(degToRad(30)) * (gap || 0)
     const delta = rayon * 3 + 2 * horizontalGap
     dots[2].x -= delta
@@ -85,6 +86,7 @@
     <svelte:self
       sides={side.sides}
       label={side.label}
+      icon={side.icon}
       href={side.href}
       external={side.external}
       {gap}
@@ -100,7 +102,7 @@
 <Link {href} {external}>
   <g
     data-href={href || null}
-    class="duration-300 origin-center {klass} group"
+    class="relative duration-300 origin-center {klass} group"
     class:fill-primary-light={label}
     style="
       transform-origin: {origin.x}px {origin.y}px;
@@ -123,7 +125,16 @@
     />
 
     <slot />
-    {#if label}
+
+    {#if icon}
+      <path
+        d={icon}
+        style="
+        translate: {origin.x - rayonIn}px {origin.y - rayonIn}px;
+        scale: 32;
+        "
+      />
+    {:else if label}
       <Text {label} {dots} />
     {/if}
   </g>

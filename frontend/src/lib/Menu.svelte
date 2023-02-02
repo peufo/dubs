@@ -8,7 +8,12 @@
   import MenuLines from '$lib/material/svg/MenuLines.svelte'
   import ClickOutside from '$lib/material/ClickOutside.svelte'
 
-  type MenuItem = { label: string; href: string; external?: boolean }
+  type MenuItem = {
+    label: string
+    href: string
+    icon?: string
+    external?: boolean
+  }
 
   export let items: MenuItem[] = []
   export let size = 50
@@ -81,16 +86,18 @@
 
 <ClickOutside on:click_outside={() => (open = false)}>
   <Svg {size} class="fixed right-2 top-2 z-10">
-    <Hexagon
-      on:click={() => $isLargeScreen || (open = !open)}
-      open={open || $isLargeScreen}
-      class="hover:fill-primary-light cursor-pointer"
-      gap={150}
-      {sides}
-    >
-      {#if !$isLargeScreen}
+    {#if $isLargeScreen}
+      <Hexagon open gap={150} {sides} />
+    {:else}
+      <Hexagon
+        on:click={() => (open = !open)}
+        {open}
+        class="hover:fill-primary-light cursor-pointer"
+        gap={150}
+        {sides}
+      >
         <MenuLines {open} />
-      {/if}
-    </Hexagon>
+      </Hexagon>
+    {/if}
   </Svg>
 </ClickOutside>
