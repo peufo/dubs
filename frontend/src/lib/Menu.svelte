@@ -1,6 +1,7 @@
 <script lang="ts">
   import { beforeNavigate } from '$app/navigation'
 
+  import { isLargeScreen } from '$lib/stores'
   import type { FaceIndex, HexagonSide } from '$lib/material/svg/types'
   import Svg from '$lib/material/svg/Svg.svelte'
   import Hexagon from '$lib/material/svg/Hexagon.svelte'
@@ -81,13 +82,15 @@
 <ClickOutside on:click_outside={() => (open = false)}>
   <Svg {size} class="fixed right-2 top-2 z-10">
     <Hexagon
-      on:click={() => (open = !open)}
-      {open}
+      on:click={() => $isLargeScreen || (open = !open)}
+      open={open || $isLargeScreen}
       class="hover:fill-primary-light cursor-pointer"
       gap={150}
       {sides}
     >
-      <MenuLines {open} />
+      {#if !$isLargeScreen}
+        <MenuLines {open} />
+      {/if}
     </Hexagon>
   </Svg>
 </ClickOutside>
