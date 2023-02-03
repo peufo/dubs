@@ -2,6 +2,11 @@ import { GlobalConfig, Field } from 'payload/types'
 
 export const Landing: GlobalConfig = {
   slug: 'landing',
+  label: "Page d'accueil",
+  admin: {
+    // @ts-ignore
+    preview: () => '/',
+  },
   access: {
     read: () => true,
   },
