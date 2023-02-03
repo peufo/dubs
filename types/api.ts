@@ -44,6 +44,7 @@ export type WhereField = {
 }
 
 export type Where<T extends any> = {
+  //@ts-ignore
   [key in NestedPaths<ToType<T>>]?: WhereField | Where<T>[]
 } & {
   or?: Where<T>[]

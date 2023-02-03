@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, createEventDispatcher } from 'svelte'
+  import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
   import debounce from 'debounce'
   import {
@@ -10,7 +10,7 @@
     mdiMagnify,
   } from '@mdi/js'
 
-  import type { Slugs, Action } from 'types'
+  import type { Action } from 'types'
   import { api } from '$lib/api'
   import Icon from '$lib/material/Icon.svelte'
 
@@ -25,11 +25,6 @@
   let resultCount = 0
   let isLoading = false
   let isError = false
-
-  type Events = {
-    select: { slug: keyof Slugs; id: string }
-  }
-  const dispatch = createEventDispatcher<Events>()
 
   onMount(() => {
     document.addEventListener('keydown', handleShortcut)

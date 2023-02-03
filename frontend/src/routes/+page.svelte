@@ -21,10 +21,10 @@
 <div class="flex justify-center gap-6 md:gap-10 items-center pt-10">
   <img
     class="w-1/2 rotate-12 max-w-sm"
-    src="/logo.png"
+    src="/logo-500.png"
     alt="Logo principal miel de Coeuve"
-    width="1200"
-    height="1200"
+    width="500"
+    height="500"
   />
   <div class="font-semibold text-3xl sm:text-5xl">
     <h3>Dubs</h3>
