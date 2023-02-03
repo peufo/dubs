@@ -153,6 +153,7 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
 
 function getAction(action: string | Action) {
   if (typeof action === 'object') return action
+  // @ts-ignore
   return payload.findByID<Action>({
     collection: 'action',
     depth: 0,
