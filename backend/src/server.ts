@@ -15,11 +15,11 @@ payload.init({
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: http://localhost:${port}`)
+
+    // Sert le frontend
+    const DUBS_PORT = dev ? '5173' : process.env['DUBS_PORT'] || 3000
+    app.use('/', proxy(`http://localhost:${DUBS_PORT}`))
   },
 })
-
-// Sert le frontend
-const DUBS_PORT = dev ? '5173' : process.env['DUBS_PORT'] || 3000
-app.use('/', proxy(`http://localhost:${DUBS_PORT}`))
 
 app.listen(port)
