@@ -5,8 +5,8 @@
   let klass = ''
   export { klass as class }
   export let classSVG = ''
-  const viewWidth = 24
-  const viewHeight = 24
+  const viewWidth = 28
+  const viewHeight = 28
 </script>
 
 <i class="rounded-full {klass}">

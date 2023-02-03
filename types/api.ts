@@ -1,4 +1,4 @@
-import type { User, Action, Landing } from './collections'
+import type { User, Action, Landing, Footer } from './collections'
 
 export type Slugs = {
   user: User
@@ -7,6 +7,7 @@ export type Slugs = {
 
 export type SlugsGlobal = {
   landing: Landing
+  footer: Footer
 }
 
 export type ErrorsResponse = {

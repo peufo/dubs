@@ -7,6 +7,7 @@ import { Tag } from './collections/tag'
 import { Media } from './collections/media'
 import { Logo, Icon } from './components/Graphics'
 import { Landing } from './globals/landing'
+import { Footer } from './globals/footer'
 
 const dev = process.env.NODE_ENV !== 'production'
 // TODO: fix this shit
@@ -30,7 +31,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Action, Tag, Media],
-  globals: [Landing],
+  globals: [Landing, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },
