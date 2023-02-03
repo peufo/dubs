@@ -117,6 +117,7 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
     if (!rel.action) return
     try {
       const remote = await getAction(rel.action)
+      if (remote[opposite].find(({ id }) => id === fromId)) return
       remote[opposite].push({ ...rel, action: fromId })
       return updateRemoteAction(remote)
     } catch (error) {
