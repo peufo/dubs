@@ -17,8 +17,8 @@
         href={link.href}
         data-sveltekit-reload
         class="
-          border hover:outline rounded py-1 px-3 text-xl shrink-0
-           bg-primary-light text-primary-dark border-primary-dark fill-primary-dark
+          border hover:outline rounded py-1 px-3 text-xl shrink-0 shadow-lg
+          bg-primary-light text-primary-dark border-primary-dark fill-primary-dark
         "
       >
         <Icon path={link.icon} class="mr-1" classSVG="scale-125" />
