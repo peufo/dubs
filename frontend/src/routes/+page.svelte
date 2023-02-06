@@ -36,7 +36,7 @@
   class="flex flex-col mt-10 gap-12 text-lg sm:text-xl sm:gap-8 max-w-2xl m-auto"
 >
   <div class="flex gap-6 sm:gap-10">
-    <div class="ml-4 sm:ml-0">
+    <div class="ml-4 sm:ml-0 grow">
       {#if sectionA.text}
         {@html serialize(sectionA.text)}
       {/if}
@@ -69,7 +69,7 @@
         )}')"
       />
     {/if}
-    <div class="mr-4 sm:mr-0">
+    <div class="mr-4 sm:mr-0 grow">
       {#if sectionB.text}
         {@html serialize(sectionB.text)}
       {/if}
