@@ -1,6 +1,8 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
+  import { page } from '$app/stores'
+
   import type { Dot, FaceIndex, HexagonProps, HexagonSide } from './types'
   import Path from './Path.svelte'
   import Text from './Text.svelte'
@@ -79,6 +81,11 @@
     const maxDeep = getMaxDeep(sides)
     return maxDeep * stepDelay
   }
+
+  function isActive(routeId: string | null, path: string) {
+    if (path === '/' && routeId !== '/') return false
+    return routeId?.startsWith(path)
+  }
 </script>
 
 {#if sides}
@@ -101,7 +108,6 @@
 
 <Link {href} {external}>
   <g
-    data-href={href || null}
     class="relative duration-300 origin-center {klass} group"
     class:fill-primary-light={label}
     style="
@@ -120,7 +126,11 @@
     <Path
       {dots}
       class={href
-        ? 'transition-all group-hover:stroke-[240px] group-hover:stroke-primary-light'
+        ? `transition-all group-hover:stroke-[240px] group-hover:stroke-primary-light ${
+            isActive($page.route.id, href)
+              ? 'stroke-[240px] stroke-primary-light underline'
+              : ''
+          }`
         : ''}
     />
 
