@@ -28,6 +28,7 @@ export function serialize(nodes: CustomTypes[]): string {
           .split('\n')
           .map((txt) => escapeHtml(txt))
           .join('</br>')
+        if (!text) return ''
         return `<p class="${klass}">${text}</p>`
       }
 
@@ -38,7 +39,6 @@ export function serialize(nodes: CustomTypes[]): string {
       }
 
       const html = serialize(node.children as CustomTypes[])
-      if (!html) return ''
 
       if (node.type === 'link') {
         klass.push('underline')
