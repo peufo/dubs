@@ -1,0 +1,56 @@
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 250;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-ExtraLight.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-Light.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-Medium.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-SemiBold.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-Bold.woff) format('woff');
+}
+@font-face {
+  font-family: dosis;
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: local('Dosis'),
+    url(https://fonts.cdnfonts.com/s/12275/Dosis-ExtraBold.woff) format('woff');
+}
