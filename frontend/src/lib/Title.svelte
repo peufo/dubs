@@ -1,4 +1,6 @@
 <script lang="ts">
+  import logo from '$lib/assets/logo-borderless.png?w=80&h=80&webp&img'
+
   export let subtitle = ''
 </script>
 
@@ -9,9 +11,11 @@
 <div class="p-3 flex flex-wrap gap-4 pr-32">
   <a href="/" class="hidden sm:block">
     <img
-      src="/logo-256.png"
+      src={logo}
       alt="Logo Dubs-Apiculture"
-      class="max-h-20 rotate-12"
+      class="h-[80px] w-[80px] rotate-12 aspect-square"
+      width="80"
+      height="80"
     />
   </a>
 

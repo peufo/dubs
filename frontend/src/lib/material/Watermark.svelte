@@ -1,5 +1,9 @@
+<script lang="ts">
+  import logo from '$lib/assets/logo-borderless.png?h=880&w=880&webp&img'
+</script>
+
 <img
-  src="/logo-borderless.png"
+  src={logo}
   alt="Logo dubs-apiculture"
   width="880"
   height="880"

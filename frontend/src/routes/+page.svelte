@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types'
   import { serialize } from '$lib/utils/serializeSlate'
+  import logo from '$lib/assets/logo.png?w=500&h=500&webp&img'
 
   export let data: PageData
 
@@ -20,8 +21,8 @@
 
 <div class="flex justify-center gap-6 md:gap-10 items-center pt-10">
   <img
-    class="w-1/2 rotate-12 max-w-sm"
-    src="/logo-500.png"
+    class="w-1/2 rotate-12 max-w-sm -translate-x-8"
+    src={logo}
     alt="Logo principal miel de Coeuve"
     width="500"
     height="500"
