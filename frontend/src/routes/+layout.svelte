@@ -13,8 +13,8 @@
   <header>
     <Menu
       items={[
+        { label: 'fabrication', href: '/process' },
         { label: 'boutique', href: '/shop' },
-        { label: 'processus', href: '/process' },
         { label: 'admin', href: '/admin', external: true },
       ]}
     />

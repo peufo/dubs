@@ -17,7 +17,7 @@
 <text
   {x}
   {y}
-  style="font-size: 450px;"
+  style="font-size: 400px;"
   class="fill-primary-dark uppercase {klass}"
   dominant-baseline="central"
   text-anchor="middle"
