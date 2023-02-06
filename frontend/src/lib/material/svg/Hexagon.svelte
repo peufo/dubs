@@ -128,7 +128,7 @@
       class={href
         ? `transition-all group-hover:stroke-[240px] group-hover:stroke-primary-light ${
             isActive($page.route.id, href)
-              ? 'stroke-[240px] stroke-primary-light underline'
+              ? 'stroke-[80px] stroke-primary-dark'
               : ''
           }`
         : ''}
