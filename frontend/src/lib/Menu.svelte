@@ -1,5 +1,6 @@
 <script lang="ts">
   import { beforeNavigate } from '$app/navigation'
+  import { browser } from '$app/environment'
 
   import { isLargeScreen } from '$lib/stores'
   import type { FaceIndex, HexagonSide } from '$lib/material/svg/types'
@@ -96,7 +97,9 @@
         gap={150}
         {sides}
       >
-        <MenuLines {open} />
+        {#if browser}
+          <MenuLines {open} />
+        {/if}
       </Hexagon>
     {/if}
   </Svg>
