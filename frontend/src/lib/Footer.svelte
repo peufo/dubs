@@ -27,7 +27,7 @@
     {/each}
   </div>
 
-  <div class="text-center p-4 opacity-40">
+  <div class="text-center p-4 opacity-60">
     Site réalisé par
     <a href="https://github.com/peufo" class="underline" data-sveltekit-reload>
       Jonas Voisard
