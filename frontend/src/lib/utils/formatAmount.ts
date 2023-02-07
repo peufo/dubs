@@ -1,4 +1,5 @@
-export function formatAmount(amount: number): string {
+export function formatAmount(amount?: number): string {
+  if (!amount) return ''
   return `${amount.toFixed(2)} CHF`
 }
 

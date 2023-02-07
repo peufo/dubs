@@ -8,7 +8,7 @@ export const Product: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'detail', 'tags'],
+    defaultColumns: ['name', 'detail', 'price', 'tags'],
     listSearchableFields: ['name', 'detail', 'tags'],
     preview: (doc) => `/shop/${doc.id}`,
   },
@@ -62,7 +62,7 @@ export const Product: CollectionConfig = {
           defaultValue: 0,
           admin: {
             description:
-              "Prix du produit auquel vient s'ajouter celui des options",
+              "Prix de base auquel vient s'ajouter celui des options",
           },
         },
       ],
@@ -112,7 +112,6 @@ export const Product: CollectionConfig = {
                       name: 'price',
                       label: 'prix',
                       type: 'number',
-                      min: 0,
                       required: true,
                     },
                   ],
