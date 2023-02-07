@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-
+  import type { Media } from 'types'
   import logo from '$lib/assets/logo-borderless.png?w=400&h=400&webp'
   import Image from '$lib/Image.svelte'
-  import type { Media } from 'types'
+  import { scrollState } from '$lib/actions/scrollState'
 
   export let images: (string | Media)[]
 
@@ -20,8 +19,20 @@
 
 <div class="flex flex-col gap-4 max-w-md">
   <div
+    class="h-[380px] md:h-[540px] grid place-content-center overflow-hidden rounded-lg"
+  >
+    <Image
+      image={images[selectedIndex]}
+      size="large"
+      placeholder={logo}
+      class="rounded-lg object-cover"
+    />
+  </div>
+
+  <div
     bind:this={scrollContainer}
-    class="flex gap-4 overflow-hidden snap-x relative"
+    use:scrollState
+    class="flex gap-4 overflow-auto scrollbar-hides snap-x relative"
   >
     {#each images as image, index}
       <Image
@@ -29,24 +40,12 @@
         {image}
         size="thumbnail"
         class="
-          w-28 rounded-lg cursor-pointer snap-center hover:opacity-80
-          {index === selectedIndex ? 'opacity-40' : ''}
-        "
+        w-28 rounded-lg cursor-pointer snap-center hover:opacity-80
+        {index === selectedIndex ? 'opacity-40' : ''}
+      "
       />
     {/each}
-  </div>
 
-  {#key selectedIndex}
-    <div
-      in:fade|local={{ duration: 200 }}
-      class="min-h-[520px] grid place-content-center"
-    >
-      <Image
-        image={images[selectedIndex]}
-        size="large"
-        placeholder={logo}
-        class="rounded-lg object-cover"
-      />
-    </div>
-  {/key}
+    <div class="shrink-0 w-[48%]" />
+  </div>
 </div>

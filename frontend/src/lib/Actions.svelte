@@ -127,13 +127,3 @@
     previousPortsEl={outputsEl.flat().filter(Boolean)}
   />
 {/if}
-
-<style>
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-</style>

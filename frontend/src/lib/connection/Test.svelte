@@ -3,7 +3,7 @@
 
   import Connections from '$lib/connection/Connections.svelte'
   // import Connection from '$lib/connection/Connection.svelte'
-  import { draggable } from '$lib/utils/draggable'
+  import { draggable } from '$lib/actions/draggable'
 
   let connections: Connections
   let containerFrom: HTMLDivElement
