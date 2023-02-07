@@ -8,7 +8,7 @@
   export let products: PaginatedDocs<Product>
 </script>
 
-<div class="flex flex-wrap justify-center items-stretch gap-x-4 gap-y-8">
+<div class="flex flex-wrap justify-center items-stretch gap-x-6 gap-y-8">
   {#each products.docs as product}
     <a
       href="/shop/{product.id}"
@@ -16,9 +16,9 @@
     >
       <div
         class="
-          shadow-md border rounded-md overflow-hidden
+          shadow border rounded-md overflow-hidden
           bg-white border-secondary-dark/20 shadow-secondary-dark/80
-          hover:shadow-2xl hover:shadow-secondary-dark hover:scale-105
+          hover:shadow-2xl hover:shadow-secondary-dark hover:scale-[1.015]
           transition-all
         "
       >
