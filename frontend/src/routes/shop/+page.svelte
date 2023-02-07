@@ -1,6 +1,10 @@
 <script lang="ts">
+  import type { PageData } from './$types'
+
   import Title from '$lib/Title.svelte'
-  import Product from '$lib/Product.svelte'
+  import Product from './Product.svelte'
+
+  export let data: PageData
 </script>
 
 <svelte:head>
@@ -13,9 +17,9 @@
   class="
     mx-auto my-10 px-2 max-w-5xl gap-x-4 gap-y-8
     grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center
-"
+  "
 >
-  {#each Array(10).fill(() => 1) as p}
-    <Product />
+  {#each data.products.docs as product}
+    <Product {product} />
   {/each}
 </div>

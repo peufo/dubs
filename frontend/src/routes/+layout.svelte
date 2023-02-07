@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { LayoutData } from './$types'
   import '../app.css'
+  import Footer from './Footer.svelte'
   import Menu from '$lib/Menu.svelte'
-  import Footer from '$lib/Footer.svelte'
 
   import Watermark from '$lib/material/Watermark.svelte'
 

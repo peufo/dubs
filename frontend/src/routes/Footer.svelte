@@ -1,13 +1,8 @@
 <script lang="ts">
-  import Icon from './material/Icon.svelte'
+  import type { LayoutData } from './$types'
+  import Icon from '$lib/material/Icon.svelte'
 
-  interface Link {
-    label: string
-    href: string
-    icon: string
-  }
-
-  export let links: Link[] = []
+  export let links: LayoutData['links'] = []
 </script>
 
 <footer class="mt-12">

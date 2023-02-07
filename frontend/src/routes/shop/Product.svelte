@@ -1,11 +1,13 @@
 <script lang="ts">
+  import type { Product } from 'types'
+
   import logo from '$lib/assets/logo-borderless.png?w400&h=300&webp'
   import { formatAmount } from '$lib/utils/formatAmount'
 
-  let price = 18
+  export let product: Product
 </script>
 
-<a href="#" class="group max-w-md">
+<a href="/shop/{product.id}" class="group max-w-md">
   <div
     class="
     shadow-md border rounded
@@ -24,11 +26,13 @@
 
     <div class="py-2 px-4 flex">
       <div>
-        <h4 class="text-xl">Miel de fleur</h4>
-        <h5 class="text-secondary-dark">Récolté le 15 Mars 2022</h5>
+        <h4 class="text-xl">{product.name}</h4>
+        {#if product.detail}
+          <h5 class="text-secondary-dark">{product.detail}</h5>
+        {/if}
       </div>
-      <div class="ml-auto  font-bold">
-        {formatAmount(price)}
+      <div class="ml-auto font-bold">
+        {formatAmount(18)}
       </div>
     </div>
   </div>
