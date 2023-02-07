@@ -10,6 +10,7 @@ export const Product: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'detail', 'tags'],
     listSearchableFields: ['name', 'detail', 'tags'],
+    preview: (doc) => `/shop/${doc.id}`,
   },
   access: {
     read: () => true,
@@ -40,6 +41,7 @@ export const Product: CollectionConfig = {
           name: 'state',
           type: 'select',
           defaultValue: 'draft',
+          required: true,
           admin: {
             description:
               'Les produits "Brouillon" et "Archiver" ne sont pas visible sur le site.',

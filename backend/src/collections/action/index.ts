@@ -10,6 +10,7 @@ export const Action: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'tags', 'inputs', 'outputs'],
     listSearchableFields: ['name', 'tags'],
+    preview: (doc) => `/process/${doc.id}`,
   },
   access: {
     read: () => true,

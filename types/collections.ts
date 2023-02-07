@@ -122,7 +122,7 @@ export interface Product {
   id: string;
   name: string;
   detail?: string;
-  state?: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
+  state: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
   images: {
     image: string | Media;
     id?: string;
