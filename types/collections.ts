@@ -11,6 +11,7 @@ export interface Config {
     action: Action;
     tag: Tag;
     media: Media;
+    product: Product;
   };
   globals: {
     landing: Landing;
@@ -113,6 +114,31 @@ export interface Media {
       filename?: string;
     };
   };
+  createdAt: string;
+  updatedAt: string;
+  password?: string;
+}
+export interface Product {
+  id: string;
+  name: string;
+  detail?: string;
+  state?: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
+  images: {
+    image: string | Media;
+    id?: string;
+  }[];
+  description?: {
+    [k: string]: unknown;
+  }[];
+  variables: {
+    options: {
+      value?: string;
+      id?: string;
+    }[];
+    id?: string;
+    blockName?: string;
+    blockType: 'options';
+  }[];
   createdAt: string;
   updatedAt: string;
   password?: string;

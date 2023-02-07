@@ -9,6 +9,7 @@ export const Action: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'tags', 'inputs', 'outputs'],
+    listSearchableFields: ['name', 'tags'],
   },
   access: {
     read: () => true,

@@ -4,6 +4,10 @@ import { isRole, isRoleField } from './access'
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
+  labels: {
+    singular: 'Utilisateur',
+    plural: 'Utilisateurs',
+  },
   admin: {
     useAsTitle: 'name',
   },
@@ -17,7 +21,7 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      unique: true,
+      label: 'Nom',
       required: true,
       minLength: 3,
       maxLength: 50,
