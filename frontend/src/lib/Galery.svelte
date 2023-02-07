@@ -18,31 +18,33 @@
 </script>
 
 <div class="flex flex-col gap-4 max-w-md">
-  <div
-    class="h-[380px] md:h-[540px] grid place-content-center overflow-hidden rounded-lg"
-  >
+  <div class="grid place-content-center h-[320px] md:h-[380px]">
     <Image
       image={images[selectedIndex]}
       size="large"
       placeholder={logo}
-      class="rounded-lg object-cover"
+      class="rounded-lg object-scale-down max-h-[320px] md:max-h-[380px] w-fit"
     />
   </div>
 
   <div
     bind:this={scrollContainer}
     use:scrollState
-    class="flex gap-4 overflow-auto scrollbar-hides snap-x relative"
+    class="flex gap-3 overflow-auto scrollbar-hides snap-x relative p-1"
   >
+    <div class="shrink-0 w-[48%]" />
+
     {#each images as image, index}
       <Image
         on:click={(event) => handleClick(event, index)}
         {image}
-        size="thumbnail"
+        size="mini"
         class="
-        w-28 rounded-lg cursor-pointer snap-center hover:opacity-80
-        {index === selectedIndex ? 'opacity-40' : ''}
-      "
+          w-14 h-14 p-1 rounded-lg object-scale-down
+          cursor-pointer snap-center
+          hover:outline outline-secondary 
+          {index === selectedIndex ? 'outline' : ''}
+        "
       />
     {/each}
 

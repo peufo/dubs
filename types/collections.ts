@@ -105,6 +105,22 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
+    mini: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    medium: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
     large: {
       url?: string;
       width?: number;
