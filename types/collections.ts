@@ -123,6 +123,7 @@ export interface Product {
   name: string;
   detail?: string;
   state: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
+  price?: number;
   images: {
     image: string | Media;
     id?: string;
@@ -133,6 +134,8 @@ export interface Product {
   variables: {
     options: {
       value?: string;
+      price: number;
+      available?: boolean;
       id?: string;
     }[];
     id?: string;

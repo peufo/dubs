@@ -54,6 +54,17 @@ export const Product: CollectionConfig = {
             { value: 'archived', label: 'Archiver' },
           ],
         },
+        {
+          name: 'price',
+          type: 'number',
+          label: 'Prix',
+          min: 0,
+          defaultValue: 0,
+          admin: {
+            description:
+              "Prix du produit auquel vient s'ajouter celui des options",
+          },
+        },
       ],
     },
     {
@@ -88,11 +99,29 @@ export const Product: CollectionConfig = {
               type: 'array',
               fields: [
                 {
-                  name: 'value',
-                  type: 'text',
-                  label: "Valeur de l'option",
-                  minLength: 1,
-                  maxLength: 30,
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'value',
+                      type: 'text',
+                      label: "Valeur de l'option",
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    {
+                      name: 'price',
+                      label: 'prix',
+                      type: 'number',
+                      min: 0,
+                      required: true,
+                    },
+                  ],
+                },
+                {
+                  name: 'available',
+                  type: 'checkbox',
+                  label: 'Disponible',
+                  defaultValue: true,
                 },
               ],
             },
