@@ -1,5 +1,5 @@
 <script lang="ts">
-  import logo from '$lib/assets/logo-borderless.png?h=880&w=880&webp&img'
+  import logo from '$lib/assets/logo-borderless.png?h=880&w=880&webp'
 </script>
 
 <img

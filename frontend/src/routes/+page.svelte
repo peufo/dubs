@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types'
   import { serialize } from '$lib/utils/serializeSlate'
-  import logo from '$lib/assets/logo.png?w=500&h=500&webp&img'
+  import logo from '$lib/assets/logo.png?w=500&h=500&webp'
 
   export let data: PageData
 

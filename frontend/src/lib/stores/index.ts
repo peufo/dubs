@@ -12,7 +12,7 @@ export const isLargeScreen = readable(getIsLargeScreen(), (set) => {
 
 function getIsLargeScreen() {
   if (!browser) return false
-  return document.body.offsetWidth > 1200
+  return document.body.offsetWidth > 1536
 }
 
 function getIsMobile() {

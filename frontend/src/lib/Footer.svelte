@@ -10,7 +10,7 @@
   export let links: Link[] = []
 </script>
 
-<footer class="mt-4">
+<footer class="mt-12">
   <div class="flex justify-center gap-4 flex-wrap">
     {#each links as link}
       <a

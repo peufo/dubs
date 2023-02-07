@@ -24,11 +24,11 @@
       <h3 class="text-4xl font-semibold">Dubs Apiculture</h3>
     </a>
     {#if subtitle}
-      <h5
+      <h4
         class="text-xl font-light uppercase tracking-[4px] pt-1 text-secondary-dark"
       >
         {subtitle}
-      </h5>
+      </h4>
     {/if}
   </div>
 
