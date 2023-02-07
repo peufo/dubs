@@ -33,6 +33,18 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
       {
+        name: 'mini',
+        width: 200,
+        height: null,
+        position: 'centre',
+      },
+      {
+        name: 'medium',
+        width: 700,
+        height: null,
+        position: 'centre',
+      },
+      {
         name: 'large',
         width: 1024,
         height: null,

@@ -8,12 +8,7 @@
   export let products: PaginatedDocs<Product>
 </script>
 
-<div
-  class="
-    flex flex-wrap justify-center items-stretch
-    mx-auto my-10 px-2 max-w-5xl gap-x-4 gap-y-8
-  "
->
+<div class="flex flex-wrap justify-center items-stretch gap-x-4 gap-y-8">
   {#each products.docs as product}
     <a
       href="/shop/{product.id}"
