@@ -17,7 +17,7 @@ export const scrollState: Action<HTMLElement, CallBack> = (node, cb) => {
 
   const options: IntersectionObserverInit = {
     root: node,
-    threshold: 0.8,
+    threshold: 0,
   }
   const observer = new IntersectionObserver((entries) => {
     for (const { target, isIntersecting } of entries) {

@@ -12,12 +12,12 @@
 
   <div class="flex grow min-w-[340px] max-w-md">
     <div>
-      <h4 class="text-xl">{product.name}</h4>
+      <h4 class="text-3xl">{product.name}</h4>
       {#if product.detail}
-        <h5 class="text-secondary-dark">{product.detail}</h5>
+        <h5 class="text-xl text-secondary-dark">{product.detail}</h5>
       {/if}
     </div>
-    <div class="ml-auto font-bold">
+    <div class="text-xl ml-auto font-bold">
       {formatAmount(product.price)}
     </div>
   </div>
