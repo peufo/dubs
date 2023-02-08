@@ -25,7 +25,7 @@
 </script>
 
 <div class="flex flex-col gap-4 max-w-md w-full">
-  <div class="grid place-content-center h-[320px] md:h-[380px]">
+  <div class="grid justify-center h-[320px] md:h-[380px]">
     <Image
       image={images[selectedIndex]}
       size="card_h"
@@ -37,14 +37,14 @@
   {#if images.length > 1}
     <div class="flex">
       <div
-        class="w-1 rounded transition-opacity bg-secondary opacity-0"
+        class="w-1 rounded transition-opacity bg-secondary opacity-0 scale-105"
         class:opacity-100={!isStart}
       />
 
       <div
         bind:this={scrollContainer}
         use:scrollState={(state) => ({ isStart, isEnd } = state)}
-        class="grow flex gap-3 overflow-auto scrollbar-hides snap-x relative p-1 scroll-smooth"
+        class="grow flex gap-3 overflow-auto scrollbar-hide snap-x relative p-1 scroll-smooth"
       >
         <div class="shrink-0 w-[48%]" />
 
@@ -66,7 +66,7 @@
       </div>
 
       <div
-        class="w-1 rounded transition-opacity bg-secondary opacity-0"
+        class="w-1 rounded transition-opacity bg-secondary opacity-0 scale-105"
         class:opacity-100={!isEnd}
       />
     </div>
