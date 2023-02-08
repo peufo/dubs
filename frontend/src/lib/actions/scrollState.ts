@@ -1,6 +1,13 @@
-import { debounce } from 'debounce'
+import type { Action } from 'svelte/action'
 
-export function scrollState(node: HTMLElement) {
+interface State {
+  isStart: boolean
+  isEnd: boolean
+}
+type CallBack = (state: State) => void
+
+export const scrollState: Action<HTMLElement, CallBack> = (node, cb) => {
+  if (!cb) return
   const firstChild = node.children[0]
   const lastChild = node.children[node.children.length - 1]
   if (!firstChild || !lastChild) return
@@ -17,7 +24,7 @@ export function scrollState(node: HTMLElement) {
       if (target === firstChild) isStart = isIntersecting
       if (target === lastChild) isEnd = isIntersecting
     }
-    console.log({ isStart, isEnd })
+    cb({ isStart, isEnd })
   }, options)
 
   observer.observe(firstChild)

@@ -9,3 +9,12 @@ declare namespace App {
 }
 
 declare module '*&webp'
+
+declare namespace svelteHTML {
+  interface HTMLAttributes<T> {
+    //onscrollStateChange?: CustomEvent<{ isStart: boolean; isEnd: boolean }>
+    'on:scrollStateChange'?: (
+      event: CustomEvent<{ isStart: boolean; isEnd: boolean }>
+    ) => unknown
+  }
+}

@@ -2,7 +2,6 @@
   import type { Media } from 'types'
   import logo from '$lib/assets/logo-borderless.png?w=400&h=400&webp'
   import Image from '$lib/Image.svelte'
-  import { scrollState } from '$lib/actions/scrollState'
 
   export let images: (string | Media)[]
 
@@ -29,7 +28,6 @@
 
   <div
     bind:this={scrollContainer}
-    use:scrollState
     class="flex gap-3 overflow-auto scrollbar-hides snap-x relative p-1"
   >
     <div class="shrink-0 w-[48%]" />
@@ -51,3 +49,15 @@
     <div class="shrink-0 w-[48%]" />
   </div>
 </div>
+
+<style>
+  .left-opacity::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 26px;
+    background: red;
+  }
+</style>
