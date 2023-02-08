@@ -28,9 +28,13 @@
     {#each product.variables as variable}
       <section>
         <h5 class="text-xl">{variable.blockName || 'Options'}</h5>
-        <div class="flex gap-4">
+        <div class="flex gap-4 pt-1">
           {#each variable.options as option}
-            <div>
+            <div
+              class="border px-4 py-2 rounded cursor-pointer"
+              class:opacity-40={!option.available}
+              class:cursor-not-allowed={!option.available}
+            >
               {option.value}
             </div>
           {/each}
