@@ -1,1 +1,4 @@
-export const getPathname = (url?: string) => new URL(url || '').pathname
+export const getPathname = (url?: string) => {
+  if (!url) return '/logo.png'
+  return new URL(url).pathname
+}
