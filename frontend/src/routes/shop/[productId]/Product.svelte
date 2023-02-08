@@ -3,22 +3,54 @@
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
+  import { serialize } from '$lib/utils/serializeSlate'
 
   export let product: Product
 </script>
 
-<div class="flex gap-4 flex-wrap justify-center">
+<div class="flex gap-8 flex-wrap justify-center">
   <Galery images={product.images.map((_) => _.image)} />
 
-  <div class="flex grow min-w-[320px] max-w-md">
-    <div>
-      <h4 class="text-3xl">{product.name}</h4>
-      {#if product.detail}
-        <h5 class="text-xl text-secondary-dark">{product.detail}</h5>
-      {/if}
+  <div class="flex flex-col gap-4 grow min-w-[320px] max-w-md">
+    <div class="flex">
+      <div>
+        <h4 class="text-3xl">{product.name}</h4>
+        {#if product.detail}
+          <h5 class="text-xl text-secondary-dark">{product.detail}</h5>
+        {/if}
+      </div>
     </div>
-    <div class="text-xl ml-auto font-bold">
-      {formatAmount(product.price)}
+
+    <section class="grow">
+      {@html serialize(product.description)}
+    </section>
+
+    {#each product.variables as variable}
+      <section>
+        <h5 class="text-xl">{variable.blockName || 'Options'}</h5>
+        <div class="flex gap-4">
+          {#each variable.options as option}
+            <div>
+              {option.value}
+            </div>
+          {/each}
+        </div>
+      </section>
+    {/each}
+
+    <div class="flex items-center">
+      <div class="text-xl font-bold">
+        {formatAmount(product.price)}
+      </div>
+      <div
+        class="
+          ml-auto rounded py-2 px-4 uppercase 
+          bg-primary-light text-primary-dark
+          shadow hover:shadow-lg transition-shadow cursor-pointer
+        "
+      >
+        Commander
+      </div>
     </div>
   </div>
 </div>

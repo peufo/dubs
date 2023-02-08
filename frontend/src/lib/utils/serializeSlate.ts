@@ -3,7 +3,8 @@ import { Text } from 'slate'
 import type { CustomTypes } from 'slate'
 import type { Media } from 'types'
 
-export function serialize(nodes: CustomTypes[]): string {
+export function serialize(nodes?: CustomTypes[]): string {
+  if (!nodes) return ''
   return nodes
     .map((node) => {
       if (!node) return ''
