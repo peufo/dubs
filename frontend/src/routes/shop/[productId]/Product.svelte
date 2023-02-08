@@ -10,7 +10,7 @@
 <div class="flex gap-4 flex-wrap justify-center">
   <Galery images={product.images.map((_) => _.image)} />
 
-  <div class="flex grow min-w-[340px] max-w-md">
+  <div class="flex grow min-w-[320px] max-w-md">
     <div>
       <h4 class="text-3xl">{product.name}</h4>
       {#if product.detail}
