@@ -97,7 +97,15 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    card: {
+    card_w: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    card_h: {
       url?: string;
       width?: number;
       height?: number;

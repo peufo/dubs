@@ -28,7 +28,7 @@
   <div class="grid place-content-center h-[320px] md:h-[380px]">
     <Image
       image={images[selectedIndex]}
-      size="large"
+      size="card_h"
       placeholder={logo}
       class="rounded-lg object-scale-down max-h-[320px] md:max-h-[380px] w-fit"
     />

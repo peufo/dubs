@@ -27,9 +27,15 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
       {
-        name: 'card',
+        name: 'card_w',
         width: 400,
         height: null,
+        position: 'centre',
+      },
+      {
+        name: 'card_h',
+        width: null,
+        height: 400,
         position: 'centre',
       },
       {

@@ -24,7 +24,7 @@
       >
         <Image
           image={product.images[0]?.image}
-          size="card"
+          size="card_w"
           placeholder={logo}
           class="h-72 object-cover"
         />
