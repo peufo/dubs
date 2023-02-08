@@ -5,16 +5,16 @@
   export let links: LayoutData['links'] = []
 </script>
 
-<footer class="mt-12">
+<footer class="mt-10 pt-6 border-t-2 bg-secondary-light/40 shadow-4xl ">
   <div class="flex justify-center gap-4 flex-wrap">
     {#each links as link}
       <a
         href={link.href}
         data-sveltekit-reload
         class="
-          outline-2 rounded py-1 px-3 text-xl shrink-0 shadow-lg
-          bg-primary-light text-primary-dark border-primary-dark fill-primary-dark
-          hover:outline hover:shadow-xl
+          rounded py-1 px-3 text-xl shrink-0 shadow-lg
+          bg-white text-secondary-dark border-secondary-dark fill-secondary-dark
+          hover:shadow-xl transition-all
         "
       >
         <Icon path={link.icon} class="mr-1" classSVG="scale-125" />

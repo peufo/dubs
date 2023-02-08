@@ -37,7 +37,7 @@
   {#if images.length > 1}
     <div class="flex">
       <div
-        class="w-1 rounded transition-opacity bg-secondary opacity-0 scale-105"
+        class="w-1 rounded transition-opacity bg-secondary-light opacity-0 scale-105"
         class:opacity-100={!isStart}
       />
 
@@ -56,7 +56,7 @@
             class="
             w-14 h-14 p-1 rounded-lg object-scale-down
             cursor-pointer snap-center
-            hover:outline outline-secondary 
+            hover:outline outline-secondary-light 
             {index === selectedIndex ? 'outline' : ''}
           "
           />
@@ -66,7 +66,7 @@
       </div>
 
       <div
-        class="w-1 rounded transition-opacity bg-secondary opacity-0 scale-105"
+        class="w-1 rounded transition-opacity bg-secondary-light opacity-0 scale-105"
         class:opacity-100={!isEnd}
       />
     </div>
