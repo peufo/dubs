@@ -50,7 +50,7 @@
           bg-cover shrink-0 rounded-l-2xl
         "
         style="background-image: url('{getPathname(
-          sectionA.image.sizes.card.url
+          sectionA.image.sizes.card_h.url
         )}')"
       />
     {/if}
@@ -65,7 +65,7 @@
           sm:h-72 sm:w-64 sm:rounded-2xl sm:-translate-y-1/4
         "
         style="background-image: url('{getPathname(
-          sectionB.image.sizes.card.url
+          sectionB.image.sizes.card_h.url
         )}')"
       />
     {/if}

@@ -80,7 +80,7 @@
           rounded w-full sm:w-96
           {!!layout?.match(/^col/) ? 'mx-auto sm:my-3' : ''}
           "
-            src={image.sizes.card.url}
+            src={image.sizes.card_h.url}
             alt={image.title}
           />
         {/if}

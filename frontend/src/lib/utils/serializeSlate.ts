@@ -34,7 +34,7 @@ export function serialize(nodes: CustomTypes[]): string {
 
       if (node.type === 'upload') {
         const img = node.value as Media
-        const url = img.sizes.card.url
+        const url = img.sizes.card_h.url
         return `<img src="${url}" alt="${img.title}" />`
       }
 
