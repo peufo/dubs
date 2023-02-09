@@ -5,4 +5,8 @@
   export let data: PageData
 </script>
 
+<svelte:head>
+  <title>Dubs • {data.product.name}</title>
+</svelte:head>
+
 <Product product={data.product} />

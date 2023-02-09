@@ -1,14 +1,12 @@
 <script lang="ts">
   import type { Product } from 'types'
   import { page } from '$app/stores'
-  import { goto, afterNavigate } from '$app/navigation'
-  import { browser } from '$app/environment'
+  import { afterNavigate } from '$app/navigation'
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
   import { serialize } from '$lib/utils/serializeSlate'
-  import { updateQS } from '$lib/utils/updateQS'
-  import { query } from '$lib/stores'
+  import { useGotoQuery } from '$lib/utils/gotoQuery'
 
   export let product: Product
 
@@ -24,12 +22,18 @@
   const getVariables = () =>
     product.variables.map((v, index) => {
       const key = getKey(index)
-      if (typeof $query[key] === 'string') return +($query[key] as string)
-      return v.defaultOption || 0
+      return +($page.url.searchParams.get(key) || v.defaultOption || 0)
     })
 
   let variables: number[] = getVariables()
   afterNavigate(() => (variables = getVariables()))
+  $: gotoQuery = useGotoQuery($page)
+  $: price =
+    (product.price || 0) +
+    product.variables.reduce(
+      (acc, { options }, i) => acc + options[variables[i]]?.price || 0,
+      0
+    )
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -55,10 +59,7 @@
         <div class="flex gap-x-4 gap-y-2 flex-wrap">
           {#each variable.options as option, optIndex}
             <button
-              on:click={() =>
-                goto(updateQS($page.url, getKey(i), optIndex), {
-                  replaceState: true,
-                })}
+              on:click={() => gotoQuery({ [getKey(i)]: optIndex.toString() })}
               class="border px-4 py-2 rounded shrink-0 disabled:opacity-40"
               disabled={!option.available}
               class:outline={variables[i] === optIndex}
@@ -73,7 +74,7 @@
 
     <div class="flex items-center gap-4">
       <div class="text-xl font-bold">
-        {formatAmount(product.price)}
+        {formatAmount(price)}
       </div>
 
       <div class="grow text-right">
