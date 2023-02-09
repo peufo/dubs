@@ -96,6 +96,13 @@ export const Product: CollectionConfig = {
           },
           fields: [
             {
+              name: 'defaultOption',
+              label: 'Option par défaut',
+              type: 'number',
+              required: true,
+              defaultValue: 0,
+            },
+            {
               name: 'options',
               type: 'array',
               fields: [

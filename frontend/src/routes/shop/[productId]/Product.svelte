@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Product } from 'types'
   import { page } from '$app/stores'
-  import { afterNavigate, goto } from '$app/navigation'
-  import qs from 'qs'
+  import { goto, afterNavigate } from '$app/navigation'
+  import { browser } from '$app/environment'
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
@@ -20,7 +20,16 @@
     archived: 'Archiver',
   }
 
-  const key = (index: number) => `variable_${index}`
+  const getKey = (index: number) => `variable_${index}`
+  const getVariables = () =>
+    product.variables.map((v, index) => {
+      const key = getKey(index)
+      if (typeof $query[key] === 'string') return +($query[key] as string)
+      return v.defaultOption || 0
+    })
+
+  let variables: number[] = getVariables()
+  afterNavigate(() => (variables = getVariables()))
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -47,14 +56,13 @@
           {#each variable.options as option, optIndex}
             <button
               on:click={() =>
-                goto(updateQS($page.url, key(i), optIndex), {
+                goto(updateQS($page.url, getKey(i), optIndex), {
                   replaceState: true,
                 })}
               class="border px-4 py-2 rounded shrink-0 disabled:opacity-40"
               disabled={!option.available}
-              class:outline={$query[key(i)] === optIndex.toString()}
-              class:outline-secondary-light={$query[key(i)] ===
-                optIndex.toString()}
+              class:outline={variables[i] === optIndex}
+              class:outline-secondary-light={variables[i] === optIndex}
             >
               {option.value}
             </button>

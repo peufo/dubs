@@ -156,6 +156,7 @@ export interface Product {
     [k: string]: unknown;
   }[];
   variables: {
+    defaultOption: number;
     options: {
       value?: string;
       price: number;
