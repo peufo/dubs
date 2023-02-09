@@ -5,7 +5,7 @@
   export let links: LayoutData['links'] = []
 </script>
 
-<footer class="mt-10 pt-6 border-t-2 bg-secondary-light/40 shadow-4xl ">
+<footer class="mt-10 pt-6 bg-secondary-light/40 shadow-4xl ">
   <div class="flex justify-center gap-4 flex-wrap">
     {#each links as link}
       <a
