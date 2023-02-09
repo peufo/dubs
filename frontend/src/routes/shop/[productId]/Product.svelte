@@ -1,9 +1,14 @@
 <script lang="ts">
   import type { Product } from 'types'
+  import { page } from '$app/stores'
+  import { afterNavigate, goto } from '$app/navigation'
+  import qs from 'qs'
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
   import { serialize } from '$lib/utils/serializeSlate'
+  import { updateQS } from '$lib/utils/updateQS'
+  import { query } from '$lib/stores'
 
   export let product: Product
 
@@ -14,6 +19,8 @@
     notAvailable: 'Non disponible',
     archived: 'Archiver',
   }
+
+  const key = (index: number) => `variable_${index}`
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -33,18 +40,24 @@
       {@html serialize(product.description)}
     </section>
 
-    {#each product.variables as variable}
+    {#each product.variables as variable, i}
       <section>
         <h5 class="text-xl">{variable.blockName || 'Options'}</h5>
         <div class="flex gap-4 pt-1">
-          {#each variable.options as option}
-            <div
-              class="border px-4 py-2 rounded cursor-pointer"
-              class:opacity-40={!option.available}
-              class:cursor-not-allowed={!option.available}
+          {#each variable.options as option, optIndex}
+            <button
+              on:click={() =>
+                goto(updateQS($page.url, key(i), optIndex), {
+                  replaceState: true,
+                })}
+              class="border px-4 py-2 rounded disabled:opacity-40"
+              disabled={!option.available}
+              class:outline={$query[key(i)] === optIndex.toString()}
+              class:outline-secondary-light={$query[key(i)] ===
+                optIndex.toString()}
             >
               {option.value}
-            </div>
+            </button>
           {/each}
         </div>
       </section>
@@ -59,7 +72,7 @@
         {stateLabel[product.state]}
       </div>
 
-      <div
+      <button
         class="
           rounded py-2 px-4 uppercase 
           bg-primary-light text-primary-dark
@@ -70,7 +83,7 @@
         "
       >
         Commander
-      </div>
+      </button>
     </div>
   </div>
 </div>
