@@ -60,7 +60,7 @@
           {#each variable.options as option, optIndex}
             <button
               on:click={() => gotoQuery({ [getKey(i)]: optIndex.toString() })}
-              class="border px-4 py-2 rounded shrink-0 disabled:opacity-40"
+              class="border px-4 py-2 rounded shrink-0 bg-white disabled:opacity-40"
               disabled={!option.available}
               class:outline={variables[i] === optIndex}
               class:outline-secondary-light={variables[i] === optIndex}
