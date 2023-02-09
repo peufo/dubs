@@ -8,8 +8,8 @@ export const Product: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'detail', 'price', 'tags'],
-    listSearchableFields: ['name', 'detail', 'tags'],
+    defaultColumns: ['name', 'detail', 'price', 'state', 'tags'],
+    listSearchableFields: ['name', 'detail', 'state', 'tags'],
     preview: (doc) => `/shop/${doc.id}`,
   },
   access: {
@@ -40,6 +40,7 @@ export const Product: CollectionConfig = {
         {
           name: 'state',
           type: 'select',
+          label: 'État',
           defaultValue: 'draft',
           required: true,
           admin: {
