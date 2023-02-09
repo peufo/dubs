@@ -42,15 +42,15 @@
 
     {#each product.variables as variable, i}
       <section>
-        <h5 class="text-xl">{variable.blockName || 'Options'}</h5>
-        <div class="flex gap-4 pt-1">
+        <h5 class="text-xl pb-1">{variable.blockName || 'Options'}</h5>
+        <div class="flex gap-x-4 gap-y-2 flex-wrap">
           {#each variable.options as option, optIndex}
             <button
               on:click={() =>
                 goto(updateQS($page.url, key(i), optIndex), {
                   replaceState: true,
                 })}
-              class="border px-4 py-2 rounded disabled:opacity-40"
+              class="border px-4 py-2 rounded shrink-0 disabled:opacity-40"
               disabled={!option.available}
               class:outline={$query[key(i)] === optIndex.toString()}
               class:outline-secondary-light={$query[key(i)] ===
