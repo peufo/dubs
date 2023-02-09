@@ -6,7 +6,7 @@ export const load = (async ({ fetch }) => {
   const products = await api.get('product', {
     sort: '-updatedAt',
     where: {
-      state: { not_in: ['draft', 'archived'] },
+      state: { not_in: ['draft', 'archived', 'notAvailable'] },
     },
   })
   return { products }

@@ -6,6 +6,14 @@
   import { serialize } from '$lib/utils/serializeSlate'
 
   export let product: Product
+
+  let stateLabel: Record<Product['state'], string> = {
+    draft: 'Brouillon',
+    comingSoon: 'Bientôt disponible',
+    available: '',
+    notAvailable: 'Non disponible',
+    archived: 'Archiver',
+  }
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -42,15 +50,23 @@
       </section>
     {/each}
 
-    <div class="flex items-center">
+    <div class="flex items-center gap-4">
       <div class="text-xl font-bold">
         {formatAmount(product.price)}
       </div>
+
+      <div class="grow text-right">
+        {stateLabel[product.state]}
+      </div>
+
       <div
         class="
-          ml-auto rounded py-2 px-4 uppercase 
+          rounded py-2 px-4 uppercase 
           bg-primary-light text-primary-dark
-          shadow hover:shadow-lg transition-shadow cursor-pointer
+          shadow transition-shadow
+          {product.state === 'available'
+          ? 'hover:shadow-lg cursor-pointer'
+          : 'cursor-not-allowed opacity-60'}
         "
       >
         Commander

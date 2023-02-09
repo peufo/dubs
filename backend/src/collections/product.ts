@@ -45,7 +45,7 @@ export const Product: CollectionConfig = {
           required: true,
           admin: {
             description:
-              'Les produits "Brouillon" et "Archiver" ne sont pas visible sur le site.',
+              'Seul les produits "Disponible" et "Bientôt diponible" ne sont pas visible sur le site.',
           },
           options: [
             { value: 'draft', label: 'Brouillon' },
