@@ -6,6 +6,7 @@ import { Action } from './collections/action'
 import { Tag } from './collections/tag'
 import { Media } from './collections/media'
 import { Product } from './collections/product'
+import { Order } from './collections/order'
 
 import { Landing } from './globals/landing'
 import { Footer } from './globals/footer'
@@ -33,7 +34,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Action, Tag, Media, Product],
+  collections: [Users, Action, Tag, Media, Product, Order],
   globals: [Landing, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
