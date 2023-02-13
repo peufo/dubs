@@ -27,23 +27,9 @@ export const Order: CollectionConfig = {
         step: 1,
       },
     },
-
     {
       name: 'variables',
-      type: 'array',
-      fields: [
-        {
-          name: 'optionId',
-          type: 'text',
-        },
-        /*
-        {
-          name: 'option',
-          type: 'relationship',
-          relationTo: 'product.variables.options',
-        },
-        */
-      ],
+      type: 'json',
     },
   ],
 }

@@ -18,22 +18,24 @@
     archived: 'Archiver',
   }
 
-  const getKey = (index: number) => `variable_${index}`
-  const getVariables = () =>
+  const getVariableKey = (index: number) => `variable_${index}`
+  const getVariableValues = () =>
     product.variables.map((v, index) => {
-      const key = getKey(index)
-      return +($page.url.searchParams.get(key) || v.defaultOption || 0)
+      const key = getVariableKey(index)
+      return (
+        $page.url.searchParams.get(key) || v.options[v.defaultOption].id || ''
+      )
     })
 
-  let variables: number[] = getVariables()
-  afterNavigate(() => (variables = getVariables()))
+  let optionsId: string[] = getVariableValues()
+  afterNavigate(() => (optionsId = getVariableValues()))
   $: gotoQuery = useGotoQuery($page)
   $: price =
     (product.price || 0) +
-    product.variables.reduce(
-      (acc, { options }, i) => acc + options[variables[i]]?.price || 0,
-      0
-    )
+    product.variables.reduce((acc, { options }, i) => {
+      const option = options.find(({ id }) => id === optionsId[i])
+      return acc + (option?.price || 0)
+    }, 0)
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -57,13 +59,13 @@
       <section>
         <h5 class="text-xl pb-1">{variable.blockName || 'Options'}</h5>
         <div class="flex gap-x-4 gap-y-2 flex-wrap">
-          {#each variable.options as option, optIndex}
+          {#each variable.options as option}
             <button
-              on:click={() => gotoQuery({ [getKey(i)]: optIndex.toString() })}
+              on:click={() => gotoQuery({ [getVariableKey(i)]: option.id })}
               class="border px-4 py-2 rounded shrink-0 bg-white disabled:opacity-40"
               disabled={!option.available}
-              class:outline={variables[i] === optIndex}
-              class:outline-secondary-light={variables[i] === optIndex}
+              class:outline={optionsId[i] === option.id}
+              class:outline-secondary-light={optionsId[i] === option.id}
             >
               {option.value}
             </button>
