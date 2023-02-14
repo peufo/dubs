@@ -16,6 +16,7 @@ export const handle = (({ event, resolve }) =>
       brandColor: '#FFA400',
       buttonText: '#8A5200',
     },
+    trustHost: true,
     providers: [
       {
         id: 'credentials',
