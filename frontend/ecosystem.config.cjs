@@ -3,6 +3,7 @@ module.exports = {
     {
       name: 'dubs-site',
       script: './build/index.js',
+      node_args: '-r dotenv/config',
       env: {
         NODE_ENV: 'production',
         DUBS_PORT: 5004,

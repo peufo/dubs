@@ -24,10 +24,13 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
+    "@auth/core": "^0.4.0",
+    "@auth/sveltekit": "^0.2.1",
     "@mdi/js": "^7.1.96",
     "@sveltejs/adapter-node": "^1.1.4",
     "autoprefixer": "^10.4.13",
     "debounce": "^1.2.1",
+    "dotenv": "^8.2.0",
     "escape-html": "^1.0.3",
     "pm2": "^5.2.2",
     "postcss": "^8.4.20",
