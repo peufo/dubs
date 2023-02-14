@@ -1,15 +1,9 @@
 import type { User, Action, Tag, Product, Landing, Footer } from './collections'
 
-export type Slugs = {
+export type LoginResponse = {
   user: User
-  action: Action
-  tag: Tag
-  product: Product
-}
-
-export type SlugsGlobal = {
-  landing: Landing
-  footer: Footer
+  token: string
+  exp: number
 }
 
 export type ErrorsResponse = {

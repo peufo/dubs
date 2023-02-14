@@ -36,6 +36,7 @@
     "postcss": "^8.4.20",
     "qs": "^6.11.0",
     "slate": "^0.87.0",
-    "vite-imagetools": "^4.0.18"
+    "vite-imagetools": "^4.0.18",
+    "zod": "^3.20.6"
   }
 }
