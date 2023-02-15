@@ -1,13 +1,16 @@
 <script lang="ts">
   import { signIn } from '@auth/sveltekit/client'
-  import { page } from '$app/stores'
+  import { enhance } from '$app/forms'
   import { mdiFacebook, mdiGithub, mdiGoogle } from '@mdi/js'
 
-  import type { PageData } from './$types'
+  import type { PageData, ActionData } from './$types'
   import Icon from '$lib/material/Icon.svelte'
   import Title from '$lib/Title.svelte'
+  import Input from '$lib/material/Input.svelte'
+  import Button from '$lib/material/Button.svelte'
 
   export let data: PageData
+  export let form: ActionData
 
   const providers = [
     { id: 'google', icon: mdiGoogle },
@@ -22,68 +25,48 @@
   <div
     class="p-8 w-full sm:w-[360px] flex flex-col gap-4 border bg-white shadow-md rounded-lg"
   >
-    {#if $page.url.search.match(/error=CredentialsSignin/)}
+    {#if form?.error}
       <div
-        class="px-4 py-2 rounded bg-secondary text-white text-center font-bold text-lg"
+        class="p-2 rounded border border-secondary-dark text-secondary-dark text-center"
       >
-        Mauvais identifiants
+        {form.error.message}
       </div>
     {/if}
 
-    <form
-      method="POST"
-      action="/auth/callback/credentials"
-      class="flex flex-col gap-4 font-semibold"
-    >
-      <input type="hidden" name="csrfToken" value={data.csrfToken} />
-      <div>
-        <label class="block w-full" for="email"> Email </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder=""
-          class="w-full px-4 py-2 rounded-md border font-normal"
-        />
+    {#if form?.user}
+      <div class="font-semibold text-lg text-center">
+        Bonjour {form.user.name} 👋
       </div>
-      <div>
-        <label class="block w-full" for="password"> Mot de passe </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder=""
-          class="w-full px-4 py-2 rounded-md border"
-        />
+      <Button secondary>Déconnexion</Button>
+    {:else}
+      <form method="POST" class="flex flex-col gap-4 font-semibold" use:enhance>
+        <input type="hidden" name="csrfToken" value={data.csrfToken} />
+        <Input key="email" type="email" />
+        <Input key="password" type="password" label="Mot de passe" />
+        <Button primary>Connexion</Button>
+      </form>
+
+      <div class="flex gap-2">
+        <hr class="grow translate-y-3" />
+        <div class="text-sm opacity-50">Ou continuer avec</div>
+        <hr class="grow translate-y-3" />
       </div>
-      <button
-        type="submit"
-        class="
-          w-full px-4 py-2 rounded text-lg
-          bg-primary-light
-          text-primary-dark hover:ring-1 ring-primary-dark
-        "
-      >
-        Connexion
-      </button>
-    </form>
 
-    <hr />
-
-    <div class="flex gap-4 justify-center">
-      {#each providers as { id, icon }}
-        <button
-          title="Connexion avec {id.toUpperCase()}"
-          on:click={() => signIn(id)}
-          class="
+      <div class="flex gap-4 justify-center">
+        {#each providers as { id, icon }}
+          <button
+            title="Connexion avec {id.toUpperCase()}"
+            on:click={() => signIn(id)}
+            class="
             rounded px-8 py-2 bg-red 
             bg-primary-light
             fill-primary-dark hover:ring-1 ring-primary-dark
           "
-        >
-          <Icon path={icon} />
-        </button>
-      {/each}
-    </div>
+          >
+            <Icon path={icon} />
+          </button>
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>

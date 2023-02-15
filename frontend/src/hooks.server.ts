@@ -28,13 +28,15 @@ export const handle = (({ event, resolve }) =>
         },
         options: {},
         async authorize(credentials) {
-          const api = useApi(event.fetch)
           try {
+            const api = useApi(event.fetch)
             const { user } = await api.login(
               credentialsShema.parse(credentials)
             )
             return user
           } catch (error) {
+            throw error
+            console.log('OUPS', error)
             return null
           }
         },

@@ -23,7 +23,7 @@ export function useApi(_fetch: typeof fetch) {
     return data
   }
 
-  const post = (path: string, data: unknown) =>
+  const post = (path: string, data: object) =>
     _fetch(`${baseUrl}${path}`, {
       method: 'POST',
       headers: {
