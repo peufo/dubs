@@ -1,6 +1,8 @@
 import type { Handle } from '@sveltejs/kit'
 import { SvelteKitAuth } from '@auth/sveltekit'
+import { skipCSRFCheck } from '@auth/core'
 import z from 'zod'
+
 import { useApi } from '$lib/api'
 
 const credentialsShema = z.object({
@@ -10,13 +12,7 @@ const credentialsShema = z.object({
 
 export const handle = (({ event, resolve }) =>
   SvelteKitAuth({
-    theme: {
-      colorScheme: 'light',
-      logo: '/favicon.ico',
-      brandColor: '#FFA400',
-      buttonText: '#8A5200',
-    },
-    trustHost: true,
+    skipCSRFCheck,
     providers: [
       {
         id: 'credentials',
@@ -27,7 +23,9 @@ export const handle = (({ event, resolve }) =>
           password: { label: 'Mot de passe', type: 'password' },
         },
         options: {},
+
         async authorize(credentials) {
+          console.log({ credentials })
           try {
             const api = useApi(event.fetch)
             const { user } = await api.login(
@@ -35,8 +33,6 @@ export const handle = (({ event, resolve }) =>
             )
             return user
           } catch (error) {
-            throw error
-            console.log('OUPS', error)
             return null
           }
         },
