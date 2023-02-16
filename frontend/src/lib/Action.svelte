@@ -69,7 +69,7 @@
         class:flex-col-reverse={layout === 'col_reverse'}
       >
         {#if text}
-          <div class="section-text px-2">
+          <div class="section-text px-2 pb-3">
             {@html serialize(text)}
           </div>
         {/if}
