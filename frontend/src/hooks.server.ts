@@ -1,6 +1,5 @@
 import type { Handle } from '@sveltejs/kit'
 import { SvelteKitAuth } from '@auth/sveltekit'
-import { skipCSRFCheck } from '@auth/core'
 import z from 'zod'
 
 import { useApi } from '$lib/api'
@@ -12,7 +11,7 @@ const credentialsShema = z.object({
 
 export const handle = (({ event, resolve }) =>
   SvelteKitAuth({
-    skipCSRFCheck,
+    trustHost: true,
     providers: [
       {
         id: 'credentials',
