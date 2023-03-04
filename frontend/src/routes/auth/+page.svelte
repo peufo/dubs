@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { signIn } from '@auth/sveltekit/client'
+  import { signIn, signOut } from '@auth/sveltekit/client'
   import { enhance } from '$app/forms'
   import { mdiFacebook, mdiGithub, mdiGoogle } from '@mdi/js'
 
@@ -29,15 +29,15 @@
       <div
         class="p-2 rounded border border-secondary-dark text-secondary-dark text-center"
       >
-        {form.error.message}
+        {form.error}
       </div>
     {/if}
 
-    {#if form?.user}
+    {#if data.session?.user}
       <div class="font-semibold text-lg text-center">
-        Bonjour {form.user.name} 👋
+        Bonjour {data.session.user.name} 👋
       </div>
-      <Button secondary>Déconnexion</Button>
+      <Button secondary on:click={signOut}>Déconnexion</Button>
     {:else}
       <form method="POST" class="flex flex-col gap-4 font-semibold" use:enhance>
         <input type="hidden" name="csrfToken" value={data.csrfToken} />

@@ -11,7 +11,6 @@ const credentialsShema = z.object({
 
 export const handle = (({ event, resolve }) =>
   SvelteKitAuth({
-    trustHost: true,
     providers: [
       {
         id: 'credentials',
