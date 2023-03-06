@@ -24,8 +24,8 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "@auth/core": "^0.4.0",
-    "@auth/sveltekit": "^0.2.1",
+    "@auth/core": "^0.5.1",
+    "@auth/sveltekit": "^0.3.0",
     "@mdi/js": "^7.1.96",
     "@sveltejs/adapter-node": "^1.1.4",
     "autoprefixer": "^10.4.13",

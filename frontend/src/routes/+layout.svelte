@@ -25,5 +25,5 @@
     <slot />
   </main>
 
-  <Footer links={data.links} />
+  <Footer links={data.links || []} />
 </div>

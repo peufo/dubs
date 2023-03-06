@@ -1,22 +1,44 @@
 <script lang="ts">
   import { signIn, signOut } from '@auth/sveltekit/client'
-  import { enhance } from '$app/forms'
-  import { mdiFacebook, mdiGithub, mdiGoogle } from '@mdi/js'
+  import {
+    mdiApple,
+    mdiFacebook,
+    mdiGithub,
+    mdiGoogle,
+    mdiInstagram,
+  } from '@mdi/js'
 
-  import type { PageData, ActionData } from './$types'
+  import type { PageData } from './$types'
   import Icon from '$lib/material/Icon.svelte'
   import Title from '$lib/Title.svelte'
-  import Input from '$lib/material/Input.svelte'
+  import Label from '$lib/material/Label.svelte'
   import Button from '$lib/material/Button.svelte'
 
   export let data: PageData
-  export let form: ActionData
+
+  let email = ''
+  let password = ''
+  let errorMessage = ''
 
   const providers = [
     { id: 'google', icon: mdiGoogle },
     { id: 'facebook', icon: mdiFacebook },
-    { id: 'github', icon: mdiGithub },
+    { id: 'apple', icon: mdiApple },
   ]
+
+  async function handleSubmitCredentials() {
+    const res = await signIn('credentials', {
+      redirect: false,
+      callbackUrl: '/auth',
+      email,
+      password,
+    })
+
+    const { url } = await res?.json()
+    if (!url) return
+    const error = new URL(url).searchParams.get('error')
+    errorMessage = error ? 'Mauvais identifants' : ''
+  }
 </script>
 
 <Title subtitle="Authentification" />
@@ -25,11 +47,11 @@
   <div
     class="p-8 w-full sm:w-[360px] flex flex-col gap-4 border bg-white shadow-md rounded-lg"
   >
-    {#if form?.error}
+    {#if errorMessage}
       <div
-        class="p-2 rounded border border-secondary-dark text-secondary-dark text-center"
+        class="p-2 rounded border border-orange-700 text-orange-700 text-center"
       >
-        {form.error}
+        {errorMessage}
       </div>
     {/if}
 
@@ -39,10 +61,27 @@
       </div>
       <Button secondary on:click={signOut}>Déconnexion</Button>
     {:else}
-      <form method="POST" class="flex flex-col gap-4 font-semibold" use:enhance>
+      <form
+        on:submit|preventDefault={handleSubmitCredentials}
+        class="flex flex-col gap-4 font-semibold"
+      >
         <input type="hidden" name="csrfToken" value={data.csrfToken} />
-        <Input key="email" type="email" />
-        <Input key="password" type="password" label="Mot de passe" />
+        <Label key="email">
+          <input
+            type="email"
+            name="email"
+            bind:value={email}
+            class="w-full px-4 py-2 rounded-md border font-normal"
+          />
+        </Label>
+        <Label key="password" label="Mot de passe">
+          <input
+            type="password"
+            name="password"
+            bind:value={password}
+            class="w-full px-4 py-2 rounded-md border font-normal"
+          />
+        </Label>
         <Button primary>Connexion</Button>
       </form>
 

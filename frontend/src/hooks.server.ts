@@ -11,7 +11,7 @@ const credentialsShema = z.object({
 
 export const handle = (({ event, resolve }) =>
   SvelteKitAuth({
-    trustHost: true, 
+    trustHost: true,
     providers: [
       {
         id: 'credentials',
@@ -21,14 +21,13 @@ export const handle = (({ event, resolve }) =>
           email: { label: 'Email', type: 'email' },
           password: { label: 'Mot de passe', type: 'password' },
         },
-        options: {},
         async authorize(credentials) {
-          console.log({ credentials })
           try {
             const api = useApi(event.fetch)
             const { user } = await api.login(
               credentialsShema.parse(credentials)
             )
+
             return user
           } catch (error) {
             return null
