@@ -72,11 +72,12 @@
     return drawPatern([5, 3], drawNext)
   }
 
-  const sides: HexagonSide[] = [
+  let sides: HexagonSide[] = []
+  $: sides = [
     { face: 3, sides: [repeat(2, [2, 3])] },
     {
       face: 4,
-      sides: [drawItem({ label: 'Accueil', href: '/' }), nextItem(items)],
+      sides: [drawItem(items[0]), nextItem(items.slice(1))],
     },
     { face: 0, permanent: true },
     { face: 1, permanent: true },
