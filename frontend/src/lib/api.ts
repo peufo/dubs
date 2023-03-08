@@ -29,7 +29,7 @@ export function useApi(_fetch: typeof fetch) {
   }
 
   const send =
-    (method: 'GET' | 'POST' | 'PATCH' | 'DELETE') =>
+    (method: 'POST' | 'PATCH' | 'DELETE') =>
     (path: string, data: object = {}) =>
       _fetch(`${baseUrl}${path}`, {
         method,
@@ -39,7 +39,7 @@ export function useApi(_fetch: typeof fetch) {
         body: JSON.stringify(data),
       })
 
-  const _get = send('GET')
+  const _get = (path: string) => _fetch(`${baseUrl}/${path}`)
   const _post = send('POST')
   const _patch = send('PATCH')
   const _delete = send('DELETE')
