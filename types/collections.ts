@@ -9,6 +9,7 @@ export interface Config {
   collections: {
     user: User;
     account: Account;
+    session: Session;
     action: Action;
     tag: Tag;
     media: Media;
@@ -46,6 +47,14 @@ export interface Account {
   scope?: string;
   session_state?: string;
   userId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Session {
+  id: string;
+  expires: string;
+  sessionToken: string;
+  userId: string;
   createdAt: string;
   updatedAt: string;
 }

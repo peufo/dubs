@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types'
-import { isRole, isRoleField } from './access'
+import { isRole } from './access'
 
 export const Account: CollectionConfig = {
   slug: 'account',

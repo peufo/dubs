@@ -2,6 +2,7 @@ import { CollectionConfig } from 'payload/types'
 import { isRole, isRoleField } from './access'
 
 export { Account } from './account'
+export { Session } from './session'
 
 export const User: CollectionConfig = {
   slug: 'user',
