@@ -1,7 +1,7 @@
 import { buildConfig } from 'payload/config'
 import path from 'path'
 
-import { Users } from './collections/user'
+import { User, Account } from './collections/user'
 import { Action } from './collections/action'
 import { Tag } from './collections/tag'
 import { Media } from './collections/media'
@@ -21,7 +21,7 @@ const serverURL = dev ? 'http://localhost:5002' : 'https://dubs-apiculture.ch'
 export default buildConfig({
   serverURL,
   admin: {
-    user: Users.slug,
+    user: User.slug,
     meta: {
       ogImage: '/img/logo.png',
       titleSuffix: '- Dubs Apiculture',
@@ -34,7 +34,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Action, Tag, Media, Product, Order],
+  collections: [User, Account, Action, Tag, Media, Product, Order],
   globals: [Landing, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),

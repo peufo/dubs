@@ -7,11 +7,13 @@
 
 export interface Config {
   collections: {
-    users: User;
+    user: User;
+    account: Account;
     action: Action;
     tag: Tag;
     media: Media;
     product: Product;
+    order: Order;
   };
   globals: {
     landing: Landing;
@@ -21,8 +23,9 @@ export interface Config {
 export interface User {
   id: string;
   name: string;
+  emailVerified?: string;
   role: 'admin' | 'editor' | 'user';
-  email?: string;
+  email: string;
   resetPasswordToken?: string;
   resetPasswordExpiration?: string;
   loginAttempts?: number;
@@ -30,6 +33,21 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   password?: string;
+}
+export interface Account {
+  id: string;
+  type: string;
+  provider: string;
+  providerAccountId: string;
+  refresh_token?: string;
+  access_token?: string;
+  expires_at?: number;
+  token_type?: string;
+  scope?: string;
+  session_state?: string;
+  userId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface Action {
   id: string;
@@ -70,14 +88,12 @@ export interface Action {
   remoteUpdate?: boolean;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Tag {
   id: string;
   name?: string;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Media {
   id: string;
@@ -140,7 +156,6 @@ export interface Media {
   };
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Product {
   id: string;
@@ -169,7 +184,22 @@ export interface Product {
   }[];
   createdAt: string;
   updatedAt: string;
-  password?: string;
+}
+export interface Order {
+  id: string;
+  product: string | Product;
+  quantity?: number;
+  variables?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface Landing {
   id: string;

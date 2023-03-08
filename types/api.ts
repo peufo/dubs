@@ -1,8 +1,14 @@
-import type { User, Action, Tag, Product, Landing, Footer } from './collections'
+import type { User } from './collections'
 
 export type LoginResponse = {
   user: User
   token: string
+  exp: number
+}
+
+export type RefreshResponse = {
+  user: User
+  refreshedToken: string
   exp: number
 }
 

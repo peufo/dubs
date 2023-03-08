@@ -1,8 +1,10 @@
 import { CollectionConfig } from 'payload/types'
 import { isRole, isRoleField } from './access'
 
-export const Users: CollectionConfig = {
-  slug: 'users',
+export { Account } from './account'
+
+export const User: CollectionConfig = {
+  slug: 'user',
   auth: true,
   labels: {
     singular: 'Utilisateur',
@@ -12,7 +14,7 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   access: {
-    create: isRole('editor'),
+    create: () => true,
     read: isRole('editor', true),
     update: isRole('editor', true),
     delete: isRole('editor', true),
@@ -25,6 +27,15 @@ export const Users: CollectionConfig = {
       required: true,
       minLength: 3,
       maxLength: 50,
+    },
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+    },
+    {
+      name: 'emailVerified',
+      type: 'date',
     },
     {
       name: 'role',
