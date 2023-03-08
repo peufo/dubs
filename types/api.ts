@@ -13,7 +13,11 @@ export type RefreshResponse = {
 }
 
 export type ErrorsResponse = {
-  errors: { message: string }[]
+  errors: {
+    message: string
+    name: string
+    data: { field: string; message: string }[]
+  }[]
 }
 
 export type Operator =

@@ -24,6 +24,10 @@ export interface Config {
 export interface User {
   id: string;
   name: string;
+  surname?: string;
+  street?: string;
+  zipCode?: string;
+  city?: string;
   emailVerified?: string;
   role: 'admin' | 'editor' | 'user';
   email: string;

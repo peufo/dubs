@@ -12,7 +12,8 @@ export const User: CollectionConfig = {
     plural: 'Utilisateurs',
   },
   admin: {
-    useAsTitle: 'name',
+    useAsTitle: 'surname',
+    defaultColumns: ['name', 'surname', 'email'],
   },
   access: {
     create: () => true,
@@ -22,18 +23,52 @@ export const User: CollectionConfig = {
   },
   fields: [
     {
+      name: 'email',
+      type: 'email',
+      required: true,
+    },
+    {
       name: 'name',
       type: 'text',
-      label: 'Nom',
+      label: 'Prénom',
       required: true,
       minLength: 3,
       maxLength: 50,
     },
     {
-      name: 'email',
-      type: 'email',
-      required: true,
+      name: 'surname',
+      type: 'text',
+      label: 'Nom',
+      minLength: 3,
+      maxLength: 50,
     },
+    {
+      name: 'street',
+      type: 'text',
+      label: 'Rue et numéro',
+      minLength: 3,
+      maxLength: 50,
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'zipCode',
+          type: 'text',
+          label: 'Code postal',
+          minLength: 4,
+          maxLength: 4,
+        },
+        {
+          name: 'city',
+          type: 'text',
+          label: 'Ville',
+          minLength: 2,
+          maxLength: 50,
+        },
+      ],
+    },
+
     {
       name: 'emailVerified',
       type: 'date',

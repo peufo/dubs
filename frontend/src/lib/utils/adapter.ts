@@ -9,18 +9,22 @@ import { api } from '$lib/api'
 
 export const payloadAdapter: Adapter = {
   async createUser(user) {
+    console.log('createUser')
     const res = await api.create('user', formatTo(user))
     return userFrom(res)
   },
   async getUser(userId) {
+    console.log('getUser')
     const res = await api.getById('user', userId)
     return userFrom(res)
   },
   async getUserByEmail(email) {
+    console.log('getUserByEmail')
     const res = await api.get('user', { where: { email: { equals: email } } })
     return userFrom(res.docs[0])
   },
   async getUserByAccount({ provider, providerAccountId }) {
+    console.log('getUserByAccount')
     const {
       docs: [account],
     } = await api.get('account', {
@@ -36,16 +40,20 @@ export const payloadAdapter: Adapter = {
     return userFrom(res)
   },
   async updateUser(user) {
+    console.log('updateUser')
     const res = await api.update('user', user.id || '', formatTo(user))
     return userFrom(res)
   },
   async deleteUser(userId) {
+    console.log('deleteUser')
     await api.delete('user', userId)
   },
   async linkAccount(account) {
+    console.log('linkAccount')
     await api.create('account', account)
   },
   async unlinkAccount({ provider, providerAccountId }) {
+    console.log('unlinkAccount')
     const {
       docs: [account],
     } = await api.get('account', {
@@ -60,24 +68,27 @@ export const payloadAdapter: Adapter = {
     await api.delete('account', account.id)
   },
   async createSession(session) {
+    console.log('createSession')
     const res = await api.create('session', sessionTo(session))
     return sessionFrom(res)
   },
   async getSessionAndUser(sessionToken) {
+    console.log('getSessionAndUser', { sessionToken })
     const {
       docs: [session],
     } = await api.get('session', {
       where: { sessionToken: { equals: sessionToken } },
     })
-    if (!session) return null
+    if (!session) throw Error('Session not found')
     const user = await api.getById('user', session.userId)
-    if (!user) return null
+    if (!user) throw Error('User not found')
     return {
       session: sessionFrom(session),
       user: userFrom(user),
     }
   },
   async updateSession(session) {
+    console.log('updateSession')
     const resSessions = await api.get('session', {
       where: { sessionToken: { equals: session.sessionToken } },
     })
@@ -86,6 +97,7 @@ export const payloadAdapter: Adapter = {
     return sessionFrom(res)
   },
   async deleteSession(sessionToken) {
+    console.log('deleteSession')
     const resSessions = await api.get('session', {
       where: { sessionToken: { equals: sessionToken } },
     })

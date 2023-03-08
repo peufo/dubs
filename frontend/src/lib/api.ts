@@ -24,14 +24,25 @@ const baseUrl = dev ? 'http://localhost:5002/api' : '/api'
 export function useApi(_fetch: typeof fetch) {
   async function getData<Type = unknown>(res: Response): Promise<Type> {
     const data = (await res.json()) as Type & ErrorsResponse
-    if (data.errors) throw error(res.status, data.errors[0].message)
+    if (data.errors) {
+      const [err] = data.errors
+      let htmlError = `<h5>${err.message}</h5>`
+      if (err.data) {
+        htmlError += '<ul>'
+        err.data?.forEach(({ message }) => {
+          htmlError += `<li>${message}</li>`
+        })
+        htmlError += '</ul>'
+      }
+      throw error(res.status, htmlError)
+    }
     return data
   }
 
   const send =
     (method: 'POST' | 'PATCH' | 'DELETE') =>
     (path: string, data: object = {}) =>
-      _fetch(`${baseUrl}${path}`, {
+      _fetch(`${baseUrl}/${path}`, {
         method,
         headers: {
           'Content-Type': 'application/json',

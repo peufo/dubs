@@ -1,24 +1,32 @@
 <script lang="ts">
   import { signIn, signOut } from '@auth/sveltekit/client'
-  import {
-    mdiApple,
-    mdiFacebook,
-    mdiGithub,
-    mdiGoogle,
-    mdiInstagram,
-  } from '@mdi/js'
+  import { mdiApple, mdiFacebook, mdiGoogle } from '@mdi/js'
+  import { slide } from 'svelte/transition'
+  import type { HttpError } from '@sveltejs/kit'
 
+  import { api } from '$lib/api'
   import type { PageData } from './$types'
+  import type { User } from 'types'
   import Icon from '$lib/material/Icon.svelte'
   import Title from '$lib/Title.svelte'
   import Label from '$lib/material/Label.svelte'
+  import TextField from '$lib/material/TextField.svelte'
   import Button from '$lib/material/Button.svelte'
 
   export let data: PageData
 
+  let createAccount = false
   let email = ''
   let password = ''
   let errorMessage = ''
+
+  let newUser = {
+    name: '',
+    surname: '',
+    street: '',
+    zipCode: '',
+    city: '',
+  } satisfies Partial<User>
 
   const providers = [
     { id: 'google', icon: mdiGoogle },
@@ -26,18 +34,32 @@
     { id: 'apple', icon: mdiApple },
   ]
 
-  async function handleSubmitCredentials() {
+  async function handleSubmit() {
+    if (createAccount) {
+      try {
+        const user = await api.create('user', {
+          ...newUser,
+          email,
+          password,
+        })
+        console.log(user)
+      } catch (error) {
+        if (!error) return
+        if (typeof error === 'object' && 'body' in error)
+          errorMessage = (error as HttpError).body.message || 'Erreur'
+        return
+      }
+    }
     const res = await signIn('credentials', {
       redirect: false,
       callbackUrl: '/auth',
       email,
       password,
     })
-
     const { url } = await res?.json()
     if (!url) return
     const error = new URL(url).searchParams.get('error')
-    errorMessage = error ? 'Mauvais identifants' : ''
+    errorMessage = error ? 'Identifants invalides' : ''
   }
 </script>
 
@@ -51,7 +73,7 @@
       <div
         class="p-2 rounded border border-orange-700 text-orange-700 text-center"
       >
-        {errorMessage}
+        {@html errorMessage}
       </div>
     {/if}
 
@@ -62,42 +84,97 @@
       <Button secondary on:click={signOut}>Déconnexion</Button>
     {:else}
       <form
-        on:submit|preventDefault={handleSubmitCredentials}
+        on:submit|preventDefault={handleSubmit}
         class="flex flex-col gap-4 font-semibold"
       >
-        <input type="hidden" name="csrfToken" value={data.csrfToken} />
-        <Label key="email">
+        <Label>
+          Email
           <input
             type="email"
-            name="email"
             bind:value={email}
             class="w-full px-4 py-2 rounded-md border font-normal"
           />
         </Label>
-        <Label key="password" label="Mot de passe">
+        <Label>
+          Mot de passe
           <input
             type="password"
-            name="password"
             bind:value={password}
             class="w-full px-4 py-2 rounded-md border font-normal"
           />
         </Label>
-        <Button primary>Connexion</Button>
+
+        {#if createAccount}
+          <div in:slide|local class="flex flex-col gap-4">
+            <hr />
+            <div class="flex gap-4">
+              <TextField
+                label="Prénom"
+                bind:value={newUser.name}
+                class="grow"
+              />
+              <TextField
+                label="Nom"
+                bind:value={newUser.surname}
+                class="grow"
+              />
+            </div>
+            <TextField
+              label="Rue et numéro"
+              bind:value={newUser.street}
+              name="street"
+            />
+
+            <div class="flex gap-4">
+              <TextField
+                label="Code postal"
+                bind:value={newUser.zipCode}
+                name="zipCode"
+                minLength={4}
+                maxLength={4}
+                pattern="[1-9][0-9][0-9][0-9]"
+                class="max-w-[90px]"
+              />
+              <TextField
+                label="Ville"
+                bind:value={newUser.city}
+                name="city"
+                class="grow"
+              />
+            </div>
+          </div>
+        {/if}
+
+        <div class="flex gap-4 flex-wrap">
+          {#if !createAccount}
+            <Button
+              primary
+              type="button"
+              on:click={() => (createAccount = true)}
+              class="grow"
+            >
+              Nouveau
+            </Button>
+          {/if}
+          <Button primary type="submit" class="grow">
+            {createAccount ? 'Créer un compte' : 'Connexion'}
+          </Button>
+        </div>
       </form>
 
       <div class="flex gap-2">
-        <hr class="grow translate-y-3" />
+        <hr class="grow translate-y-[11px]" />
         <div class="text-sm opacity-50">Ou continuer avec</div>
-        <hr class="grow translate-y-3" />
+        <hr class="grow translate-y-[11px]" />
       </div>
 
-      <div class="flex gap-4 justify-center">
+      <div class="flex gap-4 justify-center flex-wrap">
         {#each providers as { id, icon }}
           <button
             title="Connexion avec {id.toUpperCase()}"
             on:click={() => signIn(id)}
-            class="
-            rounded px-8 py-2 bg-red 
+            class=" grow
+            rounded px-6 py-2 bg-red 
             bg-primary-light
             fill-primary-dark hover:ring-1 ring-primary-dark
           "

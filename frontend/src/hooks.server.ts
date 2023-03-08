@@ -3,15 +3,16 @@ import { SvelteKitAuth } from '@auth/sveltekit'
 import z from 'zod'
 
 import { useApi } from '$lib/api'
-
-const credentialsShema = z.object({
-  email: z.string(),
-  password: z.string(),
-})
+import { payloadAdapter } from '$lib/utils/adapter'
 
 export const handle = (({ event, resolve }) =>
   SvelteKitAuth({
     trustHost: true,
+    adapter: payloadAdapter,
+    session: {
+      strategy: 'jwt',
+    },
+
     providers: [
       {
         id: 'credentials',
@@ -23,11 +24,14 @@ export const handle = (({ event, resolve }) =>
         },
         async authorize(credentials) {
           try {
+            const credentialsShema = z.object({
+              email: z.string(),
+              password: z.string(),
+            })
             const api = useApi(event.fetch)
             const { user } = await api.login(
               credentialsShema.parse(credentials)
             )
-
             return user
           } catch (error) {
             return null

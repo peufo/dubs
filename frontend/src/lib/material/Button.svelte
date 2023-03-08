@@ -9,7 +9,7 @@
 <button
   {type}
   on:click
-  class="{klass} w-full px-4 py-2 rounded text-lg hover:ring-1"
+  class="{klass} px-4 py-2 rounded text-lg hover:ring-1"
   class:bg-primary-light={primary}
   class:text-primary-dark={primary}
   class:ring-primary-dark={primary}
