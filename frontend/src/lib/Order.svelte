@@ -7,7 +7,7 @@
 
 {#if $order}
   <section
-    class="fixed right-4 bottom-4 w-60 h-72 border border-secondary-light rounded-lg shadow-lg overflow-hidden flex flex-col"
+    class="fixed right-4 bottom-4 w-60 h-72 border border-secondary-light bg-white rounded-lg shadow-lg overflow-hidden flex flex-col"
   >
     <div
       class="flex items-center gap-2 py-2 px-4 border-b border-secondary-light text-secondary-dark fill-secondary-dark"
