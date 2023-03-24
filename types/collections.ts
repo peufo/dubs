@@ -66,7 +66,7 @@ export interface Action {
   id: string;
   name: string;
   tags?: string[] | Tag[];
-  sections: {
+  sections?: {
     text?: {
       [k: string]: unknown;
     }[];
@@ -74,7 +74,7 @@ export interface Action {
     layout?: 'row' | 'row_reverse' | 'col' | 'col_reverse';
     id?: string;
   }[];
-  inputs: {
+  inputs?: {
     name?: string;
     action?: string | Action;
     groups?: string;
@@ -85,7 +85,7 @@ export interface Action {
     location?: [number, number];
     id?: string;
   }[];
-  outputs: {
+  outputs?: {
     name?: string;
     action?: string | Action;
     groups?: string;
@@ -117,8 +117,8 @@ export interface Media {
   filesize?: number;
   width?: number;
   height?: number;
-  sizes: {
-    thumbnail: {
+  sizes?: {
+    thumbnail?: {
       url?: string;
       width?: number;
       height?: number;
@@ -126,7 +126,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    card_w: {
+    card_w?: {
       url?: string;
       width?: number;
       height?: number;
@@ -134,7 +134,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    card_h: {
+    card_h?: {
       url?: string;
       width?: number;
       height?: number;
@@ -142,7 +142,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    mini: {
+    mini?: {
       url?: string;
       width?: number;
       height?: number;
@@ -150,7 +150,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    medium: {
+    medium?: {
       url?: string;
       width?: number;
       height?: number;
@@ -158,7 +158,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    large: {
+    large?: {
       url?: string;
       width?: number;
       height?: number;
@@ -200,29 +200,39 @@ export interface Product {
 }
 export interface Order {
   id: string;
-  product: string | Product;
-  quantity?: number;
-  variables?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  client: string | User;
+  stateOrder?: 'open' | 'canceled' | 'close';
+  amountDue: number;
+  amountPaid?: number;
+  paymentOk?: boolean;
+  cart: {
+    product: string | Product;
+    quantity?: number;
+    price: number;
+    unitPrice: number;
+    variables?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    id?: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }
 export interface Landing {
   id: string;
-  sectionA: {
+  sectionA?: {
     text?: {
       [k: string]: unknown;
     }[];
     image?: string | Media;
   };
-  sectionB: {
+  sectionB?: {
     text?: {
       [k: string]: unknown;
     }[];
@@ -231,7 +241,7 @@ export interface Landing {
 }
 export interface Footer {
   id: string;
-  links: {
+  links?: {
     label: string;
     href: string;
     icon:

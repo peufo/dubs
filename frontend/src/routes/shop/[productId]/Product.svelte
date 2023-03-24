@@ -1,7 +1,10 @@
 <script lang="ts">
-  import type { Product } from 'types'
+  import { createEventDispatcher } from 'svelte'
   import { page } from '$app/stores'
+  import type { PageData } from './$types'
   import { afterNavigate } from '$app/navigation'
+
+  import type { Product, Order } from 'types'
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
@@ -9,6 +12,8 @@
   import { useGotoQuery } from '$lib/utils/gotoQuery'
 
   export let product: Product
+
+  const dispatch = createEventDispatcher<{ newOrder: Order['cart'][number] }>()
 
   let stateLabel: Record<Product['state'], string> = {
     draft: 'Brouillon',
@@ -36,6 +41,16 @@
       const option = options.find(({ id }) => id === optionsId[i])
       return acc + (option?.price || 0)
     }, 0)
+
+  function handleNewOrder() {
+    dispatch('newOrder', {
+      product,
+      price,
+      unitPrice: price,
+      quantity: 1,
+      variables: product.variables,
+    })
+  }
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
@@ -84,6 +99,7 @@
       </div>
 
       <button
+        on:click={handleNewOrder}
         class="
           rounded py-2 px-4 uppercase 
           bg-primary-light text-primary-dark

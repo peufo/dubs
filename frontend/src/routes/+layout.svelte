@@ -3,6 +3,7 @@
   import '../app.css'
   import Footer from './Footer.svelte'
   import Menu from '$lib/Menu.svelte'
+  import Order from '$lib/Order.svelte'
 
   import Watermark from '$lib/material/Watermark.svelte'
 
@@ -29,3 +30,5 @@
 
   <Footer links={data.links || []} />
 </div>
+
+<Order />

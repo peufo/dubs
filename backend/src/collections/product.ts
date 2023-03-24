@@ -71,6 +71,8 @@ export const Product: CollectionConfig = {
     {
       name: 'images',
       type: 'array',
+      defaultValue: [],
+      required: true,
       fields: [
         {
           name: 'image',
@@ -87,6 +89,8 @@ export const Product: CollectionConfig = {
     {
       name: 'variables',
       type: 'blocks',
+      defaultValue: [],
+      required: true,
       blocks: [
         {
           slug: 'options',
@@ -105,6 +109,7 @@ export const Product: CollectionConfig = {
             {
               name: 'options',
               type: 'array',
+              required: true,
               fields: [
                 {
                   type: 'row',
