@@ -18,8 +18,8 @@
   <title>Dubs Apiculture • Miel de Coeuve</title>
 </svelte:head>
 
-<div class="max-w-3xl mx-auto flex flex-col gap-10 text-lg sm:text-xl">
-  <div class="flex gap-6 justify-between items-center pt-10 pr-4 md:gap-10">
+<div class="max-w-3xl mx-auto flex flex-col gap-10 text-lg sm:text-xl px-4">
+  <div class="flex gap-6 justify-between items-center pt-10 md:gap-10">
     <img
       class="w-1/2 rotate-12 max-w-sm"
       src={logo}
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <div class="flex gap-6 sm:gap-10 pl-4 sm:pr-4">
+  <div class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap">
     <div class="grow w-max">
       {#if sectionA.text}
         {@html serialize(sectionA.text)}
@@ -43,10 +43,7 @@
     {#if typeof sectionA.image === 'object'}
       <div
         title={sectionA.image.title}
-        class="
-            h-48 w-48 sm:h-72 sm:w-72 sm:rounded-2xl
-            bg-cover shrink-0 rounded-l-2xl
-          "
+        class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
         style="background-image: url('{getPathname(
           sectionA.image.sizes.card_h.url
         )}')"
@@ -54,14 +51,11 @@
     {/if}
   </div>
 
-  <div class="flex gap-6 sm:gap-10 pr-4 sm:pl-4">
+  <div class="flex gap-6 sm:gap-10   flex-wrap-reverse sm:flex-nowrap">
     {#if typeof sectionB.image === 'object'}
       <div
         title={sectionB.image.title}
-        class="
-            h-48 w-44 bg-cover shrink-0 rounded-r-2xl
-            sm:h-72 sm:w-64 sm:rounded-2xl
-          "
+        class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
         style="background-image: url('{getPathname(
           sectionB.image.sizes.card_h.url
         )}')"
