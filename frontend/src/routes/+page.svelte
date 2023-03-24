@@ -18,25 +18,23 @@
   <title>Dubs Apiculture • Miel de Coeuve</title>
 </svelte:head>
 
-<div class="flex justify-center gap-6 md:gap-10 items-center pt-10">
-  <img
-    class="w-1/2 rotate-12 max-w-sm -translate-x-8"
-    src={logo}
-    alt="Logo principal miel de Coeuve"
-    width="500"
-    height="500"
-  />
-  <div class="font-semibold text-3xl sm:text-5xl">
-    <h3>Dubs</h3>
-    <h3>Apiculture</h3>
+<div class="max-w-3xl mx-auto flex flex-col gap-10 text-lg sm:text-xl">
+  <div class="flex gap-6 justify-between items-center pt-10 pr-4 md:gap-10">
+    <img
+      class="w-1/2 rotate-12 max-w-sm"
+      src={logo}
+      alt="Logo principal miel de Coeuve"
+      width="500"
+      height="500"
+    />
+    <div class="w-48 sm:w-72 font-semibold text-3xl sm:text-5xl">
+      <h3>Dubs</h3>
+      <h3>Apiculture</h3>
+    </div>
   </div>
-</div>
 
-<div
-  class="flex flex-col mt-10 gap-12 text-lg sm:text-xl sm:gap-8 max-w-2xl m-auto"
->
-  <div class="flex gap-6 sm:gap-10">
-    <div class="ml-4 sm:ml-0 grow">
+  <div class="flex gap-6 sm:gap-10 pl-4 sm:pr-4">
+    <div class="grow w-max">
       {#if sectionA.text}
         {@html serialize(sectionA.text)}
       {/if}
@@ -46,9 +44,9 @@
       <div
         title={sectionA.image.title}
         class="
-          h-48 w-48 sm:h-72 sm:w-72 sm:rounded-2xl
-          bg-cover shrink-0 rounded-l-2xl
-        "
+            h-48 w-48 sm:h-72 sm:w-72 sm:rounded-2xl
+            bg-cover shrink-0 rounded-l-2xl
+          "
         style="background-image: url('{getPathname(
           sectionA.image.sizes.card_h.url
         )}')"
@@ -56,14 +54,14 @@
     {/if}
   </div>
 
-  <div class="flex gap-6 sm:gap-10">
+  <div class="flex gap-6 sm:gap-10 pr-4 sm:pl-4">
     {#if typeof sectionB.image === 'object'}
       <div
         title={sectionB.image.title}
         class="
-          h-48 w-44 bg-cover shrink-0 rounded-r-2xl
-          sm:h-72 sm:w-64 sm:rounded-2xl sm:-translate-y-1/4
-        "
+            h-48 w-44 bg-cover shrink-0 rounded-r-2xl
+            sm:h-72 sm:w-64 sm:rounded-2xl
+          "
         style="background-image: url('{getPathname(
           sectionB.image.sizes.card_h.url
         )}')"
