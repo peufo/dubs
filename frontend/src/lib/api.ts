@@ -9,7 +9,7 @@ import type {
   QueryBase,
   ErrorsResponse,
   LoginResponse,
-  RefreshResponse,
+  AuthResponse,
 } from 'types'
 
 type Collections = Config['collections']
@@ -50,7 +50,8 @@ export function useApi(_fetch: typeof fetch) {
         body: JSON.stringify(data),
       })
 
-  const _get = (path: string) => _fetch(`${baseUrl}/${path}`)
+  const _get = (path: string, headers?: Headers) =>
+    _fetch(`${baseUrl}/${path}`, { headers })
   const _post = send('POST')
   const _patch = send('PATCH')
   const _delete = send('DELETE')
@@ -58,10 +59,11 @@ export function useApi(_fetch: typeof fetch) {
   return {
     async get<Key extends keyof Collections>(
       slug: Key,
-      query?: QueryGet<Collections[Key]>
+      query?: QueryGet<Collections[Key]>,
+      headers?: Headers
     ): Promise<PaginatedDocs<Collections[Key]>> {
       const params = qs.stringify(query)
-      const res = await _get(`${slug}?${params}`)
+      const res = await _get(`${slug}?${params}`, headers)
       return getData<PaginatedDocs<Collections[Key]>>(res)
     },
     async getById<Key extends keyof Collections>(
@@ -110,7 +112,11 @@ export function useApi(_fetch: typeof fetch) {
     },
     async refresh() {
       const res = await _post('/user/refresh-token')
-      return getData<RefreshResponse>(res)
+      return getData<AuthResponse>(res)
+    },
+    async session(headers?: Headers) {
+      const res = await _get('/user/me', headers)
+      return getData<AuthResponse>(res)
     },
   }
 }

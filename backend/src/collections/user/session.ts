@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types'
-import { isRole } from './access'
+import { isRole, isRoleOrSelf } from './access'
 
 export const Session: CollectionConfig = {
   slug: 'session',
@@ -9,9 +9,9 @@ export const Session: CollectionConfig = {
   },
   access: {
     create: isRole('editor'),
-    read: isRole('editor', true),
-    update: isRole('editor', true),
-    delete: isRole('editor', true),
+    read: isRole('admin'),
+    update: isRoleOrSelf('editor'),
+    delete: isRoleOrSelf('editor'),
   },
   fields: [
     {

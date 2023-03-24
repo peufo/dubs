@@ -25,11 +25,11 @@ export interface User {
   id: string;
   name: string;
   surname?: string;
+  role: 'admin' | 'editor' | 'user';
   street?: string;
   zipCode?: string;
   city?: string;
   emailVerified?: string;
-  role: 'admin' | 'editor' | 'user';
   email: string;
   resetPasswordToken?: string;
   resetPasswordExpiration?: string;

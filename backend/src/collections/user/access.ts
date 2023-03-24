@@ -6,14 +6,18 @@ export const isSelf: Access<any, User> = ({ req: { user } }) => ({
 })
 
 export const isRole: (
-  role: User['role'],
-  orIsSelf?: boolean
-) => Access<any, User> =
-  (role, orSelf = false) =>
+  role: User['role']
+) => (...args: Parameters<Access<any, User>>) => boolean =
+  (role) =>
+  ({ req: { user } }) =>
+    _isRole(role, user)
+
+export const isRoleOrSelf: (role: User['role']) => Access<any, User> =
+  (role) =>
   ({ req: { user } }) => {
+    console.log(user)
     if (_isRole(role, user)) return true
-    if (orSelf) return { id: { equals: user?.id } }
-    return false
+    return { id: { equals: user?.id } }
   }
 
 export const isRoleField: (role: User['role']) => FieldAccess<any, User> =

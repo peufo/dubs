@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types'
-import { isRole, isRoleField } from './access'
+import { isRole, isRoleOrSelf, isRoleField } from './access'
 
 export { Account } from './account'
 export { Session } from './session'
@@ -17,9 +17,10 @@ export const User: CollectionConfig = {
   },
   access: {
     create: () => true,
-    read: isRole('editor', true),
-    update: isRole('editor', true),
-    delete: isRole('editor', true),
+    read: isRoleOrSelf('editor'),
+    update: isRoleOrSelf('editor'),
+    delete: isRoleOrSelf('editor'),
+    admin: isRole('editor'),
   },
   fields: [
     {
@@ -34,6 +35,25 @@ export const User: CollectionConfig = {
       required: true,
       minLength: 3,
       maxLength: 50,
+    },
+    {
+      name: 'surname',
+      type: 'text',
+      label: 'Nom',
+      minLength: 3,
+      maxLength: 50,
+    },
+    {
+      name: 'role',
+      type: 'select',
+      required: true,
+      defaultValue: 'user',
+      options: ['admin', 'editor', 'user'],
+      saveToJWT: true,
+      access: {
+        create: isRoleField('editor'),
+        update: isRoleField('editor'),
+      },
     },
     {
       name: 'surname',
@@ -68,22 +88,9 @@ export const User: CollectionConfig = {
         },
       ],
     },
-
     {
       name: 'emailVerified',
       type: 'date',
-    },
-    {
-      name: 'role',
-      type: 'select',
-      required: true,
-      defaultValue: 'user',
-      options: ['admin', 'editor', 'user'],
-      saveToJWT: true,
-      access: {
-        create: isRoleField('editor'),
-        update: isRoleField('editor'),
-      },
     },
   ],
 }

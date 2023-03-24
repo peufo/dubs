@@ -6,11 +6,13 @@ export type LoginResponse = {
   exp: number
 }
 
-export type RefreshResponse = {
-  user: User
-  refreshedToken: string
-  exp: number
-}
+export type AuthResponse =
+  | { user: null }
+  | {
+      user: User
+      refreshedToken: string
+      exp: number
+    }
 
 export type ErrorsResponse = {
   errors: {

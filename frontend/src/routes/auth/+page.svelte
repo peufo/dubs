@@ -1,13 +1,10 @@
 <script lang="ts">
-  import { signIn, signOut } from '@auth/sveltekit/client'
-  import { mdiApple, mdiFacebook, mdiGoogle } from '@mdi/js'
   import { slide } from 'svelte/transition'
   import type { HttpError } from '@sveltejs/kit'
 
   import { api } from '$lib/api'
   import type { PageData } from './$types'
   import type { User } from 'types'
-  import Icon from '$lib/material/Icon.svelte'
   import Title from '$lib/Title.svelte'
   import Label from '$lib/material/Label.svelte'
   import TextField from '$lib/material/TextField.svelte'
@@ -28,12 +25,6 @@
     city: '',
   } satisfies Partial<User>
 
-  const providers = [
-    { id: 'google', icon: mdiGoogle },
-    { id: 'facebook', icon: mdiFacebook },
-    { id: 'apple', icon: mdiApple },
-  ]
-
   async function handleSubmit() {
     if (createAccount) {
       try {
@@ -50,16 +41,14 @@
         return
       }
     }
-    const res = await signIn('credentials', {
-      redirect: false,
-      callbackUrl: '/auth',
-      email,
-      password,
-    })
-    const { url } = await res?.json()
-    if (!url) return
-    const error = new URL(url).searchParams.get('error')
-    errorMessage = error ? 'Identifants invalides' : ''
+    const res = await api.login({ email, password })
+    console.log(res)
+    document.location.reload() // flème
+  }
+
+  async function handleLogout() {
+    await api.logout()
+    document.location.reload() // flème
   }
 </script>
 
@@ -81,7 +70,7 @@
       <div class="font-semibold text-lg text-center">
         Bonjour {data.session.user.name} 👋
       </div>
-      <Button secondary on:click={signOut}>Déconnexion</Button>
+      <Button secondary on:click={handleLogout}>Déconnexion</Button>
     {:else}
       <form
         on:submit|preventDefault={handleSubmit}
@@ -161,28 +150,6 @@
           </Button>
         </div>
       </form>
-
-      <div class="flex gap-2">
-        <hr class="grow translate-y-[11px]" />
-        <div class="text-sm opacity-50">Ou continuer avec</div>
-        <hr class="grow translate-y-[11px]" />
-      </div>
-
-      <div class="flex gap-4 justify-center flex-wrap">
-        {#each providers as { id, icon }}
-          <button
-            title="Connexion avec {id.toUpperCase()}"
-            on:click={() => signIn(id)}
-            class=" grow
-            rounded px-6 py-2 bg-red 
-            bg-primary-light
-            fill-primary-dark hover:ring-1 ring-primary-dark
-          "
-          >
-            <Icon path={icon} />
-          </button>
-        {/each}
-      </div>
     {/if}
   </div>
 </div>
