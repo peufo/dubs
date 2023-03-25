@@ -9,9 +9,7 @@
   import Icon from '$lib/material/Icon.svelte'
   import Button from '$lib/material/Button.svelte'
   import IconButton from '$lib/material/IconButton.svelte'
-  import Image from '$lib/Image.svelte'
-  import { formatAmount } from '$lib/utils/formatAmount'
-  import { getVariablesValues } from '$lib/product'
+  import OrderItem from '$lib/OrderItem.svelte'
 
   let active = true
   let error = ''
@@ -73,42 +71,17 @@
         class="flex-grow flex flex-col py-1 overflow-auto border-t border-secondary-light"
         transition:slide|local
       >
-        {#each $order.cart || [] as { product, price, options }, rowIndex}
-          {#if typeof product !== 'string'}
-            <div class="flex gap-1 p-1 group hover:bg-secondary-light/25">
-              <Image
-                image={product.images[0].image}
-                size="mini"
-                class="w-10 h-10 rounded mt-1"
-              />
-              <div class="flex-grow">
-                <div class="flex justify-between items-center">
-                  <h4 class="">{product.name}</h4>
-                  <span class="text-xs group-hover:hidden">
-                    {formatAmount(price)}
-                  </span>
-                </div>
-                <ul class="text-xs">
-                  {#each [...getVariablesValues(product.variables, options)] as [name, option]}
-                    <li>
-                      {name}
-                      <b>
-                        {option.value}
-                      </b>
-                    </li>
-                  {/each}
-                </ul>
-              </div>
-              <IconButton
-                on:click={() => order.delete(rowIndex)}
-                size={22}
-                title="Supprimer l'article"
-                secondary
-                path={mdiClose}
-                class="hidden group-hover:block"
-              />
-            </div>
-          {/if}
+        {#each $order.cart || [] as item, itemIndex}
+          <OrderItem {item}>
+            <IconButton
+              on:click={() => order.delete(itemIndex)}
+              size={22}
+              title="Supprimer l'article"
+              secondary
+              path={mdiClose}
+              class="hidden group-hover:block"
+            />
+          </OrderItem>
         {:else}
           <div class="text-center p-4">Panier vide</div>
         {/each}

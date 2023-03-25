@@ -16,8 +16,10 @@
   on:keyup={() => (active = true)}
   class:cursor-pointer={!active}
 >
-  <div class="flex justify-between items-center">
-    <h3 class="text-xl">{title}</h3>
+  <div class="flex items-center gap-2">
+    <slot name="header">
+      <h3 class="text-xl grow">{title}</h3>
+    </slot>
     <IconButton
       path={mdiChevronRight}
       secondary

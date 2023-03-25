@@ -28,10 +28,12 @@ export const Order: CollectionConfig = {
           name: 'stateOrder',
           label: 'État de la commande',
           type: 'select',
+          defaultValue: 'open',
+          required: true,
           options: [
             { label: 'En cours', value: 'open' },
-            { label: 'Anuler', value: 'canceled' },
-            { label: 'Terminer', value: 'close' },
+            { label: 'Anulée', value: 'canceled' },
+            { label: 'Terminée', value: 'close' },
           ],
         },
       ],
@@ -44,13 +46,6 @@ export const Order: CollectionConfig = {
           label: 'Somme dû',
           type: 'number',
           required: true,
-          min: 0,
-        },
-        {
-          name: 'amountPaid',
-          label: 'Somme payé',
-          type: 'number',
-          defaultValue: 0,
           min: 0,
         },
         {

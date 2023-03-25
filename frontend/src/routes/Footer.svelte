@@ -12,13 +12,14 @@
         href={link.href}
         data-sveltekit-reload
         class="
+          flex
           rounded py-1 px-3 text-xl shrink-0 shadow-lg border
           bg-white text-secondary-dark border-secondary-dark fill-secondary-dark
           hover:shadow-xl transition-all
         "
       >
-        <Icon path={link.icon} class="mr-1 inline-block -translate-y-[2px]" />
-        {link.label}
+        <Icon path={link.icon} class="mr-1" />
+        <div>{link.label}</div>
       </a>
     {/each}
   </div>

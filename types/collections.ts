@@ -202,9 +202,8 @@ export interface Product {
 export interface Order {
   id: string;
   client: string | User;
-  stateOrder?: 'open' | 'canceled' | 'close';
+  stateOrder: 'open' | 'canceled' | 'close';
   amountDue: number;
-  amountPaid?: number;
   paymentOk?: boolean;
   cart: {
     product: string | Product;
