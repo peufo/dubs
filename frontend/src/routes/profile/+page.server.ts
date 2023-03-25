@@ -1,12 +1,17 @@
 import type { HttpError } from '@sveltejs/kit'
-import type { Actions } from './$types'
+import type { Actions, PageServerLoad } from './$types'
 import { useApi } from '$lib/api'
+
+export const load = (async ({ fetch, cookies }) => {
+  const api = useApi(fetch, cookies)
+  const { docs: orders } = await api.get('order')
+  return { orders }
+}) satisfies PageServerLoad
 
 export const actions = {
   profile: async ({ request, fetch, cookies }) => {
     try {
-      const token = cookies.get('payload-token')
-      const api = useApi(fetch, token)
+      const api = useApi(fetch, cookies)
       const data = Object.fromEntries(await request.formData())
 
       await api.update('user', data.id as string, data)

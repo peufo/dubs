@@ -1,7 +1,10 @@
 <script lang="ts">
   import { mdiCartOutline, mdiClose, mdiChevronDown } from '@mdi/js'
   import { fly, slide } from 'svelte/transition'
+  import type { HttpError } from '@sveltejs/kit'
+  import { goto } from '$app/navigation'
 
+  import { api } from '$lib/api'
   import { order } from '$lib/stores'
   import Icon from '$lib/material/Icon.svelte'
   import Button from '$lib/material/Button.svelte'
@@ -11,8 +14,24 @@
   import { getVariablesValues } from '$lib/product'
 
   let active = true
+  let error = ''
 
   $: active = !!$order
+
+  async function handleSubmit() {
+    try {
+      if (!$order) return
+      const cart = $order.cart?.map((row) => ({
+        ...row,
+        product: typeof row.product === 'string' ? row.product : row.product.id,
+      }))
+      await api.create('order', { ...$order, cart })
+      $order = null
+      goto('/profile')
+    } catch (err) {
+      error = (err as HttpError).body.message
+    }
+  }
 </script>
 
 {#if $order}
@@ -95,9 +114,17 @@
         {/each}
       </div>
 
+      {#if error}
+        <div class="text-red-500 text-center">
+          {@html error}
+        </div>
+      {/if}
+
       <div class="text-center p-2" transition:slide|local>
         {#if $order.cart && $order.cart.length}
-          <Button primary class="py-1 w-full">Valider la commande</Button>
+          <Button primary class="py-1 w-full" on:click={handleSubmit}
+            >Valider la commande</Button
+          >
         {:else}
           <Button
             secondary

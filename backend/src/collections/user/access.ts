@@ -12,11 +12,15 @@ export const isRole: (
   ({ req: { user } }) =>
     _isRole(role, user)
 
-export const isRoleOrSelf: (role: User['role']) => Access<any, User> =
-  (role) =>
+export const isRoleOrSelf: (
+  role: User['role'],
+  userId?: string
+) => Access<any, User> =
+  (role, userId = 'id') =>
   ({ req: { user } }) => {
+    console.log({ userId, user })
     if (_isRole(role, user)) return true
-    return { id: { equals: user?.id } }
+    return { [userId]: { equals: user?.id } }
   }
 
 export const isRoleField: (role: User['role']) => FieldAccess<any, User> =

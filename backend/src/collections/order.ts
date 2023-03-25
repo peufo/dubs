@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload/types'
+import { isRoleOrSelf } from './user/access'
 
 export const Order: CollectionConfig = {
   slug: 'order',
@@ -9,7 +10,10 @@ export const Order: CollectionConfig = {
     singular: 'Commande',
     plural: 'Commandes',
   },
-  access: {},
+  access: {
+    create: () => true,
+    read: isRoleOrSelf('editor', 'client'),
+  },
   fields: [
     {
       type: 'row',

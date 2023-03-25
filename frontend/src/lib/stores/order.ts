@@ -24,7 +24,7 @@ function createOrder() {
     subscribe,
     set,
     update,
-    add: (row: Row) => {
+    add(row: Row) {
       update((_order) => {
         if (!_order) {
           console.error('order store value is not defined')
@@ -35,7 +35,7 @@ function createOrder() {
         return { ..._order, amountDue, cart }
       })
     },
-    delete: (index: number) => {
+    delete(index: number) {
       update((_order) => {
         if (!_order) {
           console.error('order store value is not defined')

@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit'
+import { error, type Cookies } from '@sveltejs/kit'
 import { dev } from '$app/environment'
 import qs from 'qs'
 
@@ -21,7 +21,9 @@ type PartialNullable<T> = {
 
 const baseUrl = dev ? 'http://localhost:5002/api' : '/api'
 
-export function useApi(_fetch: typeof fetch, token = '') {
+export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
+  const token = cookies?.get('payload-token') || ''
+
   async function getData<Type = unknown>(res: Response): Promise<Type> {
     const data = (await res.json()) as Type & ErrorsResponse
     if (data.errors) {
@@ -51,8 +53,10 @@ export function useApi(_fetch: typeof fetch, token = '') {
         body: JSON.stringify(data),
       })
 
-  const _get = (path: string, headers?: Headers) =>
-    _fetch(`${baseUrl}/${path}`, { headers })
+  const _get = (path: string) =>
+    _fetch(`${baseUrl}/${path}`, {
+      headers: { ...(token && { Authorization: `JWT ${token}` }) },
+    })
   const _post = send('POST')
   const _patch = send('PATCH')
   const _delete = send('DELETE')
@@ -60,11 +64,10 @@ export function useApi(_fetch: typeof fetch, token = '') {
   return {
     async get<Key extends keyof Collections>(
       slug: Key,
-      query?: QueryGet<Collections[Key]>,
-      headers?: Headers
+      query?: QueryGet<Collections[Key]>
     ): Promise<PaginatedDocs<Collections[Key]>> {
       const params = qs.stringify(query)
-      const res = await _get(`${slug}?${params}`, headers)
+      const res = await _get(`${slug}?${params}`)
       return getData<PaginatedDocs<Collections[Key]>>(res)
     },
     async getById<Key extends keyof Collections>(
@@ -115,8 +118,8 @@ export function useApi(_fetch: typeof fetch, token = '') {
       const res = await _post('/user/refresh-token')
       return getData<AuthResponse>(res)
     },
-    async session(headers?: Headers) {
-      const res = await _get('/user/me', headers)
+    async session() {
+      const res = await _get('/user/me')
       return getData<AuthResponse>(res)
     },
   }

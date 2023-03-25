@@ -10,13 +10,13 @@
   export { klass as class }
 </script>
 
-<div class="{klass} p-4 border rounded shadow-md bg-white">
-  <div
-    class="flex justify-between items-center"
-    on:click={() => (active = true)}
-    on:keyup={() => (active = true)}
-    class:cursor-pointer={!active}
-  >
+<div
+  class="{klass} p-4 border rounded shadow-md bg-white max-w-lg"
+  on:click={() => (active = true)}
+  on:keyup={() => (active = true)}
+  class:cursor-pointer={!active}
+>
+  <div class="flex justify-between items-center">
     <h3 class="text-xl">{title}</h3>
     <IconButton
       path={mdiChevronRight}

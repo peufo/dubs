@@ -9,7 +9,7 @@
   export let error: string = ''
 </script>
 
-<Card title="Mes coordonnées" class="max-w-lg" active>
+<Card title="Mes coordonnées">
   {#if success}
     <div
       class="border rounded px-4 py-2 text-lg text-center border-green-600 text-green-600"
@@ -26,7 +26,7 @@
 
   <form method="post" action="?/profile" class="flex flex-col gap-4 py-4">
     <input type="hidden" name="id" value={user.id} />
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2 col-auto gap-2">
       <TextField value={user.email} name="email" label="Email" />
       <TextField value={user.phone} name="phone" label="Télépone" />
     </div>
