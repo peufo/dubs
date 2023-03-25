@@ -1,6 +1,8 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
   import type { HttpError } from '@sveltejs/kit'
+  import { goto } from '$app/navigation'
+  import { page } from '$app/stores'
 
   import { api } from '$lib/api'
   import type { PageData } from './$types'
@@ -41,14 +43,14 @@
         return
       }
     }
-    const res = await api.login({ email, password })
-    console.log(res)
-    document.location.reload() // flème
+    await api.login({ email, password })
+    const callback = $page.url.searchParams.get('callback')
+    goto(callback || '/auth', { invalidateAll: true })
   }
 
   async function handleLogout() {
     await api.logout()
-    document.location.reload() // flème
+    goto('/auth', { invalidateAll: true })
   }
 </script>
 

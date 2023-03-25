@@ -207,9 +207,7 @@ export interface Order {
   paymentOk?: boolean;
   cart: {
     product: string | Product;
-    quantity?: number;
     price: number;
-    unitPrice: number;
     variables?:
       | {
           [k: string]: unknown;

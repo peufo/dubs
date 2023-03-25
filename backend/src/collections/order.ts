@@ -72,22 +72,7 @@ export const Order: CollectionConfig = {
           required: true,
         },
         {
-          name: 'quantity',
-          label: 'Quantité',
-          type: 'number',
-          defaultValue: 1,
-          min: 1,
-          admin: {
-            step: 1,
-          },
-        },
-        {
           name: 'price',
-          type: 'number',
-          required: true,
-        },
-        {
-          name: 'unitPrice',
           type: 'number',
           required: true,
         },
