@@ -1,14 +1,21 @@
 <script lang="ts">
   import type { Media } from 'types'
+  import logo from '$lib/assets/logo-borderless.png?w=400&h=400&webp'
   // import { getPathname } from '$lib/utils/getPathname'
 
   let klass = ''
   export { klass as class }
   export let image: string | Media | undefined
-  export let size: keyof Media['sizes']
+  export let size: keyof Required<Media>['sizes']
   /** default url */
-  export let placeholder: string | undefined = undefined
+  export let placeholder: string | undefined = logo
   export let element: HTMLImageElement | undefined = undefined
+
+  $: selectedSize = (typeof image === 'object' && image.sizes?.[size]) || {
+    url: placeholder,
+    width: 300,
+    height: 300,
+  }
 </script>
 
 {#if typeof image === 'object'}
@@ -19,10 +26,10 @@
     on:keyup
     title={image.title}
     alt={image.title}
-    src={image.sizes[size].url}
+    src={selectedSize.url}
     class={klass}
-    width={image.sizes[size].width}
-    height={image.sizes[size].height}
+    width={selectedSize.width}
+    height={selectedSize.height}
   />
 {:else if placeholder}
   <img

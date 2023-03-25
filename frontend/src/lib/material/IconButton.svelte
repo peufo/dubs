@@ -10,11 +10,19 @@
   export let classSVG = ''
   export let size = 24
   export let padding = 6
+  export let title = ''
+  export let primary = false
+  export let secondary = false
 </script>
 
 <button
-  class="{klass} relative rounded-full hover:bg-primary"
+  class="{klass}
+    relative rounded-full
+    {primary ? 'fill-primary-dark hover:bg-primary' : ''}
+    {secondary ? 'fill-secondary hover:bg-secondary-light/50' : ''}
+  "
   style="width: {size + padding}px; height: {size + padding}px;"
+  {title}
   on:click
   on:dblclick
   on:blur

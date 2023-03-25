@@ -5,6 +5,8 @@ import type { Order } from 'types'
 
 export const order = createOrder()
 
+export type Row = Order['cart'][number]
+
 function createOrder() {
   const key = 'order'
   const storedValue = browser && localStorage.getItem(key)
@@ -22,7 +24,7 @@ function createOrder() {
     subscribe,
     set,
     update,
-    add: (row: Order['cart'][number]) => {
+    add: (row: Row) => {
       update((_order) => {
         if (!_order) {
           console.error('order store value is not defined')
@@ -30,7 +32,21 @@ function createOrder() {
         }
         const cart = [...(_order.cart || []), row]
         const amountDue = getAmountDue(cart)
-
+        return { ..._order, amountDue, cart }
+      })
+    },
+    delete: (index: number) => {
+      update((_order) => {
+        if (!_order) {
+          console.error('order store value is not defined')
+          return null
+        }
+        const currentCart = _order.cart || []
+        const cart = [
+          ...currentCart.slice(0, index),
+          ...currentCart.slice(index + 1),
+        ]
+        const amountDue = getAmountDue(cart)
         return { ..._order, amountDue, cart }
       })
     },

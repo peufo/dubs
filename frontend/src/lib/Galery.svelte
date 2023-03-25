@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Media } from 'types'
-  import logo from '$lib/assets/logo-borderless.png?w=400&h=400&webp'
+
   import Image from '$lib/Image.svelte'
   import { scrollState } from '$lib/actions/scrollState'
 
@@ -29,7 +29,6 @@
     <Image
       image={images[selectedIndex]}
       size="card_h"
-      placeholder={logo}
       class="rounded-lg object-scale-down max-h-[320px] md:max-h-[380px] w-fit"
     />
   </div>

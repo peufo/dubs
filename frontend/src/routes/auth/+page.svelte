@@ -35,7 +35,6 @@
           email,
           password,
         })
-        console.log(user)
       } catch (error) {
         if (!error) return
         if (typeof error === 'object' && 'body' in error)

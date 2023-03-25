@@ -9,7 +9,7 @@
   const viewHeight = 24
 </script>
 
-<i class="rounded-full {klass}">
+<i class="{klass} rounded-full grid place-content-center">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

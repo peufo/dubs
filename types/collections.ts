@@ -208,7 +208,7 @@ export interface Order {
   cart: {
     product: string | Product;
     price: number;
-    variables?:
+    options?:
       | {
           [k: string]: unknown;
         }

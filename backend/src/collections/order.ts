@@ -77,7 +77,7 @@ export const Order: CollectionConfig = {
           required: true,
         },
         {
-          name: 'variables',
+          name: 'options',
           type: 'json',
         },
       ],

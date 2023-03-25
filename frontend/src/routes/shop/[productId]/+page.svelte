@@ -10,7 +10,6 @@
   export let data: PageData
 
   function handleNewOrder(newOrder: Order['cart'][number]) {
-    console.log(data.session)
     if (!data.session.user) return goto(`/auth?callback=${$page.url.pathname}`)
     if (!$order) {
       $order = {
