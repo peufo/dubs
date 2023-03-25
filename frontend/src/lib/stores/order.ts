@@ -30,7 +30,7 @@ function createOrder() {
           console.error('order store value is not defined')
           return null
         }
-        const cart = [...(_order.cart || []), row]
+        const cart = [row, ...(_order.cart || [])]
         const amountDue = getAmountDue(cart)
         return { ..._order, amountDue, cart }
       })
