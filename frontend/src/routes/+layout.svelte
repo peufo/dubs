@@ -15,7 +15,7 @@
   <header>
     <Menu
       items={[
-        { label: data.session?.user?.name || 'Connexion', href: '/auth' },
+        { label: data.session?.user?.name || 'Connexion', href: '/profile' },
         { label: 'fabrication', href: '/process' },
         { label: 'boutique', href: '/shop' },
         { label: 'admin', href: '/admin', external: true },

@@ -2,20 +2,23 @@
   import Label from '$lib/material/Label.svelte'
 
   interface $$Props extends Partial<HTMLInputElement> {
-    label: string
-    value: string
+    name: string
+    label?: string
+    value?: string
     class?: string
   }
 
   let klass = ''
   export { klass as class }
-  export let label: string
+  export let name: string
+  export let label: string = name
   export let value = ''
 </script>
 
 <Label class={klass}>
   {label}
   <input
+    {name}
     on:input
     type="text"
     bind:value

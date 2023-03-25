@@ -5,14 +5,14 @@
   import { page } from '$app/stores'
 
   import { api } from '$lib/api'
-  import type { PageData } from './$types'
+  import type { LayoutData } from './$types'
   import type { User } from 'types'
   import Title from '$lib/Title.svelte'
   import Label from '$lib/material/Label.svelte'
   import TextField from '$lib/material/TextField.svelte'
   import Button from '$lib/material/Button.svelte'
 
-  export let data: PageData
+  export let data: LayoutData
 
   let createAccount = false
   let email = ''
@@ -28,51 +28,46 @@
   } satisfies Partial<User>
 
   async function handleSubmit() {
-    if (createAccount) {
-      try {
-        const user = await api.create('user', {
+    try {
+      if (createAccount) {
+        await api.create('user', {
           ...newUser,
           email,
           password,
         })
-      } catch (error) {
-        if (!error) return
-        if (typeof error === 'object' && 'body' in error)
-          errorMessage = (error as HttpError).body.message || 'Erreur'
-        return
       }
-    }
-    await api.login({ email, password })
-    const callback = $page.url.searchParams.get('callback')
-    goto(callback || '/auth', { invalidateAll: true })
-  }
 
-  async function handleLogout() {
-    await api.logout()
-    goto('/auth', { invalidateAll: true })
+      await api.login({ email, password })
+    } catch (error) {
+      if (!error) return
+      if (typeof error === 'object' && 'body' in error)
+        errorMessage = (error as HttpError).body.message || 'Erreur'
+      return
+    }
+
+    errorMessage = ''
+
+    const callback = $page.url.searchParams.get('callback')
+    goto(callback || '/profile', { invalidateAll: true })
   }
 </script>
 
-<Title subtitle="Authentification" />
+<Title subtitle={data.session?.user ? 'Profile' : 'Authentification'} />
 
-<div class="p-4 sm:grid place-content-center min-h-[500px]">
-  <div
-    class="p-8 w-full sm:w-[360px] flex flex-col gap-4 border bg-white shadow-md rounded-lg"
-  >
-    {#if errorMessage}
-      <div
-        class="p-2 rounded border border-orange-700 text-orange-700 text-center"
-      >
-        {@html errorMessage}
-      </div>
-    {/if}
-
-    {#if data.session?.user}
-      <div class="font-semibold text-lg text-center">
-        Bonjour {data.session.user.name} 👋
-      </div>
-      <Button secondary on:click={handleLogout}>Déconnexion</Button>
-    {:else}
+{#if data.session?.user}
+  <slot />
+{:else}
+  <div class="p-4 sm:grid place-content-center min-h-[500px]">
+    <div
+      class="p-8 w-full sm:w-[360px] flex flex-col gap-4 border bg-white shadow-md rounded-lg"
+    >
+      {#if errorMessage}
+        <div
+          class="p-2 rounded border border-orange-700 text-orange-700 text-center"
+        >
+          {@html errorMessage}
+        </div>
+      {/if}
       <form
         on:submit|preventDefault={handleSubmit}
         class="flex flex-col gap-4 font-semibold"
@@ -151,6 +146,6 @@
           </Button>
         </div>
       </form>
-    {/if}
+    </div>
   </div>
-</div>
+{/if}

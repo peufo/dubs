@@ -23,6 +23,7 @@ export interface Config {
 }
 export interface User {
   id: string;
+  phone?: string;
   name: string;
   surname?: string;
   role: 'admin' | 'editor' | 'user';

@@ -29,6 +29,10 @@ export const User: CollectionConfig = {
       required: true,
     },
     {
+      name: 'phone',
+      type: 'text',
+    },
+    {
       name: 'name',
       type: 'text',
       label: 'Prénom',

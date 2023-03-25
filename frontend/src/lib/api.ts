@@ -21,7 +21,7 @@ type PartialNullable<T> = {
 
 const baseUrl = dev ? 'http://localhost:5002/api' : '/api'
 
-export function useApi(_fetch: typeof fetch) {
+export function useApi(_fetch: typeof fetch, token = '') {
   async function getData<Type = unknown>(res: Response): Promise<Type> {
     const data = (await res.json()) as Type & ErrorsResponse
     if (data.errors) {
@@ -46,6 +46,7 @@ export function useApi(_fetch: typeof fetch) {
         method,
         headers: {
           'Content-Type': 'application/json',
+          ...(token && { Authorization: `JWT ${token}` }),
         },
         body: JSON.stringify(data),
       })
