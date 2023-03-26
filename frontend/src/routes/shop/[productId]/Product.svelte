@@ -27,7 +27,7 @@
 
   const getVariableKey = (index: number) => `variable_${index}`
   const getVariableValues = () =>
-    product.variables.map((v, index) => {
+    (product.variables || []).map((v, index) => {
       const key = getVariableKey(index)
       return (
         $page.url.searchParams.get(key) || v.options[v.defaultOption].id || ''
@@ -65,7 +65,7 @@
       {@html serialize(product.description)}
     </section>
 
-    {#each product.variables as variable, i}
+    {#each product.variables || [] as variable, i}
       <section>
         <h5 class="text-xl pb-1">{variable.blockName || 'Options'}</h5>
         <div class="flex gap-x-4 gap-y-2 flex-wrap">

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Order } from 'types'
-  import { mdiClose } from '@mdi/js'
 
   import Image from '$lib/Image.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'

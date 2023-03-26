@@ -184,7 +184,7 @@ export interface Product {
   description?: {
     [k: string]: unknown;
   }[];
-  variables: {
+  variables?: {
     defaultOption: number;
     options: {
       value?: string;

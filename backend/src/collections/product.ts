@@ -87,8 +87,6 @@ export const Product: CollectionConfig = {
     {
       name: 'variables',
       type: 'blocks',
-      defaultValue: [],
-      required: true,
       blocks: [
         {
           slug: 'options',
