@@ -51,7 +51,7 @@
         </div>
       </Card>
     {:else}
-      <span>Aucune commande effectuée</span>
+      <span>Vous n'avez encore effectué aucune commande</span>
     {/each}
   </div>
 </Card>

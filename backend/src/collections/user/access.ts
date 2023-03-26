@@ -18,7 +18,6 @@ export const isRoleOrSelf: (
 ) => Access<any, User> =
   (role, userId = 'id') =>
   ({ req: { user } }) => {
-    console.log({ userId, user })
     if (_isRole(role, user)) return true
     return { [userId]: { equals: user?.id } }
   }
