@@ -8,10 +8,13 @@
   import Relations from '$lib/Relations.svelte'
   import { isMobile } from '$lib/stores'
 
+  export let adminMode = false
   export let action: Action
   export let inputsEl: HTMLElement[] = []
   export let outputsEl: HTMLElement[] = []
   export let scrollEl: HTMLElement
+
+  $: isSelectedAction = adminMode && $page.params.actionId === action.id
 
   function mousedownHandler() {
     if ($isMobile) return
@@ -34,11 +37,15 @@
     max-w-[95%] md:max-w-4xl
     drop-shadow
   "
-  class:border-primary-dark={$page.params.actionId === action.id}
-  class:border-primary-light={$page.params.actionId !== action.id}
-  class:border-2={$page.params.actionId === action.id}
+  class:border-2={isSelectedAction}
+  class:border-primary-dark={isSelectedAction}
+  class:border-primary-light={!isSelectedAction}
 >
-  <Relations type="input" bind:elements={inputsEl} relations={action.inputs} />
+  <Relations
+    type="input"
+    bind:elements={inputsEl}
+    relations={action.inputs || []}
+  />
 
   <div class="flex flex-col gap-1">
     <header
@@ -46,22 +53,24 @@
       class="p-2 flex gap-4 select-none border-primary text-primary-dark"
     >
       <h2 class="text-xl">{action.name}</h2>
-      <div class="pl-2 ml-auto transition-opacity">
-        <IconButton
-          class="opacity-0 group-hover:opacity-100"
-          path={mdiSelect}
-          href="/process/{action.id}"
-        />
-        <IconButton
-          class="opacity-0 group-hover:opacity-100"
-          path={mdiPencilOutline}
-          href="/admin/collections/action/{action.id}"
-          external
-        />
-      </div>
+      {#if adminMode}
+        <div class="pl-2 ml-auto transition-opacity">
+          <IconButton
+            class="opacity-0 group-hover:opacity-100"
+            path={mdiSelect}
+            href="/adm/process/{action.id}"
+          />
+          <IconButton
+            class="opacity-0 group-hover:opacity-100"
+            path={mdiPencilOutline}
+            href="/admin/collections/action/{action.id}"
+            external
+          />
+        </div>
+      {/if}
     </header>
 
-    {#each action.sections as { text, image, layout }}
+    {#each action.sections || [] as { text, image, layout }}
       <section
         class="flex flex-wrap sm:flex-nowrap bg-white rounded gap-2 items-center"
         class:flex-col={layout === 'col'}
@@ -80,7 +89,7 @@
           rounded w-full sm:w-96
           {!!layout?.match(/^col/) ? 'mx-auto sm:my-3' : ''}
           "
-            src={image.sizes.card_h.url}
+            src={image.sizes?.card_h?.url}
             alt={image.title}
           />
         {/if}
@@ -91,7 +100,7 @@
   <Relations
     type="output"
     bind:elements={outputsEl}
-    relations={action.outputs}
+    relations={action.outputs || []}
   />
 </div>
 

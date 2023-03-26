@@ -186,7 +186,7 @@
             {#each actions as action, index}
               <li data-index={index}>
                 <a
-                  href="/process/{action.id}"
+                  href="/adm/process/{action.id}"
                   on:mousemove={() => (selectedIndex = index)}
                   on:click={() => dialogElement.close()}
                   class="

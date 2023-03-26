@@ -5,4 +5,4 @@ export * from './payload'
 export * from './api'
 
 export type Port = 'inputs' | 'outputs'
-export type Relation = Action[Port][number]
+export type Relation = Required<Action>[Port][number]

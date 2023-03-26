@@ -11,5 +11,5 @@
 </svelte:head>
 
 <div class="flex flex-col gap-14 pt-6">
-  <Actions actions={[data.action]} />
+  <Actions actions={[data.action]} adminMode />
 </div>

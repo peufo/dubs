@@ -12,6 +12,7 @@ import { Landing } from './globals/landing'
 import { Footer } from './globals/footer'
 
 import { Logo, Icon } from './components/Graphics'
+import { BeforeNavLinks } from './components/BeforeNavLinks'
 
 const dev = process.env.NODE_ENV !== 'production'
 // TODO: fix this shit
@@ -32,6 +33,7 @@ export default buildConfig({
         Logo,
         Icon,
       },
+      beforeNavLinks: [BeforeNavLinks],
     },
   },
   collections: [User, Account, Session, Action, Tag, Media, Product, Order],

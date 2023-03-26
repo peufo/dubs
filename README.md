@@ -12,12 +12,15 @@ pnpm run dev -r
 
 ## TODO
 
-- [X] Profile
-  - [X] Affichage et mise à jour du profile
-  - [X] Affichage des commandes
-- [X] Boutique
-  - [X] Faire une commande
+- [x] Profile
+  - [x] Affichage et mise à jour du profile
+  - [x] Affichage des commandes
+- [x] Boutique
+  - [x] Faire une commande
   - [ ] Envoie des mails lors de la commande
+- [ ] Section réserver à l'admin
+  - [ ] Vue des commandes ?
+  - [ ] Navigation dans les actions
 - [ ] Faire un page avec une action prédéfini (la recherche étant réservé l'admin)
 - [ ] Faire le tour du contenu avec Mathilde
-- [ ] Débug navigation
+- [x] Débug navigation

@@ -7,6 +7,8 @@
   import Connections from '$lib/connection/Connections.svelte'
   import { isMobile } from '$lib/stores'
 
+  /** Ajoute les liens de seléction et d'édition*/
+  export let adminMode = false
   export let actions: IAction[]
   export let direction: 'forward' | 'backward' | undefined = undefined
   export let previousScrollEl: HTMLElement | undefined = undefined
@@ -19,7 +21,7 @@
   const isObject = (v: unknown) => v && typeof v === 'object'
   const getPorts = (port: Port) => (_actions: IAction[]) =>
     _actions
-      .map((action) => action[port].map(({ action }) => action))
+      .map((action) => action[port]?.map(({ action }) => action))
       .flat()
       .filter(isObject)
 
@@ -91,6 +93,7 @@
 
 {#if inputs.length && (!direction || direction === 'backward')}
   <svelte:self
+    {adminMode}
     actions={inputs}
     direction="backward"
     previousScrollEl={scrollEl}
@@ -108,10 +111,11 @@
 
     {#each actions as action, index}
       <Action
+        {adminMode}
         {action}
+        {scrollEl}
         bind:inputsEl={inputsEl[index]}
         bind:outputsEl={outputsEl[index]}
-        {scrollEl}
       />
     {/each}
 
@@ -121,6 +125,7 @@
 
 {#if outputs.length && (!direction || direction === 'forward')}
   <svelte:self
+    {adminMode}
     actions={outputs}
     direction="forward"
     previousScrollEl={scrollEl}

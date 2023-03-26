@@ -20,10 +20,14 @@
     />
   </a>
 
-  <div>
-    <a href="/">
-      <h3 class="text-4xl font-semibold">Dubs Apiculture</h3>
-    </a>
+  <div class="grow">
+    <div class="flex items-center gap-4">
+      <a href="/">
+        <h3 class="text-4xl font-semibold">Dubs Apiculture</h3>
+      </a>
+
+      <slot />
+    </div>
     {#if subtitle}
       <a href={subtitleUrl || '/'}>
         <h4
@@ -33,9 +37,5 @@
         </h4>
       </a>
     {/if}
-  </div>
-
-  <div class="pt-1">
-    <slot />
   </div>
 </div>
