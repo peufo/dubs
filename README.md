@@ -25,3 +25,5 @@ pnpm run dev -r
 - [x] Faire un page avec une action prédéfini (la recherche étant réservé l'admin)
 - [ ] Faire le tour du contenu avec Mathilde
 - [x] Débug navigation
+- [ ] Ajouter les metadonnée des produits
+- [ ] Gerer la récupération de compte
