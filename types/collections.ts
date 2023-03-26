@@ -54,7 +54,6 @@ export interface Account {
   userId?: string;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Session {
   id: string;
@@ -63,13 +62,12 @@ export interface Session {
   userId: string;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Action {
   id: string;
   name: string;
   tags?: string[] | Tag[];
-  sections: {
+  sections?: {
     text?: {
       [k: string]: unknown;
     }[];
@@ -77,7 +75,7 @@ export interface Action {
     layout?: 'row' | 'row_reverse' | 'col' | 'col_reverse';
     id?: string;
   }[];
-  inputs: {
+  inputs?: {
     name?: string;
     action?: string | Action;
     groups?: string;
@@ -88,7 +86,7 @@ export interface Action {
     location?: [number, number];
     id?: string;
   }[];
-  outputs: {
+  outputs?: {
     name?: string;
     action?: string | Action;
     groups?: string;
@@ -104,14 +102,12 @@ export interface Action {
   remoteUpdate?: boolean;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Tag {
   id: string;
   name?: string;
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Media {
   id: string;
@@ -122,8 +118,8 @@ export interface Media {
   filesize?: number;
   width?: number;
   height?: number;
-  sizes: {
-    thumbnail: {
+  sizes?: {
+    thumbnail?: {
       url?: string;
       width?: number;
       height?: number;
@@ -131,7 +127,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    card_w: {
+    card_w?: {
       url?: string;
       width?: number;
       height?: number;
@@ -139,7 +135,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    card_h: {
+    card_h?: {
       url?: string;
       width?: number;
       height?: number;
@@ -147,7 +143,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    mini: {
+    mini?: {
       url?: string;
       width?: number;
       height?: number;
@@ -155,7 +151,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    medium: {
+    medium?: {
       url?: string;
       width?: number;
       height?: number;
@@ -163,7 +159,7 @@ export interface Media {
       filesize?: number;
       filename?: string;
     };
-    large: {
+    large?: {
       url?: string;
       width?: number;
       height?: number;
@@ -174,7 +170,6 @@ export interface Media {
   };
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Product {
   id: string;
@@ -182,7 +177,7 @@ export interface Product {
   detail?: string;
   state: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
   price?: number;
-  images: {
+  images?: {
     image: string | Media;
     id?: string;
   }[];
@@ -203,7 +198,6 @@ export interface Product {
   }[];
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Order {
   id: string;
@@ -214,24 +208,29 @@ export interface Order {
   items: {
     product: string | Product;
     price: number;
-    options?: {
-      [k: string]: unknown;
-    };
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
     id?: string;
   }[];
   createdAt: string;
   updatedAt: string;
-  password?: string;
 }
 export interface Landing {
   id: string;
-  sectionA: {
+  sectionA?: {
     text?: {
       [k: string]: unknown;
     }[];
     image?: string | Media;
   };
-  sectionB: {
+  sectionB?: {
     text?: {
       [k: string]: unknown;
     }[];
@@ -240,7 +239,7 @@ export interface Landing {
 }
 export interface Footer {
   id: string;
-  links: {
+  links?: {
     label: string;
     href: string;
     icon:

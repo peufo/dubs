@@ -49,7 +49,7 @@
 </script>
 
 <div class="flex gap-8 flex-wrap justify-center">
-  <Galery images={product.images.map((_) => _.image)} />
+  <Galery images={product.images?.map((_) => _.image) || []} />
 
   <div class="flex flex-col gap-4 grow min-w-[320px] max-w-md">
     <div class="flex">

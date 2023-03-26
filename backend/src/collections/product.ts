@@ -71,8 +71,6 @@ export const Product: CollectionConfig = {
     {
       name: 'images',
       type: 'array',
-      defaultValue: [],
-      required: true,
       fields: [
         {
           name: 'image',

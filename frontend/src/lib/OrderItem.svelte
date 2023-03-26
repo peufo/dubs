@@ -16,7 +16,7 @@
     class="flex gap-2 p-1 group {hover ? 'hover:bg-secondary-light/25' : ''} "
   >
     <Image
-      image={item.product.images[0].image}
+      image={item.product.images && item.product.images[0]?.image}
       size="mini"
       class="rounded mt-1 {large ? 'w-16 h-16' : 'w-10 h-10 '}"
     />
