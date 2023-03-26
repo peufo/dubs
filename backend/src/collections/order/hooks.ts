@@ -1,5 +1,6 @@
 import type {
   CollectionConfig,
+  CollectionAfterChangeHook,
   CollectionBeforeValidateHook,
 } from 'payload/types'
 import payload from 'payload'
@@ -37,6 +38,16 @@ const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
   return data
 }
 
+const afterChange: CollectionAfterChangeHook<Order> = ({ doc }) => {
+  payload.sendEmail({
+    from: 'info@dubs-apiculture.ch',
+    to: 'jonas.voisard@gmail.com',
+    subject: 'Votre commande',
+    html: getLabel(doc),
+  })
+}
+
 export const hooks: CollectionConfig['hooks'] = {
   beforeValidate: [beforeValidate],
+  afterChange: [afterChange],
 }

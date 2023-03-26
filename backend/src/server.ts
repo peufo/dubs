@@ -20,6 +20,18 @@ payload.init({
     const DUBS_PORT = dev ? '5173' : process.env['DUBS_PORT'] || 3000
     app.use('/', proxy(`http://localhost:${DUBS_PORT}`))
   },
+  email: {
+    fromName: 'Dubs-apiculture',
+    fromAddress: 'info@dubs-apiculture.ch',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      port: 465,
+    },
+  },
 })
 
 app.listen(port)
