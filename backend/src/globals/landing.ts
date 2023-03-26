@@ -4,7 +4,6 @@ export const Landing: GlobalConfig = {
   slug: 'landing',
   label: "Page d'accueil",
   admin: {
-    // @ts-ignore
     preview: () => '/',
   },
   access: {

@@ -11,7 +11,6 @@ export const Footer: GlobalConfig = {
   slug: 'footer',
   label: 'Pied de page',
   admin: {
-    // @ts-ignore
     preview: () => '/',
   },
   access: {

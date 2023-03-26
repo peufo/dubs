@@ -10,6 +10,7 @@ import { Order } from './collections/order'
 
 import { Landing } from './globals/landing'
 import { Footer } from './globals/footer'
+import { Process } from './globals/process'
 
 import { Logo, Icon } from './components/Graphics'
 import { BeforeNavLinks } from './components/BeforeNavLinks'
@@ -37,7 +38,7 @@ export default buildConfig({
     },
   },
   collections: [User, Account, Session, Action, Tag, Media, Product, Order],
-  globals: [Landing, Footer],
+  globals: [Landing, Footer, Process],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },

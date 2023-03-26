@@ -80,9 +80,11 @@ export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
       return getData<Collections[Key]>(res)
     },
     async getGlobal<Key extends keyof Globals>(
-      slug: Key
+      slug: Key,
+      query?: QueryBase
     ): Promise<Globals[Key]> {
-      const res = await _get(`globals/${slug}`)
+      const params = qs.stringify(query)
+      const res = await _get(`globals/${slug}?${params}`)
       return getData<Globals[Key]>(res)
     },
     async create<Key extends keyof Collections>(
