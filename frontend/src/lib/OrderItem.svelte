@@ -6,7 +6,7 @@
   import { formatAmount } from '$lib/utils/formatAmount'
   import { getVariablesValues } from '$lib/product'
 
-  export let item: Order['cart'][number]
+  export let item: Order['items'][number]
   export let hover = false
   export let large = false
 </script>

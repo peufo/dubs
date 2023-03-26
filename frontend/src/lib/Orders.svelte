@@ -24,7 +24,7 @@
         <div slot="header" class="grow flex gap-2 items-start">
           <div>
             <h3 class="text-lg">
-              {order.cart.length} article{order.cart.length > 1 ? 's' : ''}
+              {order.items.length} article{order.items.length > 1 ? 's' : ''}
             </h3>
             <span>{formatDate(new Date(order.createdAt))}</span>
           </div>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          {#each order.cart as item}
+          {#each order.items as item}
             <OrderItem {item} large />
           {/each}
         </div>

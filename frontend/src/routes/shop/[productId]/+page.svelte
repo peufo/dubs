@@ -9,7 +9,7 @@
 
   export let data: PageData
 
-  function handleNewOrder(newOrder: Order['cart'][number]) {
+  function handleNewOrderItem(newOrderItem: Order['items'][number]) {
     if (!data.session.user)
       return goto(`/profile?callback=${$page.url.pathname}`)
     if (!$order) {
@@ -17,7 +17,7 @@
         client: data.session.user.id,
       }
     }
-    order.add(newOrder)
+    order.add(newOrderItem)
   }
 </script>
 
@@ -27,5 +27,5 @@
 
 <Product
   product={data.product}
-  on:newOrder={({ detail }) => handleNewOrder(detail)}
+  on:newOrderItem={({ detail }) => handleNewOrderItem(detail)}
 />

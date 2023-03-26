@@ -55,9 +55,8 @@ export const Order: CollectionConfig = {
         },
       ],
     },
-
     {
-      name: 'cart',
+      name: 'items',
       label: `Panier d'achat`,
       type: 'array',
       defaultValue: [],

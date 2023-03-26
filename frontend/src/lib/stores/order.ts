@@ -5,7 +5,7 @@ import type { Order } from 'types'
 
 export const order = createOrder()
 
-export type Row = Order['cart'][number]
+export type Item = Order['items'][number]
 
 function createOrder() {
   const key = 'order'
@@ -17,22 +17,22 @@ function createOrder() {
     (value) => browser && localStorage.setItem(key, JSON.stringify(value))
   )
 
-  const getAmountDue = (cart: Order['cart']) =>
-    cart.reduce((acc, cur) => acc + cur.price, 0)
+  const getAmountDue = (items: Order['items']) =>
+    items.reduce((acc, cur) => acc + cur.price, 0)
 
   return {
     subscribe,
     set,
     update,
-    add(row: Row) {
+    add(item: Item) {
       update((_order) => {
         if (!_order) {
           console.error('order store value is not defined')
           return null
         }
-        const cart = [row, ...(_order.cart || [])]
-        const amountDue = getAmountDue(cart)
-        return { ..._order, amountDue, cart }
+        const items = [item, ...(_order.items || [])]
+        const amountDue = getAmountDue(items)
+        return { ..._order, amountDue, items }
       })
     },
     delete(index: number) {
@@ -41,13 +41,13 @@ function createOrder() {
           console.error('order store value is not defined')
           return null
         }
-        const currentCart = _order.cart || []
-        const cart = [
-          ...currentCart.slice(0, index),
-          ...currentCart.slice(index + 1),
+        const currentItems = _order.items || []
+        const items = [
+          ...currentItems.slice(0, index),
+          ...currentItems.slice(index + 1),
         ]
-        const amountDue = getAmountDue(cart)
-        return { ..._order, amountDue, cart }
+        const amountDue = getAmountDue(items)
+        return { ..._order, amountDue, items }
       })
     },
   }

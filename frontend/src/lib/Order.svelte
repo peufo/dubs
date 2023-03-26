@@ -19,11 +19,11 @@
   async function handleSubmit() {
     try {
       if (!$order) return
-      const cart = $order.cart?.map((row) => ({
+      const items = $order.items?.map((row) => ({
         ...row,
         product: typeof row.product === 'string' ? row.product : row.product.id,
       }))
-      await api.create('order', { ...$order, cart })
+      await api.create('order', { ...$order, items })
       $order = null
       goto('/profile', { invalidateAll: true })
     } catch (err) {
@@ -71,7 +71,7 @@
         class="flex-grow flex flex-col py-1 overflow-auto border-t border-secondary-light"
         transition:slide|local
       >
-        {#each $order.cart || [] as item, itemIndex}
+        {#each $order.items || [] as item, itemIndex}
           <OrderItem {item} hover>
             <IconButton
               on:click={() => order.delete(itemIndex)}
@@ -94,7 +94,7 @@
       {/if}
 
       <div class="text-center p-2" transition:slide|local>
-        {#if $order.cart && $order.cart.length}
+        {#if $order.items && $order.items.length}
           <Button primary class="py-1 w-full" on:click={handleSubmit}>
             Valider la commande
           </Button>

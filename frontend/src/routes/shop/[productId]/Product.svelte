@@ -13,7 +13,9 @@
 
   export let product: Product
 
-  const dispatch = createEventDispatcher<{ newOrder: Order['cart'][number] }>()
+  const dispatch = createEventDispatcher<{
+    newOrderItem: Order['items'][number]
+  }>()
 
   let stateLabel: Record<Product['state'], string> = {
     draft: 'Brouillon',
@@ -38,7 +40,7 @@
   $: price = getPrice(product, optionsId)
 
   function handleNewOrder() {
-    dispatch('newOrder', {
+    dispatch('newOrderItem', {
       product,
       price,
       options: optionsId,
