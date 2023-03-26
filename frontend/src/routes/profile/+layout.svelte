@@ -94,11 +94,13 @@
             <hr />
             <div class="flex gap-4">
               <TextField
+                name="name"
                 label="Prénom"
                 bind:value={newUser.name}
                 class="grow"
               />
               <TextField
+                name="surname"
                 label="Nom"
                 bind:value={newUser.surname}
                 class="grow"

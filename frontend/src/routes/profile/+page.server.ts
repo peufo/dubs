@@ -5,6 +5,7 @@ import { useApi } from '$lib/api'
 export const load = (async ({ fetch, cookies }) => {
   const api = useApi(fetch, cookies)
   const { docs: orders } = await api.get('order')
+  console.log({ orders })
   return { orders }
 }) satisfies PageServerLoad
 
