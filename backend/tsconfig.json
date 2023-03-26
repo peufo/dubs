@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "rootDirs": ["./src", "../types"],
+    "rootDirs": ["./src", "../types", "../common"],
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
-      "types": ["../types"]
+      "types": ["../types"],
+      "common": ["../common"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

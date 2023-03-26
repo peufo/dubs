@@ -206,9 +206,11 @@ export interface Order {
   stateOrder: 'open' | 'canceled' | 'close';
   amountDue: number;
   paymentOk?: boolean;
+  label?: string;
   items: {
     product: string | Product;
     price: number;
+    label?: string;
     options?:
       | {
           [k: string]: unknown;

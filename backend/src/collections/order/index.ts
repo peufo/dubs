@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload/types'
-import { isRoleOrSelf } from './user/access'
+import { isRoleOrSelf } from '../user/access'
 
 export const Order: CollectionConfig = {
   slug: 'order',
@@ -56,6 +56,10 @@ export const Order: CollectionConfig = {
       ],
     },
     {
+      name: 'label',
+      type: 'textarea',
+    },
+    {
       name: 'items',
       label: `Panier d'achat`,
       type: 'array',
@@ -75,8 +79,15 @@ export const Order: CollectionConfig = {
           required: true,
         },
         {
+          name: 'label',
+          type: 'textarea',
+        },
+        {
           name: 'options',
           type: 'json',
+          admin: {
+            hidden: true,
+          },
         },
       ],
     },

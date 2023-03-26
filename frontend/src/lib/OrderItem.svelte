@@ -3,7 +3,7 @@
 
   import Image from '$lib/Image.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
-  import { getVariablesValues } from '$lib/product'
+  import { getVariablesValues } from 'common'
 
   export let item: Order['items'][number]
   export let hover = false

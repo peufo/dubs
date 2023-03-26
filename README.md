@@ -19,8 +19,9 @@ pnpm run dev -r
   - [x] Faire une commande
   - [ ] Envoie des mails lors de la commande
 - [x] Section réserver à l'admin
-  - [~] Vue des commandes ?
   - [x] Navigation dans les actions
+  - [ ] Vue des commandes + changement de status / paiement
+  - [ ] Validation du panier pour un client
 - [x] Faire un page avec une action prédéfini (la recherche étant réservé l'admin)
 - [ ] Faire le tour du contenu avec Mathilde
 - [x] Débug navigation

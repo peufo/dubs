@@ -10,6 +10,7 @@
   import Button from '$lib/material/Button.svelte'
   import IconButton from '$lib/material/IconButton.svelte'
   import OrderItem from '$lib/OrderItem.svelte'
+  import { getLabel } from 'common'
 
   let active = true
   let error = ''
@@ -23,7 +24,7 @@
         ...row,
         product: typeof row.product === 'string' ? row.product : row.product.id,
       }))
-      await api.create('order', { ...$order, items })
+      await api.create('order', { ...$order, items, label: getLabel($order) })
       $order = null
       goto('/profile', { invalidateAll: true })
     } catch (err) {
