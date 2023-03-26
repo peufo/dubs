@@ -84,6 +84,8 @@
     { face: 2, permanent: true, sides: [{ face: 2, permanent: true }] },
     { face: 5, permanent: true },
   ]
+
+  $: console.log({ $isLargeScreen, open })
 </script>
 
 <ClickOutside on:click_outside={() => (open = false)}>
