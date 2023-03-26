@@ -25,7 +25,7 @@
       }))
       await api.create('order', { ...$order, cart })
       $order = null
-      goto('/profile')
+      goto('/profile', { invalidateAll: true })
     } catch (err) {
       error = (err as HttpError).body.message
     }
@@ -72,7 +72,7 @@
         transition:slide|local
       >
         {#each $order.cart || [] as item, itemIndex}
-          <OrderItem {item}>
+          <OrderItem {item} hover>
             <IconButton
               on:click={() => order.delete(itemIndex)}
               size={22}
@@ -95,9 +95,9 @@
 
       <div class="text-center p-2" transition:slide|local>
         {#if $order.cart && $order.cart.length}
-          <Button primary class="py-1 w-full" on:click={handleSubmit}
-            >Valider la commande</Button
-          >
+          <Button primary class="py-1 w-full" on:click={handleSubmit}>
+            Valider la commande
+          </Button>
         {:else}
           <Button
             secondary

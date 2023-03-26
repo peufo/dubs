@@ -16,7 +16,7 @@
   on:keyup={() => (active = true)}
   class:cursor-pointer={!active}
 >
-  <div class="flex items-center gap-2">
+  <div class="flex items-start gap-2">
     <slot name="header">
       <h3 class="text-xl grow">{title}</h3>
     </slot>

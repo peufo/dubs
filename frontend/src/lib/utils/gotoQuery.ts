@@ -9,6 +9,7 @@ export function useGotoQuery({ url }: Page) {
     const query = qs.parse(url.searchParams.toString())
     goto(`${url.pathname}?${qs.stringify({ ...query, ...newQuery })}`, {
       replaceState: true,
+      noScroll: true,
     })
   }
 }

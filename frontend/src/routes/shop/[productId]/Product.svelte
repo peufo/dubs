@@ -1,7 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { page } from '$app/stores'
-  import type { PageData } from './$types'
   import { afterNavigate } from '$app/navigation'
 
   import type { Product, Order } from 'types'
