@@ -1,11 +1,13 @@
 import type { CollectionConfig } from 'payload/types'
 import { isRoleOrSelf } from '../user/access'
+import { hooks } from './hooks'
 
 export const Order: CollectionConfig = {
   slug: 'order',
   admin: {
     useAsTitle: 'amountDue',
   },
+  hooks,
   labels: {
     singular: 'Commande',
     plural: 'Commandes',

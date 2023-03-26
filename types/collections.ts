@@ -20,6 +20,7 @@ export interface Config {
     landing: Landing;
     footer: Footer;
     process: Process;
+    email: Email;
   };
 }
 export interface User {
@@ -257,4 +258,12 @@ export interface Footer {
 export interface Process {
   id: string;
   action?: string | Action;
+}
+export interface Email {
+  id: string;
+  order?: {
+    notify?: string[] | User[];
+    title?: string;
+    message?: string;
+  };
 }

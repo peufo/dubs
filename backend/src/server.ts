@@ -22,11 +22,11 @@ payload.init({
   },
   email: {
     fromName: 'Dubs-apiculture',
-    fromAddress: 'info@dubs-apiculture.ch',
+    fromAddress: 'Dubs-apiculture <info@dubs-apiculture.ch>',
     transportOptions: {
-      host: process.env.SMTP_HOST,
+      host: 'mail.infomaniak.com',
       auth: {
-        user: process.env.SMTP_USER,
+        user: 'info@dubs-apiculture.ch',
         pass: process.env.SMTP_PASS,
       },
       port: 465,

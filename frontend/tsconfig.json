@@ -12,7 +12,7 @@
     "paths": {
       "types": ["../types"],
       "common": ["../common"],
-      "$lib": ["src/lib"],
+      "$lib": ["./src/lib"],
       "$lib/*": ["./src/lib/*"]
     }
   }

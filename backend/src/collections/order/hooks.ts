@@ -4,8 +4,8 @@ import type {
   CollectionBeforeValidateHook,
 } from 'payload/types'
 import payload from 'payload'
-import type { Order, Product } from 'types'
-import { getLabel, getOrderItemPrice } from 'common'
+import type { Order, Email, User } from 'types'
+import { getHTML } from './html'
 
 /**
  * TODO: Chuis bien emmerdé car les produit ne sont pas lookup
@@ -15,39 +15,33 @@ import { getLabel, getOrderItemPrice } from 'common'
 const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
   data,
 }) => {
-  /*
-  const products: Product[] = []
-  const idsOrProducts = data.items.map((item) => item.product)
-  for (const idOrProduct of idsOrProducts) {
-    if (typeof idOrProduct === 'object') products.push(idOrProduct)
-    else
-      products.push(
-        await payload.findByID({
-          collection: 'product',
-          id: idOrProduct,
-        })
-      )
-  }
-
-  data.label = getLabel({ ...data })
-  data.amountDue = data.items.reduce(
-    (acc, cur) => acc + getOrderItemPrice(cur.product, cur.options),
-    0
-  )
-  */
   return data
 }
 
-const afterChange: CollectionAfterChangeHook<Order> = ({ doc }) => {
+const afterChange: CollectionAfterChangeHook<Order> = async ({ doc }) => {
+  const emailConfig = (await payload.findGlobal({ slug: 'email' })) as Email
+
+  const client = await ensureUser(doc.client)
+
+  let notify = await Promise.all(
+    (emailConfig.order?.notify || []).map(ensureUser)
+  )
+  let to = [client.email, ...notify.map((user) => user.email)].join(';')
+
   payload.sendEmail({
-    from: 'info@dubs-apiculture.ch',
-    to: 'jonas.voisard@gmail.com',
+    from: 'Dubs-apiculture <info@dubs-apiculture.ch>',
+    to,
     subject: 'Votre commande',
-    html: getLabel(doc),
+    html: getHTML(doc, emailConfig),
   })
 }
 
 export const hooks: CollectionConfig['hooks'] = {
-  beforeValidate: [beforeValidate],
+  //beforeValidate: [beforeValidate],
   afterChange: [afterChange],
+}
+
+async function ensureUser(userOrId: string | User): Promise<User> {
+  if (typeof userOrId === 'object') return userOrId
+  return payload.findByID({ collection: 'user', id: userOrId }) as Promise<User>
 }

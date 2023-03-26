@@ -11,6 +11,7 @@ import { Order } from './collections/order'
 import { Landing } from './globals/landing'
 import { Footer } from './globals/footer'
 import { Process } from './globals/process'
+import { Email } from './globals/email'
 
 import { Logo, Icon } from './components/Graphics'
 import { BeforeNavLinks } from './components/BeforeNavLinks'
@@ -38,7 +39,7 @@ export default buildConfig({
     },
   },
   collections: [User, Account, Session, Action, Tag, Media, Product, Order],
-  globals: [Landing, Footer, Process],
+  globals: [Landing, Footer, Process, Email],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },

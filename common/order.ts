@@ -1,4 +1,4 @@
-import type { Product, Order } from '../types'
+import type { Product, Order } from 'types'
 import { getVariablesValues } from './product'
 
 /**
@@ -22,7 +22,7 @@ export function getOrderItemPrice(
  * Build à label for order
  */
 export function getLabel(order: Order): string {
-  const rows = []
+  const rows: string[] = []
 
   order.items.forEach(({ product, options }) => {
     if (typeof product === 'string') return

@@ -1,4 +1,4 @@
-import type { Product } from '../types'
+import type { Product } from 'types'
 
 type Variable = Required<Product>['variables'][number]
 type Option = Variable['options'][number]
