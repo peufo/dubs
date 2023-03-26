@@ -20,12 +20,12 @@ export function getVariablesValues(
   variables: Variable[] | undefined,
   optionsId: unknown
 ): Map<string, Option> {
-  if (!Array.isArray(optionsId)) throw Error('optionsId need to be an array')
-  if (typeof optionsId[0] !== 'string')
-    throw Error('optionsId need to be an array of string')
+  const options = new Map<string, Option>()
+
+  if (!Array.isArray(optionsId)) return options
+  if (typeof optionsId[0] !== 'string') return options
   optionsId as string[]
 
-  const options = new Map<string, Option>()
   if (!variables) return options
 
   variables.forEach((variable, index) => {
