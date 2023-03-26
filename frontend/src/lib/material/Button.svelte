@@ -9,13 +9,14 @@
 <button
   {type}
   on:click
-  class="{klass} px-4 py-2 rounded text-lg hover:ring-1"
-  class:bg-primary-light={primary}
-  class:text-primary-dark={primary}
-  class:ring-primary-dark={primary}
-  class:bg-secondary-light={secondary}
-  class:text-secondary-dark={secondary}
-  class:ring-secondary-dark={secondary}
+  class="
+    {klass}
+    px-4 py-2 rounded text-lg hover:ring-1
+    {primary ? 'bg-primary-light text-primary-dark ring-primary-dark' : ''}
+    {secondary
+    ? 'bg-secondary-light/50 text-secondary-dark ring-secondary-dark'
+    : ''}
+  "
 >
   <slot />
 </button>
