@@ -59,7 +59,6 @@ jobs:
           envs: PAYLAOD_SECRET,AUTH_SECRET
           script: |
             . .profile
-            . ~/dubs/.profile
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
             cd ~/dubs/app
