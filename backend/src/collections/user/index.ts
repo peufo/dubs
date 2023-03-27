@@ -60,13 +60,6 @@ export const User: CollectionConfig = {
       },
     },
     {
-      name: 'surname',
-      type: 'text',
-      label: 'Nom',
-      minLength: 3,
-      maxLength: 50,
-    },
-    {
       name: 'street',
       type: 'text',
       label: 'Rue et numéro',
