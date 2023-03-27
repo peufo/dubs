@@ -19,8 +19,6 @@ const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
 }
 
 const afterChange: CollectionAfterChangeHook<Order> = async ({ doc }) => {
-  console.log('SMTP_PASS', process.env.SMTP_PASS)
-
   const emailConfig = (await payload.findGlobal({ slug: 'email' })) as Email
 
   const client = await ensureUser(doc.client)
