@@ -6,9 +6,6 @@ require('dotenv').config()
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 5002
 
-console.log('ENV:', process.env)
-console.log('-----------------------')
-console.log('-----------------------')
 console.log('PAYLOAD_SECRET', process.env.PAYLOAD_SECRET)
 console.log('SMTP_PASS', process.env.SMTP_PASS)
 
