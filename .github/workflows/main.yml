@@ -55,6 +55,7 @@ jobs:
           envs: PAYLAOD_SECRET,SMTP_PASS,AUTH_SECRET
           script: |
             . .profile
+            echo $SMTP_PASS
             rm -rf ~/dubs/app
             mv ~/dubs/tmp ~/dubs/app
             cd ~/dubs/app
