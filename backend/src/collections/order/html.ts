@@ -5,13 +5,11 @@ type Variable = Required<Product>['variables'][number]
 type Option = Variable['options'][number]
 type OptionWithName = Option & { name: string }
 
-export function getHTML(order: Order, config: Email): string {
-  // TODO: add message
-
+export function getHTML(order: Order): string {
   const html = `
     <div style="max-width: 500px; margin: auto;">
-      <h2>${config.order?.title || 'Merci pour votre commande'}</h2>
-      <p>${config.order?.message || ''}</p>
+      <h2>__TITLE__</h2>
+      <p>__MESSAGE__</p>
       <div style="padding: 0.5em 1em; border: solid lightgrey 1px; border-radius: 0.5em;">
         ${getOrderItemsHTML(order)}
         <div style="display: flex; border-top: solid grey 1px; padding-top: 8px;">
@@ -21,7 +19,6 @@ export function getHTML(order: Order, config: Email): string {
       </div>
     </div>
   `
-
   return html
 }
 

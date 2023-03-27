@@ -21,18 +21,45 @@ const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
 const afterChange: CollectionAfterChangeHook<Order> = async ({ doc }) => {
   const emailConfig = (await payload.findGlobal({ slug: 'email' })) as Email
 
-  const client = await ensureUser(doc.client)
+  const html = getHTML(doc)
 
+  // Mail du client
+  const client = await ensureUser(doc.client)
+  payload.sendEmail({
+    from: 'Dubs-apiculture <info@dubs-apiculture.ch>',
+    to: client.email,
+    subject: 'Votre commande',
+    html: html
+      .replace('__TITLE__', emailConfig.order?.title || 'Votre commande')
+      .replace('__MESSAGE__', emailConfig.order.message || ''),
+  })
+
+  // Notification des admins
   let notify = await Promise.all(
     (emailConfig.order?.notify || []).map(ensureUser)
   )
-  let to = [client.email, ...notify.map((user) => user.email)].join(';')
+
+  // TODO: place domain in env var
+  const domain = 'https://dubs-apiculture.ch'
+  const orderUrl = `${domain}/admin/collections/order/${doc.id}`
 
   payload.sendEmail({
     from: 'Dubs-apiculture <info@dubs-apiculture.ch>',
-    to,
-    subject: 'Votre commande',
-    html: getHTML(doc, emailConfig),
+    to: notify.map((user) => user.email).join(';'),
+    subject: 'Nouvelle commande',
+    html: html
+      .replace(
+        '__TITLE__',
+        `Nouvelle commande de ${client.name} ${client.surname || ''}`
+      )
+      .replace(
+        '__MESSAGE__',
+        `👉 <a href="${orderUrl}">Voir la commande</a>
+        Telephone: <b>${client.phone || ''}</b><br>
+        Adresse: ${client.street || ''},
+        ${client.zipCode || ''}
+        ${client.city || ''}`
+      ),
   })
 }
 
