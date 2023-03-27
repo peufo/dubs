@@ -9,7 +9,7 @@
     "build": "run-s build:*",
     "build:server": "tsc",
     "build:payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload build",
-    "serve": "pm2 startOrRestart ./ecosystem.config.js",
+    "serve": "pm2 startOrRestart --update-env ./ecosystem.config.js",
     "types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "graphQLSchema": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema"
   },
