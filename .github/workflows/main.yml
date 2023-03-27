@@ -44,10 +44,15 @@ jobs:
 
       - name: Replace and restart application
         uses: appleboy/ssh-action@master
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
+          envs: PAYLAOD_SECRET,SMTP_PASS,AUTH_SECRET
           script: |
             . .profile
             rm -rf ~/dubs/app
