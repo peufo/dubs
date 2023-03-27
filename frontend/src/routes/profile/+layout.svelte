@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { slide } from 'svelte/transition'
+  import { fade, slide } from 'svelte/transition'
   import type { HttpError } from '@sveltejs/kit'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
+  import { getNotificationsContext } from 'svelte-notifications'
 
   import { api } from '$lib/api'
   import type { LayoutData } from './$types'
@@ -14,12 +15,15 @@
 
   export let data: LayoutData
 
-  let createAccount = false
-  let email = ''
-  let password = ''
-  let errorMessage = ''
+  const { addNotification } = getNotificationsContext()
 
-  let newUser = {
+  let createAccount = false
+  let errorMessage = ''
+  let emailSend = false
+
+  let user = {
+    email: '',
+    password: '',
     name: '',
     surname: '',
     street: '',
@@ -29,15 +33,9 @@
 
   async function handleSubmit() {
     try {
-      if (createAccount) {
-        await api.create('user', {
-          ...newUser,
-          email,
-          password,
-        })
-      }
+      if (createAccount) await api.create('user', user)
 
-      await api.login({ email, password })
+      await api.login(user)
     } catch (error) {
       if (!error) return
       if (typeof error === 'object' && 'body' in error)
@@ -49,6 +47,25 @@
 
     const callback = $page.url.searchParams.get('callback')
     goto(callback || '/profile', { invalidateAll: true })
+  }
+
+  async function handleForgotPassword() {
+    if (!user.email)
+      return addNotification({
+        type: 'error',
+        text: "Veuillez renseigner l'email",
+        position: 'top-center',
+        removeAfter: 3000,
+      })
+
+    await api.forgotPassword(user.email)
+    emailSend = true
+    addNotification({
+      type: 'success',
+      text: 'Un email vous à été envoyé',
+      position: 'top-center',
+      removeAfter: 3000,
+    })
   }
 </script>
 
@@ -76,7 +93,7 @@
           Email
           <input
             type="email"
-            bind:value={email}
+            bind:value={user.email}
             class="w-full px-4 py-2 rounded-md border font-normal"
           />
         </Label>
@@ -84,38 +101,38 @@
           Mot de passe
           <input
             type="password"
-            bind:value={password}
+            bind:value={user.password}
             class="w-full px-4 py-2 rounded-md border font-normal"
           />
         </Label>
 
         {#if createAccount}
-          <div in:slide|local class="flex flex-col gap-4">
+          <div transition:slide|local class="flex flex-col gap-4">
             <hr />
             <div class="flex gap-4">
               <TextField
                 name="name"
                 label="Prénom"
-                bind:value={newUser.name}
+                bind:value={user.name}
                 class="grow"
               />
               <TextField
                 name="surname"
                 label="Nom"
-                bind:value={newUser.surname}
+                bind:value={user.surname}
                 class="grow"
               />
             </div>
             <TextField
               label="Rue et numéro"
-              bind:value={newUser.street}
+              bind:value={user.street}
               name="street"
             />
 
             <div class="flex gap-4">
               <TextField
                 label="Code postal"
-                bind:value={newUser.zipCode}
+                bind:value={user.zipCode}
                 name="zipCode"
                 minLength={4}
                 maxLength={4}
@@ -124,7 +141,7 @@
               />
               <TextField
                 label="Ville"
-                bind:value={newUser.city}
+                bind:value={user.city}
                 name="city"
                 class="grow"
               />
@@ -146,6 +163,31 @@
           <Button primary type="submit" class="grow">
             {createAccount ? 'Créer un compte' : 'Connexion'}
           </Button>
+        </div>
+
+        <div class="flex font-normal">
+          {#if !emailSend}
+            <button
+              transition:fade|local
+              type="button"
+              on:click={handleForgotPassword}
+              on:keyup={handleForgotPassword}
+              class="hover:underline"
+            >
+              Mot de passe oublié
+            </button>
+          {/if}
+          {#if createAccount}
+            <button
+              transition:fade|local
+              type="button"
+              class="hover:underline ml-auto"
+              on:click={() => (createAccount = false)}
+              on:keyup={() => (createAccount = false)}
+            >
+              Déjà un compte
+            </button>
+          {/if}
         </div>
       </form>
     </div>

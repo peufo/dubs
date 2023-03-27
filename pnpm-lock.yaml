@@ -64,6 +64,7 @@ importers:
       slate: ^0.87.0
       svelte: ^3.57.0
       svelte-check: ^3.1.4
+      svelte-notifications: ^0.9.98
       tailwindcss: ^3.2.4
       tslib: ^2.4.1
       typescript: ^4.9.3
@@ -87,6 +88,7 @@ importers:
       slate: 0.87.0
       svelte: 3.57.0
       svelte-check: 3.1.4_wjujczeohnhfvagtsiiqgrbmve
+      svelte-notifications: 0.9.98
       vite-imagetools: 4.0.18
       zod: 3.20.6
     devDependencies:
@@ -7480,6 +7482,10 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.57.0
+    dev: false
+
+  /svelte-notifications/0.9.98:
+    resolution: {integrity: sha512-w7/sqnQtEjM5uzjb3HfB50RE6KMuuWEQZxfBw86IykslHFJRcTuRvaUv503UMqY/LaioOu6w9mjJTO+ejiReSQ==}
     dev: false
 
   /svelte-preprocess/5.0.3_l3zmaivs6psgnxz73onfw6wfte:

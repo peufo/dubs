@@ -124,6 +124,10 @@ export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
       const res = await _get('/user/me')
       return getData<AuthResponse>(res)
     },
+    async forgotPassword(email: string) {
+      const res = await _post('/user/forgot-password', { email })
+      return getData(res)
+    },
   }
 }
 
