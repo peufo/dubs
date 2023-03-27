@@ -4,6 +4,19 @@ on:
   push:
     branches: [main]
 
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    secrets:
+      SSH_HOST:
+        required: true
+      SSH_USERNAME:
+        required: true
+      SSH_PASSWORD:
+        required: true
+
 jobs:
   build:
     environment: Nestor - clients

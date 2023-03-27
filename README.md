@@ -17,13 +17,12 @@ pnpm run dev -r
   - [x] Affichage des commandes
 - [x] Boutique
   - [x] Faire une commande
-  - [ ] Envoie des mails lors de la commande
+  - [x] Envoie des mails lors de la commande
 - [x] Section réserver à l'admin
   - [x] Navigation dans les actions
   - [ ] Vue des commandes + changement de status / paiement
   - [ ] Validation du panier pour un client
 - [x] Faire un page avec une action prédéfini (la recherche étant réservé l'admin)
-- [ ] Faire le tour du contenu avec Mathilde
+- [x] Faire le tour du contenu avec Mathilde
 - [x] Débug navigation
-- [ ] Ajouter les metadonnée des produits
 - [ ] Gerer la récupération de compte
