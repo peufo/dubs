@@ -9,7 +9,25 @@ export const Landing: GlobalConfig = {
   access: {
     read: () => true,
   },
-  fields: [createSection('sectionA'), createSection('sectionB')],
+  fields: [
+    createSection('sectionA'),
+    createSection('sectionB'),
+    {
+      name: 'sections',
+      type: 'array',
+      fields: [
+        {
+          name: 'text',
+          type: 'richText',
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+        },
+      ],
+    },
+  ],
 }
 
 function createSection(name: string): Field {

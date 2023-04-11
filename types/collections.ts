@@ -240,6 +240,13 @@ export interface Landing {
     }[];
     image?: string | Media;
   };
+  sections?: {
+    text?: {
+      [k: string]: unknown;
+    }[];
+    image?: string | Media;
+    id?: string;
+  }[];
 }
 export interface Footer {
   id: string;

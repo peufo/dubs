@@ -6,7 +6,7 @@
 
   export let data: PageData
 
-  const { sectionA, sectionB } = data.landing
+  const { sections } = data.landing
 </script>
 
 <svelte:head>
@@ -32,39 +32,27 @@
       <h3>Apiculture</h3>
     </div>
   </div>
-
-  <div class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap">
-    <div class="grow w-max">
-      {#if sectionA.text}
-        {@html serialize(sectionA.text)}
-      {/if}
-    </div>
-
-    {#if typeof sectionA.image === 'object'}
+  {#if sections}
+    {#each sections as section}
       <div
-        title={sectionA.image.title}
-        class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
-        style="background-image: url('{getPathname(
-          sectionA.image.sizes.card_h.url
-        )}')"
-      />
-    {/if}
-  </div>
+        class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap odd:flex-row-reverse"
+      >
+        <div class="grow w-max">
+          {#if section.text}
+            {@html serialize(section.text)}
+          {/if}
+        </div>
 
-  <div class="flex gap-6 sm:gap-10   flex-wrap-reverse sm:flex-nowrap">
-    {#if typeof sectionB.image === 'object'}
-      <div
-        title={sectionB.image.title}
-        class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
-        style="background-image: url('{getPathname(
-          sectionB.image.sizes.card_h.url
-        )}')"
-      />
-    {/if}
-    <div class="mr-4 sm:mr-0 grow">
-      {#if sectionB.text}
-        {@html serialize(sectionB.text)}
-      {/if}
-    </div>
-  </div>
+        {#if typeof section.image === 'object'}
+          <div
+            title={section.image.title}
+            class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
+            style="background-image: url('{getPathname(
+              section.image.sizes?.card_h?.url
+            )}')"
+          />
+        {/if}
+      </div>
+    {/each}
+  {/if}
 </div>
