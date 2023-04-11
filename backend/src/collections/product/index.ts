@@ -49,7 +49,7 @@ export const Product: CollectionConfig = {
           },
           options: [
             { value: 'draft', label: 'Brouillon' },
-            { value: 'comingSoon', label: 'À venire' },
+            { value: 'comingSoon', label: 'À venir' },
             { value: 'available', label: 'Disponible' },
             { value: 'notAvailable', label: 'Non disponible' },
             { value: 'archived', label: 'Archiver' },
