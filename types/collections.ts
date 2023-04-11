@@ -228,18 +228,6 @@ export interface Order {
 }
 export interface Landing {
   id: string;
-  sectionA?: {
-    text?: {
-      [k: string]: unknown;
-    }[];
-    image?: string | Media;
-  };
-  sectionB?: {
-    text?: {
-      [k: string]: unknown;
-    }[];
-    image?: string | Media;
-  };
   sections?: {
     text?: {
       [k: string]: unknown;

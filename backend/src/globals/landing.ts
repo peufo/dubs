@@ -10,8 +10,6 @@ export const Landing: GlobalConfig = {
     read: () => true,
   },
   fields: [
-    createSection('sectionA'),
-    createSection('sectionB'),
     {
       name: 'sections',
       type: 'array',
@@ -28,22 +26,4 @@ export const Landing: GlobalConfig = {
       ],
     },
   ],
-}
-
-function createSection(name: string): Field {
-  return {
-    name,
-    type: 'group',
-    fields: [
-      {
-        name: 'text',
-        type: 'richText',
-      },
-      {
-        name: 'image',
-        type: 'upload',
-        relationTo: 'media',
-      },
-    ],
-  }
 }
