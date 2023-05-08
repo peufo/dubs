@@ -15,13 +15,8 @@ import { Email } from './globals/email'
 
 import { Logo, Icon } from './components/Graphics'
 import { BeforeNavLinks } from './components/BeforeNavLinks'
-import { env } from './env'
-
-// const port = env('PORT', 5002)
-// const serverURL = env('SERVER_URL', `http://localhost:${port}`)
 
 export default buildConfig({
-  // serverURL,
   admin: {
     user: User.slug,
     meta: {
