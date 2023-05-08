@@ -16,10 +16,6 @@ on:
         required: true
       SSH_PASSWORD:
         required: true
-      PAYLOAD_SECRET:
-        required: true
-      SMTP_PASS:
-        required: true
 
 jobs:
   build:
@@ -48,14 +44,10 @@ jobs:
 
       - name: Replace and restart application
         uses: appleboy/ssh-action@master
-        env:
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          SMTP_PASS: ${{secrets.SMTP_PASS}}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          envs: PAYLOAD_SECRET,SMTP_PASS
           script: |
             . .profile
             rm -rf ~/dubs/app
