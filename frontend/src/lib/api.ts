@@ -1,5 +1,6 @@
 import { error, type Cookies } from '@sveltejs/kit'
 import qs from 'qs'
+import { dev } from '$app/environment'
 
 import type {
   Config,
@@ -18,7 +19,7 @@ type PartialNullable<T> = {
   [P in keyof T]?: T[P] | null
 }
 
-const baseUrl = '/api'
+const baseUrl = dev ? 'http://localhost:5002/api' : '/api'
 
 export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
   const token = cookies?.get('payload-token') || ''
