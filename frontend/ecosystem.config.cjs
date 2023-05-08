@@ -6,6 +6,7 @@ module.exports = {
       node_args: '-r dotenv/config',
       env: {
         NODE_ENV: 'production',
+        PORT: '5001',
       },
     },
   ],
