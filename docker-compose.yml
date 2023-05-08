@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  backend:
+    build: .
+    ports:
+      - '5002:5002'
+    depends_on:
+      - frontend
+      - mongo
+    environment:
+      NODE_ENV: production
+      MONGODB_URL: mongodb://mongo/dubs
+      FRONT_URL: http://frontend:3000
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+
+  mongo:
+    image: mongo:latest
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - data:/data/db
+    logging:
+      driver: none
+
+volumes:
+  data:

@@ -15,11 +15,10 @@ import { Email } from './globals/email'
 
 import { Logo, Icon } from './components/Graphics'
 import { BeforeNavLinks } from './components/BeforeNavLinks'
+import { env } from './env'
 
-const dev = process.env.NODE_ENV !== 'production'
-// TODO: fix this shit
-// const serverURL = dev ? 'http://localhost:5002' : process.env.DUBS_ORIGIN
-const serverURL = dev ? 'http://localhost:5002' : 'https://dubs-apiculture.ch'
+const port = env('PORT', 5002)
+const serverURL = env('SERVER_URL', `http://localhost:${port}`)
 
 export default buildConfig({
   serverURL,

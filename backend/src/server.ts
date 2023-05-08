@@ -1,24 +1,31 @@
 import express from 'express'
 import payload from 'payload'
 import proxy from 'express-http-proxy'
-
 require('dotenv').config()
-const dev = process.env.NODE_ENV !== 'production'
-const port = process.env.PORT || 5002
+import { env } from './env'
 
+const port = env('PORT', 5002)
+const frontUrl = env('FRONT_URL')
+const secret = env('PAYLOAD_SECRET')
+const mongoURL = env('MONGODB_URL')
 const app = express()
 
 // Initialize Payload
 payload.init({
-  secret: process.env.PAYLOAD_SECRET,
-  mongoURL: process.env.MONGODB_URL,
+  secret,
+  mongoURL,
   express: app,
   onInit: () => {
-    payload.logger.info(`Payload Admin URL: http://localhost:${port}`)
+    payload.logger.info(`Payload server listening on port ${port}`)
+    payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
 
     // Sert le frontend
-    const DUBS_PORT = dev ? '5173' : process.env['DUBS_PORT'] || 3000
-    app.use('/', proxy(`http://localhost:${DUBS_PORT}`))
+    if (frontUrl) {
+      app.use(proxy(frontUrl))
+      payload.logger.info(`Proxy to FRONT_URL actived: ${frontUrl}`)
+    } else {
+      payload.logger.info(`Proxy to FRONT_URL not actived`)
+    }
   },
   email: {
     fromName: 'Dubs-apiculture',
