@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Media } from 'types'
   import logo from '$lib/assets/logo-borderless.png?w=400&h=400&webp'
-  // import { getPathname } from '$lib/utils/getPathname'
 
   let klass = ''
   export { klass as class }

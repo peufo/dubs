@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { PageData } from './$types'
   import { serialize } from '$lib/utils/serializeSlate'
-  import { getPathname } from '$lib/utils/getPathname'
   import logo from '$lib/assets/logo.png?w=500&h=500&webp'
 
   export let data: PageData
@@ -47,9 +46,7 @@
           <div
             title={section.image.title}
             class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
-            style="background-image: url('{getPathname(
-              section.image.sizes?.card_h?.url
-            )}')"
+            style="background-image: url('{section.image.sizes?.card_h?.url}')"
           />
         {/if}
       </div>
