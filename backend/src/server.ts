@@ -4,13 +4,13 @@ import proxy from 'express-http-proxy'
 require('dotenv').config()
 import { env } from './env'
 
+const dev = env('NODE_ENV') !== 'production'
 const port = env('PORT', 5002)
-const frontUrl = env('FRONT_URL')
+const frontUrl = env('FRONT_URL', `http://localhost:${dev ? 5173 : 3000}`)
 const secret = env('PAYLOAD_SECRET')
 const mongoURL = env('MONGODB_URL')
 const app = express()
 
-// Initialize Payload
 payload.init({
   secret,
   mongoURL,
