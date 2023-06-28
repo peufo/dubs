@@ -15,6 +15,7 @@ import { getHTML } from './html'
 const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
   data,
 }) => {
+  console.log(data)
   return data
 }
 
@@ -64,7 +65,7 @@ const afterChange: CollectionAfterChangeHook<Order> = async ({ doc }) => {
 }
 
 export const hooks: CollectionConfig['hooks'] = {
-  //beforeValidate: [beforeValidate],
+  beforeValidate: [beforeValidate],
   afterChange: [afterChange],
 }
 

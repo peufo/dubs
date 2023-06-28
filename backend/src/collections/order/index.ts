@@ -81,15 +81,35 @@ export const Order: CollectionConfig = {
           required: true,
         },
         {
-          name: 'label',
-          type: 'textarea',
+          name: 'quantity',
+          type: 'number',
+          required: true,
+          label: 'quantité',
+          defaultValue: 1,
+          admin: {
+            step: 1,
+          },
         },
         {
           name: 'options',
-          type: 'json',
-          admin: {
-            hidden: true,
-          },
+          type: 'array',
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'value',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'price',
+              type: 'number',
+              required: true,
+            },
+          ],
         },
       ],
     },

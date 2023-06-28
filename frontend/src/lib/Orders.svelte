@@ -14,7 +14,6 @@
     dateStyle: 'full',
     timeStyle: 'short',
   }).format
-  //
 </script>
 
 <Card title="Mes commandes" active>

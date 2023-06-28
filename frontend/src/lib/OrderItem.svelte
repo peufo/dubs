@@ -3,7 +3,6 @@
 
   import Image from '$lib/Image.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
-  import { getVariablesValues } from 'common'
 
   export let item: Order['items'][number]
   export let hover = false
@@ -29,14 +28,13 @@
         </span>
       </div>
       <ul>
-        {#each [...getVariablesValues(item.product.variables, item.options)] as [name, option]}
+        {#each item.options as { name, value }}
           <li>
             {name}
-            <b>
-              {option.value}
-            </b>
+            <b>{value}</b>
           </li>
         {/each}
+        <hr />
       </ul>
     </div>
     <slot />

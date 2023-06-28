@@ -34,7 +34,7 @@ function getOrderItemsHTML(order: Order): string {
     const priceOptions = sumOf(values.map((v) => v.price))
     const price = priceOptions + (product.price || 0)
 
-    const optionsLi: string[] = values.map(
+    const optionsLi: string[] = orderItem.optionsValue.map(
       (v) => `<li>${v.name} <b>${v.value}</b></li>`
     )
 

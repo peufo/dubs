@@ -33,13 +33,13 @@ export interface User {
   zipCode?: string;
   city?: string;
   emailVerified?: string;
+  updatedAt: string;
+  createdAt: string;
   email: string;
   resetPasswordToken?: string;
   resetPasswordExpiration?: string;
   loginAttempts?: number;
   lockUntil?: string;
-  createdAt: string;
-  updatedAt: string;
   password?: string;
 }
 export interface Account {
@@ -54,16 +54,16 @@ export interface Account {
   scope?: string;
   session_state?: string;
   userId?: string;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Session {
   id: string;
   expires: string;
   sessionToken: string;
   userId: string;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Action {
   id: string;
@@ -102,18 +102,20 @@ export interface Action {
   timeUnit?: 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
   estimatedDuration?: number;
   remoteUpdate?: boolean;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Tag {
   id: string;
   name?: string;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Media {
   id: string;
   title?: string;
+  updatedAt: string;
+  createdAt: string;
   url?: string;
   filename?: string;
   mimeType?: string;
@@ -170,8 +172,6 @@ export interface Media {
       filename?: string;
     };
   };
-  createdAt: string;
-  updatedAt: string;
 }
 export interface Product {
   id: string;
@@ -179,7 +179,7 @@ export interface Product {
   detail?: string;
   state: 'draft' | 'comingSoon' | 'available' | 'notAvailable' | 'archived';
   price?: number;
-  images?: {
+  images: {
     image: string | Media;
     id?: string;
   }[];
@@ -198,8 +198,8 @@ export interface Product {
     blockName?: string;
     blockType: 'options';
   }[];
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Order {
   id: string;
@@ -211,20 +211,17 @@ export interface Order {
   items: {
     product: string | Product;
     price: number;
-    label?: string;
-    options?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
+    quantity: number;
+    options: {
+      name: string;
+      value: string;
+      price: number;
+      id?: string;
+    }[];
     id?: string;
   }[];
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 export interface Landing {
   id: string;
@@ -238,7 +235,7 @@ export interface Landing {
 }
 export interface Footer {
   id: string;
-  links?: {
+  links: {
     label: string;
     href: string;
     icon:
