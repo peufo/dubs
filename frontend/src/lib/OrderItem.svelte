@@ -11,7 +11,9 @@
 
 {#if typeof item.product !== 'string'}
   <div
-    class="flex gap-2 p-1 group {hover ? 'hover:bg-secondary-light/25' : ''} "
+    class="flex gap-2 p-1 group {hover ? 'hover:bg-secondary-light/25' : ''}"
+    class:text-xs={!large}
+    class:text-sm={large}
   >
     <Image
       image={item.product.images && item.product.images[0]?.image}
@@ -19,14 +21,9 @@
       class="rounded mt-1 {large ? 'w-16 h-16' : 'w-10 h-10 '}"
     />
     <div class="flex-grow" class:text-xs={!large} class:text-sm={large}>
-      <div class="flex justify-between items-center">
-        <h4 class:text-base={!large} class:text-lg={large}>
-          {item.product.name}
-        </h4>
-        <span class={hover ? 'group-hover:hidden' : ''}>
-          {formatAmount(item.price)}
-        </span>
-      </div>
+      <h4 class:text-base={!large} class:text-lg={large}>
+        {item.product.name}
+      </h4>
       <ul>
         {#each item.options as { name, value }}
           <li>
@@ -34,9 +31,14 @@
             <b>{value}</b>
           </li>
         {/each}
-        <hr />
       </ul>
     </div>
-    <slot />
+    <div class="text-right">
+      <b class="block">{formatAmount(item.price)}</b>
+
+      <slot>
+        {item.quantity} pièce{item.quantity > 1 ? 's' : ''}
+      </slot>
+    </div>
   </div>
 {/if}

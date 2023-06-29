@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { mdiCartOutline, mdiClose, mdiChevronDown } from '@mdi/js'
+  import {
+    mdiCartOutline,
+    mdiClose,
+    mdiChevronDown,
+    mdiPlus,
+    mdiMinus,
+    mdiTrashCanOutline,
+  } from '@mdi/js'
   import { fly, slide } from 'svelte/transition'
   import type { HttpError } from '@sveltejs/kit'
   import { goto } from '$app/navigation'
@@ -10,6 +17,7 @@
   import Button from '$lib/material/Button.svelte'
   import IconButton from '$lib/material/IconButton.svelte'
   import OrderItem from '$lib/OrderItem.svelte'
+  import { formatAmount } from './utils/formatAmount'
 
   let active = true
   let error = ''
@@ -53,12 +61,14 @@
     >
       <Icon path={mdiCartOutline} />
       <h2 class="text-xl">Panier</h2>
+      <div class="grow" />
+      <span class="ml-auto">{formatAmount($order.amountDue)}</span>
       {#if active}
         <IconButton
           title="Cacher le panier"
           path={mdiChevronDown}
           secondary
-          class="ml-auto border border-secondary"
+          class="border border-secondary"
           on:click={(e) => {
             e.stopPropagation()
             active = false
@@ -73,14 +83,39 @@
       >
         {#each $order.items || [] as item, itemIndex}
           <OrderItem {item} hover>
-            <IconButton
-              on:click={() => order.delete(itemIndex)}
-              size={22}
-              title="Supprimer l'article"
-              secondary
-              path={mdiClose}
-              class="hidden group-hover:block"
-            />
+            <div
+              class="
+                flex items-center justify-end gap-x-1
+                border border-secondary-light rounded-full
+                mt-1
+                "
+            >
+              <IconButton
+                on:click={() => order.setQuantity(itemIndex, item.quantity - 1)}
+                size={16}
+                title="Retirer"
+                secondary
+                path={item.quantity > 1 ? mdiMinus : mdiTrashCanOutline}
+                class=""
+              />
+
+              <input
+                type="number"
+                bind:value={item.quantity}
+                max="9999"
+                min="0"
+                class="bg-transparent font-bold w-6 text-center"
+              />
+
+              <IconButton
+                on:click={() => order.setQuantity(itemIndex, item.quantity + 1)}
+                size={16}
+                title="Ajouter"
+                secondary
+                path={mdiPlus}
+                class=""
+              />
+            </div>
           </OrderItem>
         {:else}
           <div class="text-center p-4">Panier vide</div>
@@ -111,3 +146,17 @@
     {/if}
   </section>
 {/if}
+
+<style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+</style>
