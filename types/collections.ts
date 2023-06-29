@@ -213,10 +213,10 @@ export interface Order {
     price: number;
     quantity: number;
     options: {
+      id: string;
       name: string;
       value: string;
       price: number;
-      id?: string;
     }[];
     id?: string;
   }[];

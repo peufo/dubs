@@ -30,11 +30,10 @@ function getOrderItemsHTML(order: Order): string {
     const { product } = orderItem
     if (typeof product === 'string') return
 
-    const values = getVariablesValues(orderItem)
-    const priceOptions = sumOf(values.map((v) => v.price))
+    const priceOptions = sumOf(orderItem.options.map(({ price }) => price))
     const price = priceOptions + (product.price || 0)
 
-    const optionsLi: string[] = orderItem.optionsValue.map(
+    const optionsLi: string[] = orderItem.options.map(
       (v) => `<li>${v.name} <b>${v.value}</b></li>`
     )
 
@@ -56,23 +55,4 @@ function getOrderItemsHTML(order: Order): string {
 
 function sumOf(arr: number[]): number {
   return arr.reduce((acc, cur) => acc + cur, 0)
-}
-
-function getVariablesValues(orderItem: OrderItem): OptionWithName[] {
-  const values: OptionWithName[] = []
-
-  const { product, options } = orderItem
-  if (typeof product === 'string') return values
-  const { variables } = product
-
-  if (!variables) return values
-
-  variables.forEach((variable, index) => {
-    const name = variable.blockName || `Option ${index + 1}`
-    const optionId = options[index]
-    const option = variable.options.find(({ id }) => id === optionId)
-    if (option) values.push({ name, ...option })
-  })
-
-  return values
 }

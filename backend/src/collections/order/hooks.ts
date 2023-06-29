@@ -55,11 +55,11 @@ const afterChange: CollectionAfterChangeHook<Order> = async ({ doc }) => {
       )
       .replace(
         '__MESSAGE__',
-        `👉 <a href="${orderUrl}">Voir la commande</a>
+        `👉 <a href="${orderUrl}">Voir la commande</a><br>
         Telephone: <b>${client.phone || ''}</b><br>
-        Adresse: ${client.street || ''},
+        Adresse: <b>${client.street || ''},
         ${client.zipCode || ''}
-        ${client.city || ''}`
+        ${client.city || ''}</b>`
       ),
   })
 }

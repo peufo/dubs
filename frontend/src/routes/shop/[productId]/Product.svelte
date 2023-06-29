@@ -4,7 +4,7 @@
   import { afterNavigate } from '$app/navigation'
 
   import type { Product, Order } from 'types'
-  import { getOrderItemPrice, getOrderItemOptions } from '$lib/order'
+  import { getOrderItemOptions } from '$lib/order'
 
   import Galery from '$lib/Galery.svelte'
   import { formatAmount } from '$lib/utils/formatAmount'
@@ -38,7 +38,8 @@
   afterNavigate(() => (optionsId = getVariableValues()))
   $: gotoQuery = useGotoQuery($page)
   $: options = getOrderItemOptions(product, optionsId)
-  $: price = options.reduce((acc, cur) => acc + cur.price, 0)
+  $: price =
+    (product.price || 0) + options.reduce((acc, cur) => acc + cur.price, 0)
 
   function handleNewOrder() {
     dispatch('newOrderItem', {

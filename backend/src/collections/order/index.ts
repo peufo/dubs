@@ -58,10 +58,6 @@ export const Order: CollectionConfig = {
       ],
     },
     {
-      name: 'label',
-      type: 'textarea',
-    },
-    {
       name: 'items',
       label: `Panier d'achat`,
       type: 'array',
@@ -76,38 +72,60 @@ export const Order: CollectionConfig = {
           required: true,
         },
         {
-          name: 'price',
-          type: 'number',
-          required: true,
-        },
-        {
-          name: 'quantity',
-          type: 'number',
-          required: true,
-          label: 'quantité',
-          defaultValue: 1,
-          admin: {
-            step: 1,
-          },
+          type: 'row',
+          fields: [
+            {
+              name: 'quantity',
+              type: 'number',
+              required: true,
+              label: 'Quantité',
+              defaultValue: 1,
+              admin: {
+                step: 1,
+              },
+            },
+            {
+              name: 'price',
+              label: 'Prix',
+              type: 'number',
+              required: true,
+            },
+          ],
         },
         {
           name: 'options',
           type: 'array',
           fields: [
             {
-              name: 'name',
+              name: 'id',
               type: 'text',
               required: true,
+              admin: {
+                hidden: true,
+              },
             },
             {
-              name: 'value',
-              type: 'text',
-              required: true,
-            },
-            {
-              name: 'price',
-              type: 'number',
-              required: true,
+              type: 'row',
+              fields: [
+                {
+                  name: 'name',
+                  label: 'Nom',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'value',
+                  label: 'Valeur',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'price',
+                  label: 'Prix',
+                  type: 'number',
+                  required: true,
+                },
+              ],
             },
           ],
         },
