@@ -41,7 +41,10 @@ function getOrderItemsHTML(order: Order): string {
       <div style="padding-bottom: 10px;">
         <div style="display: flex; align-items: center;">
           <span style="font-size: 1rem">${product.name}</span>
-          <span style="margin-left: auto;">${price.toFixed(2)} CHF</span>
+          <span style="margin-left: auto;">
+            <b style="margin-right: 20px;">${orderItem.quantity} x</b>
+            ${price.toFixed(2)} CHF
+          </span>
         </div>
         <ul style="font-size: .875rem;">
           ${optionsLi.join('')}

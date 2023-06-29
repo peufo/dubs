@@ -32,6 +32,10 @@ function createOrder() {
     })
   }
 
+  function refresh() {
+    _update((_order) => _order)
+  }
+
   function setQuantity(index: number, quantity: number) {
     _update((_order) => {
       let items = _order.items || []
@@ -80,5 +84,6 @@ function createOrder() {
     setQuantity,
     add,
     remove,
+    refresh,
   }
 }

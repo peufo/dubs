@@ -102,6 +102,7 @@
               <input
                 type="number"
                 bind:value={item.quantity}
+                on:input={() => order.refresh()}
                 max="9999"
                 min="0"
                 class="bg-transparent font-bold w-6 text-center"
