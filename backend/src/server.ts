@@ -6,7 +6,7 @@ import { env } from './env'
 
 const dev = env('NODE_ENV') !== 'production'
 const port = env('PORT', 5002)
-const frontUrl = env('FRONT_URL', `http://localhost:${dev ? 5173 : 5001}`)
+const frontUrl = env('FRONT_URL', `http://0.0.0.0:${dev ? 5173 : 5001}`)
 const secret = env('PAYLOAD_SECRET')
 const mongoURL = env('MONGODB_URL')
 const app = express()
