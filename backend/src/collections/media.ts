@@ -3,10 +3,6 @@ import { CollectionConfig } from 'payload/types'
 
 const dev = process.env.NODE_ENV !== 'production'
 
-// TODO: fix this shit
-// const home = process.env.HOME
-const home = '/home/clients/e0f6b0129d9ebe0e9e898571fcb68d76'
-
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
@@ -18,7 +14,7 @@ export const Media: CollectionConfig = {
   fields: [{ type: 'text', name: 'title' }],
   upload: {
     staticURL: '/media',
-    staticDir: dev ? '../media' : path.resolve(home, 'dubs', 'media'),
+    staticDir: dev ? '../media' : path.resolve(process.env.HOME, 'media'),
     imageSizes: [
       {
         name: 'thumbnail',

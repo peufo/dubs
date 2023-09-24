@@ -19,10 +19,37 @@ on:
 
 jobs:
   build:
-    environment: Nestor - clients
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Copy codebase in tmp/app
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: '.'
+          target: '~/tmp/app'
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cp ~/.env ~/tmp/app/backend/.env
+            cp ~/.env ~/tmp/app/frontend/.env
+            cd ~/tmp/app
+            pnpm install --frozen-lockfile
+            pnpm -r build
+            rm -rf ~/app
+            mv ~/tmp/app ~/app
+            cd ~/app
+            pnpm -r serve
+
       - uses: pnpm/action-setup@v2
         with:
           version: latest
