@@ -10,11 +10,6 @@ const secret = env('PAYLOAD_SECRET')
 
 const app = express()
 
-// Redirect root to Admin panel
-app.get('/', (_, res) => {
-  res.redirect('/admin')
-})
-
 const start = async () => {
   // Initialize Payload
   await payload.init({
