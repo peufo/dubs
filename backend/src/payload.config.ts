@@ -47,4 +47,5 @@ export default buildConfig({
   db: mongooseAdapter({
     url: env('MONGODB_URL'),
   }),
+  cors: '*',
 })
