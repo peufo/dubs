@@ -10,5 +10,7 @@ export const handle = (async ({ event, resolve }) => {
     }
   }
 
-  return resolve(event)
+  const response = await resolve(event)
+  response.headers.append('Access-Control-Allow-Origin', `*`)
+  return response
 }) satisfies Handle
