@@ -1,5 +1,6 @@
 import path from 'path'
 import { CollectionConfig } from 'payload/types'
+import { env } from '../env'
 
 const dev = process.env.NODE_ENV !== 'production'
 
@@ -14,7 +15,7 @@ export const Media: CollectionConfig = {
   fields: [{ type: 'text', name: 'title' }],
   upload: {
     staticURL: '/media',
-    staticDir: dev ? '../media' : path.resolve(process.env.HOME, 'media'),
+    staticDir: dev ? '../media' : path.resolve(env('HOME', ''), 'media'),
     imageSizes: [
       {
         name: 'thumbnail',

@@ -71,5 +71,6 @@ export const hooks: CollectionConfig['hooks'] = {
 
 async function ensureUser(userOrId: string | User): Promise<User> {
   if (typeof userOrId === 'object') return userOrId
+  //@ts-ignore
   return payload.findByID({ collection: 'user', id: userOrId }) as Promise<User>
 }

@@ -151,14 +151,15 @@ function ensureRelation(port: Port): FieldHook<Action, Action[Port]> {
   }
 }
 
-function getAction(action: string | Action) {
+async function getAction(action: string | Action) {
   if (typeof action === 'object') return action
-  // @ts-ignore
-  return payload.findByID<Action>({
+  const res = await payload.findByID<'action'>({
     collection: 'action',
     depth: 0,
     id: action,
   })
+  //@ts-ignore
+  return res as Action
 }
 
 function updateRemoteAction(action: Action) {

@@ -1,5 +1,9 @@
-import { buildConfig } from 'payload/config'
 import path from 'path'
+
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { webpackBundler } from '@payloadcms/bundler-webpack'
+import { slateEditor } from '@payloadcms/richtext-slate'
+import { buildConfig } from 'payload/config'
 
 import { User, Account, Session } from './collections/user'
 import { Action } from './collections/action'
@@ -15,6 +19,7 @@ import { Email } from './globals/email'
 
 import { Logo, Icon } from './components/Graphics'
 import { BeforeNavLinks } from './components/BeforeNavLinks'
+import { env } from './env'
 
 export default buildConfig({
   admin: {
@@ -31,11 +36,15 @@ export default buildConfig({
       },
       beforeNavLinks: [BeforeNavLinks],
     },
+    bundler: webpackBundler(),
   },
+  editor: slateEditor({}),
   collections: [User, Account, Session, Action, Tag, Media, Product, Order],
   globals: [Landing, Footer, Process, Email],
   typescript: {
     outputFile: path.resolve(__dirname, '../../types/collections.ts'),
   },
-  cors: '*',
+  db: mongooseAdapter({
+    url: env('MONGODB_URL'),
+  }),
 })
