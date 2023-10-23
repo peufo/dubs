@@ -87,7 +87,12 @@
 </script>
 
 <ClickOutside on:click_outside={() => (open = false)}>
-  <Svg {size} class="fixed right-2 top-2 z-10">
+  <Svg
+    {size}
+    expandWith={open ? 4.3 : 1}
+    expandHeight={open ? 6.6 : 1}
+    class="fixed right-2 top-2 z-10"
+  >
     {#if $isLargeScreen}
       <Hexagon open gap={150} {sides} />
     {:else}

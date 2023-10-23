@@ -10,8 +10,6 @@
 
   type $$Props = HexagonProps
 
-  export let viewWidth = 1000
-  export let viewHeight = 1000
   export let rayon = 450
 
   let klass = ''
@@ -24,7 +22,7 @@
   export let href = ''
   export let external = false
 
-  export let origin: Dot = { x: viewWidth / 2, y: viewHeight / 2 }
+  export let origin: Dot = { x: 500, y: 500 }
   export let rotate: FaceIndex = 0
   export let open = false
   export let permanent = true
