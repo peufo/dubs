@@ -11,6 +11,20 @@ pnpm install
 pnpm run dev -r
 ```
 
+## Start server
+
+with root user 
+```sh
+mongod --fork --logpath /var/log/mongodb/mongod.log
+```
+
+With dubs user
+```sh
+cd app
+pnpm run --filter ./backend  serve
+pnpm run --filter ./frontend  serve
+```
+
 ## TODO
 
 - [x] Profile
