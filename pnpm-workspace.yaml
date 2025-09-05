@@ -3,3 +3,11 @@ packages:
   - frontend
   - types
   - common
+
+onlyBuiltDependencies:
+  - '@sveltejs/kit'
+  - '@swc/core'
+  - es5-ext
+  - esbuild
+  - sharp
+  - svelte-preprocess

@@ -6,36 +6,41 @@
     mdiPlus,
     mdiMinus,
     mdiTrashCanOutline,
-  } from '@mdi/js'
-  import { fly, slide } from 'svelte/transition'
-  import type { HttpError } from '@sveltejs/kit'
-  import { goto } from '$app/navigation'
+  } from "@mdi/js";
+  import { fly, slide } from "svelte/transition";
+  import type { HttpError } from "@sveltejs/kit";
+  import { goto } from "$app/navigation";
 
-  import { api } from '$lib/api'
-  import { order } from '$lib/stores'
-  import Icon from '$lib/material/Icon.svelte'
-  import Button from '$lib/material/Button.svelte'
-  import IconButton from '$lib/material/IconButton.svelte'
-  import OrderItem from '$lib/OrderItem.svelte'
-  import { formatAmount } from './utils/formatAmount'
+  import { api } from "$lib/api";
+  import { order } from "$lib/stores";
+  import Icon from "$lib/material/Icon.svelte";
+  import Button from "$lib/material/Button.svelte";
+  import IconButton from "$lib/material/IconButton.svelte";
+  import OrderItem from "$lib/OrderItem.svelte";
+  import { formatAmount } from "./utils/formatAmount";
 
-  let active = true
-  let error = ''
+  let active = true;
+  let error = "";
+  let isLoading = false;
 
-  $: active = !!$order
+  $: active = !!$order;
 
   async function handleSubmit() {
     try {
-      if (!$order) return
+      if (!$order || isLoading) return;
+      isLoading = true;
       const items = $order.items?.map((row) => ({
         ...row,
-        product: typeof row.product === 'string' ? row.product : row.product.id,
-      }))
-      await api.create('order', { ...$order, items })
-      $order = null
-      goto('/profile', { invalidateAll: true })
+        product: typeof row.product === "string" ? row.product : row.product.id,
+      }));
+      await api.create("order", { ...$order, items });
+      isLoading = false;
+      $order = null;
+      goto("/profile", { invalidateAll: true });
     } catch (err) {
-      error = (err as HttpError).body.message
+      error = (err as HttpError).body.message;
+    } finally {
+      isLoading = false;
     }
   }
 </script>
@@ -70,8 +75,8 @@
           secondary
           class="border border-secondary"
           on:click={(e) => {
-            e.stopPropagation()
-            active = false
+            e.stopPropagation();
+            active = false;
           }}
         />
       {/if}
@@ -131,7 +136,12 @@
 
       <div class="text-center p-2" transition:slide|local>
         {#if $order.items && $order.items.length}
-          <Button primary class="py-1 w-full" on:click={handleSubmit}>
+          <Button
+            primary
+            class="py-1 w-full {isLoading ? 'opacity-50' : ''}"
+            disabled={isLoading}
+            on:click={handleSubmit}
+          >
             Valider la commande
           </Button>
         {:else}
@@ -157,7 +167,7 @@
   }
 
   /* Firefox */
-  input[type='number'] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 </style>
