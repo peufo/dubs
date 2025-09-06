@@ -29,8 +29,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: '.'
-          target: '~/tmp/app'
+          source: "."
+          target: "~/tmp/app"
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -45,6 +45,7 @@ jobs:
             cd ~/tmp/app
             pnpm install --frozen-lockfile
             pnpm -r build
+            if [ "$?" -ne "0" ] ; then exit 1 ; fi 
             rm -rf ~/app
             mv ~/tmp/app ~/app
             cd ~/app
