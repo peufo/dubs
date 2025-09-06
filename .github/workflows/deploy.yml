@@ -43,6 +43,7 @@ jobs:
             cp ~/.env ~/tmp/app/backend/.env
             cp ~/.env ~/tmp/app/frontend/.env
             cd ~/tmp/app
+            pnpm -v
             pnpm install --frozen-lockfile
             pnpm -r build
             if [ "$?" -ne "0" ] ; then exit 1 ; fi 
