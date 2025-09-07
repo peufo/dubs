@@ -3,45 +3,38 @@ import payload from "payload";
 import proxy from "express-http-proxy";
 require("dotenv").config();
 import { env } from "./env";
-const dev = env("NODE_ENV") !== "production";
-const port = env("PORT", 5002);
-const frontUrl = env("FRONT_URL", `http://0.0.0.0:${dev ? 5173 : 5001}`);
-const secret = env("PAYLOAD_SECRET");
 
 const app = express();
 
 const start = async () => {
   // Initialize Payload
   await payload.init({
-    secret,
+    secret: env.PAYLOAD_SECRET,
     express: app,
     email: {
       fromName: "Dubs-apiculture",
-      fromAddress: `Dubs-apiculture <${process.env.SMTP_USER}>`,
+      fromAddress: `Dubs-apiculture <${env.SMTP_USER}>`,
       transportOptions: {
-        host: process.env.SMTP_HOST,
+        host: env.SMTP_HOST,
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS,
         },
         port: 465,
       },
     },
     onInit: async () => {
-      payload.logger.info(`Payload server listening on port ${port}`);
+      payload.logger.info(
+        `Payload server listening http://localhost:${env.PUBLIC_BACKEND_PORT}`
+      );
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
     },
   });
 
-  // Sert le frontend
-  if (frontUrl) {
-    app.use(proxy(frontUrl));
-    payload.logger.info(`Proxy to FRONT_URL actived: ${frontUrl}`);
-  } else {
-    payload.logger.info(`Proxy to FRONT_URL not actived`);
-  }
+  app.use(proxy(env.FRONT_URL));
+  payload.logger.info(`Proxy to FRONT_URL actived: ${env.FRONT_URL}`);
 
-  app.listen(port);
+  app.listen(env.PUBLIC_BACKEND_PORT);
 };
 
 start();

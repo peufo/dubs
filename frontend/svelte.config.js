@@ -1,6 +1,6 @@
-import adapter from '@sveltejs/adapter-node'
-import { vitePreprocess } from '@sveltejs/kit/vite'
-const dev = process.env.NODE_ENV !== 'production'
+import adapter from "@sveltejs/adapter-node";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+const dev = process.env.NODE_ENV !== "production";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -11,14 +11,14 @@ const config = {
       precompress: true,
     }),
     csrf: {
-      checkOrigin: !dev,
+      trustedOrigins: ["*"],
     },
     alias: {
-      $lib: './src/lib',
-      types: '../types',
-      common: '../common',
+      $lib: "./src/lib",
+      types: "../types",
+      common: "../common",
     },
   },
-}
+};
 
-export default config
+export default config;

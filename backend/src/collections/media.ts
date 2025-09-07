@@ -1,58 +1,57 @@
-import { CollectionConfig } from 'payload/types'
-
-const dev = process.env.NODE_ENV !== 'production'
+import { CollectionConfig } from "payload/types";
+import { env } from "../env";
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: "media",
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: "title",
   },
   access: {
     read: () => true,
   },
-  fields: [{ type: 'text', name: 'title' }],
+  fields: [{ type: "text", name: "title" }],
   upload: {
-    staticURL: '/media',
-    staticDir: dev ? '../media' : '/home/dubs/media',
+    staticURL: "/media",
+    staticDir: env.MEDIA_DIR,
     imageSizes: [
       {
-        name: 'thumbnail',
+        name: "thumbnail",
         width: 300,
         height: 300,
-        position: 'centre',
+        position: "centre",
       },
       {
-        name: 'card_w',
+        name: "card_w",
         width: 400,
         height: null,
-        position: 'centre',
+        position: "centre",
       },
       {
-        name: 'card_h',
+        name: "card_h",
         width: null,
         height: 400,
-        position: 'centre',
+        position: "centre",
       },
       {
-        name: 'mini',
+        name: "mini",
         width: 200,
         height: null,
-        position: 'centre',
+        position: "centre",
       },
       {
-        name: 'medium',
+        name: "medium",
         width: 700,
         height: null,
-        position: 'centre',
+        position: "centre",
       },
       {
-        name: 'large',
+        name: "large",
         width: 1024,
         height: null,
-        position: 'centre',
+        position: "centre",
       },
     ],
-    adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*'],
+    adminThumbnail: "thumbnail",
+    mimeTypes: ["image/*"],
   },
-}
+};
