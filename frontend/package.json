@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "NODE_ENV=production node --env-file=../.env ./build/index.js",
+    "start": "NODE_ENV=production ./build/index.js",
     "dev": "vite dev --host",
     "build": "vite build",
     "preview": "vite preview --host",

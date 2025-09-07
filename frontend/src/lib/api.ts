@@ -27,8 +27,6 @@ const baseUrl = browser
 export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
   const token = cookies?.get("payload-token") || "";
 
-  console.log("TA MERE: ", baseUrl);
-
   async function getData<Type = unknown>(res: Response): Promise<Type> {
     const data = (await res.json()) as Type & ErrorsResponse;
     if (data.errors) {
