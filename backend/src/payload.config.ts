@@ -8,7 +8,7 @@ import { buildConfig } from "payload/config";
 import { User, Account, Session } from "./collections/user";
 import { Action } from "./collections/action";
 import { Tag } from "./collections/tag";
-import { Media } from "./collections/media";
+import { useMedia } from "./collections/media";
 import { Product } from "./collections/product";
 import { Order } from "./collections/order";
 
@@ -22,30 +22,39 @@ import { BeforeNavLinks } from "./components/BeforeNavLinks";
 import { env } from "./env";
 
 export default buildConfig({
-  admin: {
-    user: User.slug,
-    meta: {
-      ogImage: "/img/logo.png",
-      titleSuffix: "- Dubs Apiculture",
-      favicon: "/favicon.ico",
+    admin: {
+        user: User.slug,
+        meta: {
+            ogImage: "/img/logo.png",
+            titleSuffix: "- Dubs Apiculture",
+            favicon: "/favicon.ico",
+        },
+        components: {
+            graphics: {
+                Logo,
+                Icon,
+            },
+            beforeNavLinks: [BeforeNavLinks],
+        },
+        bundler: webpackBundler(),
     },
-    components: {
-      graphics: {
-        Logo,
-        Icon,
-      },
-      beforeNavLinks: [BeforeNavLinks],
+    editor: slateEditor({}),
+    collections: [
+        User,
+        Account,
+        Session,
+        Action,
+        Tag,
+        useMedia(env.MEDIA_DIR),
+        Product,
+        Order,
+    ],
+    globals: [Landing, Footer, Process, Email],
+    typescript: {
+        outputFile: path.resolve(__dirname, "../../types/collections.ts"),
     },
-    bundler: webpackBundler(),
-  },
-  editor: slateEditor({}),
-  collections: [User, Account, Session, Action, Tag, Media, Product, Order],
-  globals: [Landing, Footer, Process, Email],
-  typescript: {
-    outputFile: path.resolve(__dirname, "../../types/collections.ts"),
-  },
-  db: mongooseAdapter({
-    url: env.MONGODB_URL,
-  }),
-  cors: "*",
+    db: mongooseAdapter({
+        url: env.MONGODB_URL,
+    }),
+    cors: "*",
 });
