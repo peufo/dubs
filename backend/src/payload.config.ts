@@ -19,9 +19,8 @@ import { Email } from "./globals/email";
 
 import { Logo, Icon } from "./components/Graphics";
 import { BeforeNavLinks } from "./components/BeforeNavLinks";
-import { env } from "./env";
 
-const Media = useMedia(env.MEDIA_DIR);
+const Media = useMedia(process.env.MEDIA_DIR);
 
 export default buildConfig({
     admin: {
@@ -47,7 +46,7 @@ export default buildConfig({
         outputFile: path.resolve(__dirname, "../../types/collections.ts"),
     },
     db: mongooseAdapter({
-        url: env.MONGODB_URL,
+        url: process.env.MONGODB_URL,
     }),
     cors: "*",
 });
