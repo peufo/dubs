@@ -13,7 +13,7 @@ export const isLargeScreen = readable(getIsLargeScreen(), (set) => {
 });
 
 function getIsLargeScreen() {
-    if (!browser) return true;
+    if (!browser) return false;
     return document.body.offsetWidth > 1536;
 }
 

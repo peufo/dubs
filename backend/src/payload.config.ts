@@ -21,6 +21,8 @@ import { Logo, Icon } from "./components/Graphics";
 import { BeforeNavLinks } from "./components/BeforeNavLinks";
 import { env } from "./env";
 
+const Media = useMedia(env.MEDIA_DIR);
+
 export default buildConfig({
     admin: {
         user: User.slug,
@@ -39,16 +41,7 @@ export default buildConfig({
         bundler: webpackBundler(),
     },
     editor: slateEditor({}),
-    collections: [
-        User,
-        Account,
-        Session,
-        Action,
-        Tag,
-        useMedia(env.MEDIA_DIR),
-        Product,
-        Order,
-    ],
+    collections: [User, Account, Session, Action, Tag, Media, Product, Order],
     globals: [Landing, Footer, Process, Email],
     typescript: {
         outputFile: path.resolve(__dirname, "../../types/collections.ts"),
