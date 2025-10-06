@@ -36,7 +36,7 @@
     {#if sections}
         {#each sections as section}
             <div
-                class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap odd:flex-row-reverse"
+                class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap odd:flex-row-reverse items-center"
             >
                 <div class="grow w-max">
                     {#if section.text}
@@ -49,7 +49,7 @@
                         title={section.image?.title}
                         class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
                         style="background-image: url('{encodeURI(
-                            section.image?.sizes?.card_h?.url || '',
+                            section.image?.sizes?.medium?.url || '',
                         )}')"
                     ></div>
                 {/if}
