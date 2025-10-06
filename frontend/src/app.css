@@ -1,13 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=Dosis:400,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Dosis:400,700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+:root {
+    scroll-behavior: smooth;
 }

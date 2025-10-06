@@ -1,38 +1,40 @@
 <script lang="ts">
-  import type { LayoutData } from './$types'
-  import Notifications from 'svelte-notifications'
+    import type { LayoutData } from "./$types";
+    import Notifications from "svelte-notifications";
 
-  import '../app.css'
-  import Footer from './Footer.svelte'
-  import Menu from '$lib/Menu.svelte'
-  import Order from '$lib/Order.svelte'
+    import "../app.css";
+    import Footer from "./Footer.svelte";
+    import Menu from "$lib/Menu.svelte";
+    import Order from "$lib/Order.svelte";
 
-  import Watermark from '$lib/material/Watermark.svelte'
+    import Watermark from "$lib/material/Watermark.svelte";
 
-  export let data: LayoutData
-  //
+    export let data: LayoutData;
 </script>
 
 <Notifications>
-  <div class="min-h-screen flex flex-col">
-    <header>
-      <Menu
-        items={[
-          { label: data.session?.user?.name || 'Connexion', href: '/profile' },
-          { label: 'fabrication', href: '/process' },
-          { label: 'boutique', href: '/shop' },
-          { label: 'admin', href: '/admin', external: true },
-        ]}
-      />
-    </header>
+    <div class="min-h-screen flex flex-col">
+        <header>
+            <Menu
+                items={[
+                    { label: "Accueil", href: "/" },
+                    { label: "Boutique", href: "/shop" },
+                    { label: "Galerie", href: "/#gallery" },
+                    {
+                        label: data.session?.user?.name || "Connexion",
+                        href: "/profile",
+                    },
+                ]}
+            />
+        </header>
 
-    <main class="grow">
-      <Watermark />
-      <slot />
-    </main>
+        <main class="grow">
+            <Watermark />
+            <slot />
+        </main>
 
-    <Footer links={data.links || []} />
-  </div>
+        <Footer links={data.links || []} />
+    </div>
 
-  <Order />
+    <Order />
 </Notifications>

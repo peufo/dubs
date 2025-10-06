@@ -2,12 +2,24 @@
     import type { PageData } from "./$types";
     import { serialize } from "$lib/utils/serializeSlate";
     import logo from "$lib/assets/logo.png?w=500&h=500&webp";
+    import Galery from "$lib/Galery.svelte";
+    import { afterNavigate } from "$app/navigation";
 
     export let data: PageData;
 
-    const { sections } = data.landing;
+    const { sections, gallery } = data.landing;
 
-    console.log({ sections });
+    afterNavigate((event) => {
+        const hash = event.to?.url.hash;
+        if (hash) {
+            setTimeout(() => {
+                const element = document.querySelector(hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 200);
+        }
+    });
 </script>
 
 <svelte:head>
@@ -15,7 +27,6 @@
         name="description"
         content="La famille Dubey vous propose du miel de production artisanal ajoulote."
     />
-
     <title>Dubs Apiculture • Miel de Coeuve</title>
 </svelte:head>
 
@@ -55,5 +66,19 @@
                 {/if}
             </div>
         {/each}
+    {/if}
+
+    {#if gallery}
+        <section>
+            <h2 id="gallery" class="text-4xl text-center py-6">
+                Galerie photos
+            </h2>
+            <Galery
+                images={gallery?.map((_) => _.image) || []}
+                classWrapper=""
+                classImageContainer="h-[380px] md:h-[520px]"
+                classImage="max-h-[380px] md:max-h-[520px]"
+            />
+        </section>
     {/if}
 </div>
