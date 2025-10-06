@@ -6,6 +6,8 @@
     export let data: PageData;
 
     const { sections } = data.landing;
+
+    console.log({ sections });
 </script>
 
 <svelte:head>

@@ -1,14 +1,14 @@
 {
-  "name": "dubs",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "start": "pnpm run -r start",
-    "build": "pnpm run -r build",
-    "dev": ". .env && pnpm run -r dev"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.15.1"
+    "name": "dubs",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "pnpm run -r start",
+        "build": "pnpm run -r build",
+        "dev": ". .env && pnpm run -r dev"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.15.1"
 }
