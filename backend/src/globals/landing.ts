@@ -1,4 +1,4 @@
-import { GlobalConfig, Field } from "payload/types";
+import { GlobalConfig } from "payload/types";
 
 export const Landing: GlobalConfig = {
     slug: "landing",
@@ -15,6 +15,10 @@ export const Landing: GlobalConfig = {
             type: "array",
             fields: [
                 {
+                    name: "title",
+                    type: "text",
+                },
+                {
                     name: "text",
                     type: "richText",
                 },
@@ -22,6 +26,14 @@ export const Landing: GlobalConfig = {
                     name: "image",
                     type: "upload",
                     relationTo: "media",
+                },
+                {
+                    name: "mode",
+                    type: "select",
+                    options: [
+                        { label: "Horizontal", value: "horizontal" },
+                        { label: "Vertical", value: "vertical" },
+                    ],
                 },
             ],
         },

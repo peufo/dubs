@@ -330,12 +330,14 @@ export interface Landing {
     id: string;
     sections?:
         | {
+              title?: string | null;
               text?:
                   | {
                         [k: string]: unknown;
                     }[]
                   | null;
               image?: string | Media | null;
+              mode?: ("horizontal" | "vertical") | null;
               id?: string | null;
           }[]
         | null;

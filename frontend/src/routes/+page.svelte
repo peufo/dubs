@@ -40,31 +40,53 @@
             height="500"
         />
         <div class="w-48 sm:w-72 font-semibold text-3xl sm:text-5xl">
-            <h3>Dubs</h3>
-            <h3>Apiculture</h3>
+            <h1>
+                Dubs<br />
+                Apiculture
+            </h1>
         </div>
     </div>
     {#if sections}
         {#each sections as section}
-            <div
-                class="flex gap-6 sm:gap-10 flex-wrap sm:flex-nowrap odd:flex-row-reverse items-center"
-            >
-                <div class="grow w-max">
-                    {#if section.text}
+            {#if section.title}
+                <h2
+                    class="text-2xl uppercase tracking-[4px] pt-12 text-secondary-dark"
+                >
+                    {section.title}
+                </h2>
+                <div
+                    class="h-1 rounded bg-primary w-[70%] -translate-y-6"
+                ></div>
+            {/if}
+
+            {#if section.text}
+                <div
+                    class="
+                        flex gap-6 sm:gap-10 flex-wrap
+                        {section.mode === 'vertical'
+                        ? 'flex-col-reverse'
+                        : 'sm:flex-nowrap odd:flex-row-reverse items-center'}
+                    "
+                >
+                    <div class="grow">
                         {@html serialize(section.text)}
+                    </div>
+
+                    {#if typeof section.image === "object"}
+                        <div
+                            title={section.image?.title}
+                            class="
+                                rounded-2xl bg-cover shrink-0 h-72
+                                {section.mode === 'vertical'
+                                ? 'w-full'
+                                : 'w-72 mx-auto'}"
+                            style="background-image: url('{encodeURI(
+                                section.image?.sizes?.medium?.url || '',
+                            )}')"
+                        ></div>
                     {/if}
                 </div>
-
-                {#if typeof section.image === "object"}
-                    <div
-                        title={section.image?.title}
-                        class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
-                        style="background-image: url('{encodeURI(
-                            section.image?.sizes?.medium?.url || '',
-                        )}')"
-                    ></div>
-                {/if}
-            </div>
+            {/if}
         {/each}
     {/if}
 
