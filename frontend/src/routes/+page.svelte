@@ -48,8 +48,9 @@
                     <div
                         title={section.image?.title}
                         class="h-72 w-72 rounded-2xl bg-cover shrink-0 mx-auto"
-                        style="background-image: url('{section.image?.sizes
-                            ?.card_h?.url}')"
+                        style="background-image: url('{encodeURI(
+                            section.image?.sizes?.card_h?.url || '',
+                        )}')"
                     ></div>
                 {/if}
             </div>
