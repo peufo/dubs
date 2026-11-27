@@ -40,7 +40,12 @@
     $: price =
         (product.price || 0) + options.reduce((acc, cur) => acc + cur.price, 0);
 
+    // Une variante dont aucune option n'est disponible rend le produit non commandable
+    $: missingOption = (options || []).some((option) => !option.id);
+    $: canOrder = product.state === "available" && !missingOption;
+
     function handleNewOrder() {
+        if (!canOrder) return;
         dispatch("newOrderItem", {
             product,
             price,
@@ -96,16 +101,19 @@
             </div>
 
             <div class="grow text-right">
-                {stateLabel[product.state]}
+                {product.state === "available" && missingOption
+                    ? "Non disponible"
+                    : stateLabel[product.state]}
             </div>
 
             <button
                 on:click={handleNewOrder}
+                disabled={!canOrder}
                 class="
           rounded py-2 px-4 uppercase
           bg-primary-light text-primary-dark
           shadow transition-shadow
-          {product.state === 'available'
+          {canOrder
                     ? 'hover:shadow-lg cursor-pointer'
                     : 'cursor-not-allowed opacity-60'}
         "
