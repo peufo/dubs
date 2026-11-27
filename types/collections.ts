@@ -24,6 +24,7 @@ export interface Config {
         footer: Footer;
         process: Process;
         email: Email;
+        shop: Shop;
     };
 }
 /**
@@ -271,6 +272,8 @@ export interface Order {
     stateOrder: "open" | "canceled" | "close";
     amountDue: number;
     paymentOk?: boolean | null;
+    delivery: "pickup" | "shipping";
+    shippingFee?: number | null;
     items: {
         product: string | Product;
         quantity: number;
@@ -392,6 +395,30 @@ export interface Email {
         notify?: (string | User)[] | null;
         title?: string | null;
         message?: string | null;
+    };
+    updatedAt?: string | null;
+    createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shop".
+ */
+export interface Shop {
+    id: string;
+    contact?: {
+        name?: string | null;
+        phone?: string | null;
+        email?: string | null;
+    };
+    pickup?: {
+        enabled?: boolean | null;
+        details?: string | null;
+    };
+    shipping?: {
+        enabled?: boolean | null;
+        fee?: number | null;
+        freeFrom?: number | null;
+        details?: string | null;
     };
     updatedAt?: string | null;
     createdAt?: string | null;

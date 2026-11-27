@@ -3,6 +3,9 @@ import type { LayoutLoad } from './$types'
 
 export const load = (async ({ fetch, parent, data }) => {
   const api = useApi(fetch)
-  const { links } = await api.getGlobal('footer')
-  return { links, ...data }
+  const [{ links }, shop] = await Promise.all([
+    api.getGlobal('footer'),
+    api.getGlobal('shop'),
+  ])
+  return { links, shop, ...data }
 }) satisfies LayoutLoad

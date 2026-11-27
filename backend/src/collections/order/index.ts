@@ -58,6 +58,32 @@ export const Order: CollectionConfig = {
       ],
     },
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'delivery',
+          label: 'Mode de remise',
+          type: 'select',
+          defaultValue: 'pickup',
+          required: true,
+          options: [
+            { label: 'Retrait sur place', value: 'pickup' },
+            { label: 'Livraison', value: 'shipping' },
+          ],
+        },
+        {
+          name: 'shippingFee',
+          label: 'Frais de livraison',
+          type: 'number',
+          defaultValue: 0,
+          min: 0,
+          admin: {
+            description: 'Calculé à la commande, déjà compris dans la somme dû',
+          },
+        },
+      ],
+    },
+    {
       name: 'items',
       label: `Panier d'achat`,
       type: 'array',

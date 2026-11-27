@@ -16,6 +16,7 @@ import { Landing } from "./globals/landing";
 import { Footer } from "./globals/footer";
 import { Process } from "./globals/process";
 import { Email } from "./globals/email";
+import { Shop } from "./globals/shop";
 
 import { Logo, Icon } from "./components/Graphics";
 import { BeforeNavLinks } from "./components/BeforeNavLinks";
@@ -45,7 +46,7 @@ export default buildConfig({
     },
     editor: slateEditor({}),
     collections: [User, Account, Session, Action, Tag, Media, Product, Order],
-    globals: [Landing, Footer, Process, Email],
+    globals: [Landing, Footer, Process, Email, Shop],
     typescript: {
         outputFile: path.resolve(__dirname, "../../types/collections.ts"),
     },

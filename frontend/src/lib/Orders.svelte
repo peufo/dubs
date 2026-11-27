@@ -26,6 +26,12 @@
               {order.items.length} article{order.items.length > 1 ? 's' : ''}
             </h3>
             <span>{formatDate(new Date(order.createdAt))}</span>
+            <span class="block text-sm">
+              {order.delivery === 'shipping' ? 'Livraison' : 'Retrait sur place'}
+              {#if order.delivery === 'shipping'}
+                ({order.shippingFee ? formatAmount(order.shippingFee) : 'offerte'})
+              {/if}
+            </span>
           </div>
           <div class="ml-auto">
             <div class="flex">

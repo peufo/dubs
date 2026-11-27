@@ -36,5 +36,5 @@
         <Footer links={data.links || []} />
     </div>
 
-    <Order />
+    <Order shop={data.shop} />
 </Notifications>

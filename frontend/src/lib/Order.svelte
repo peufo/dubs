@@ -18,12 +18,41 @@
   import IconButton from "$lib/material/IconButton.svelte";
   import OrderItem from "$lib/OrderItem.svelte";
   import { formatAmount } from "./utils/formatAmount";
+  import { getDeliveryModes, getShippingFee } from "./shipping";
+  import type { Order, Shop } from "types";
+
+  export let shop: Shop;
 
   let active = true;
   let error = "";
   let isLoading = false;
 
+  const deliveryLabels: Record<Order["delivery"], string> = {
+    pickup: "Retrait sur place",
+    shipping: "Livraison",
+  };
+
   $: active = !!$order;
+  $: modes = getDeliveryModes(shop);
+  $: delivery =
+    $order?.delivery && modes.includes($order.delivery)
+      ? $order.delivery
+      : modes[0] || "pickup";
+  $: subtotal = ($order?.items || []).reduce(
+    (acc, cur) => acc + cur.price * cur.quantity,
+    0
+  );
+  $: shippingFee = getShippingFee(shop, delivery, subtotal);
+  $: total = subtotal + shippingFee;
+  $: freeFrom = shop.shipping?.freeFrom;
+  $: missingForFree =
+    delivery === "shipping" && typeof freeFrom === "number" && shippingFee
+      ? freeFrom - subtotal
+      : 0;
+
+  function setDelivery(value: Order["delivery"]) {
+    if ($order) $order = { ...$order, delivery: value };
+  }
 
   async function handleSubmit() {
     try {
@@ -33,7 +62,13 @@
         ...row,
         product: typeof row.product === "string" ? row.product : row.product.id,
       }));
-      await api.create("order", { ...$order, items });
+      await api.create("order", {
+        ...$order,
+        items,
+        delivery,
+        shippingFee,
+        amountDue: total,
+      });
       isLoading = false;
       $order = null;
       goto("/profile", { invalidateAll: true });
@@ -67,7 +102,7 @@
       <Icon path={mdiCartOutline} />
       <h2 class="text-xl">Panier</h2>
       <div class="grow" />
-      <span class="ml-auto">{formatAmount($order.amountDue)}</span>
+      <span class="ml-auto">{formatAmount(total)}</span>
       {#if active}
         <IconButton
           title="Cacher le panier"
@@ -127,6 +162,48 @@
           <div class="text-center p-4">Panier vide</div>
         {/each}
       </div>
+
+      {#if $order.items && $order.items.length}
+        <div
+          class="flex flex-col gap-1 px-3 py-2 text-sm border-t border-secondary-light"
+        >
+          {#if modes.length > 1}
+            <div class="flex gap-3">
+              {#each modes as mode}
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    value={mode}
+                    checked={delivery === mode}
+                    on:change={() => setDelivery(mode)}
+                  />
+                  {deliveryLabels[mode]}
+                </label>
+              {/each}
+            </div>
+          {:else}
+            <span>{deliveryLabels[delivery]}</span>
+          {/if}
+
+          {#if delivery === "shipping"}
+            <div class="flex">
+              <span>Frais de livraison</span>
+              <span class="ml-auto">
+                {shippingFee ? formatAmount(shippingFee) : "Offerts"}
+              </span>
+            </div>
+            {#if missingForFree > 0}
+              <span class="text-xs text-secondary-dark">
+                Plus que {formatAmount(missingForFree)} pour la livraison offerte
+              </span>
+            {/if}
+            <span class="text-xs text-secondary-dark">
+              Livraison à l'adresse de votre profil
+            </span>
+          {/if}
+        </div>
+      {/if}
 
       {#if error}
         <div class="text-red-500 text-center">
