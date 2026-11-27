@@ -10,9 +10,12 @@
 
   export let orders: Order[]
 
-  const formatDate = new Intl.DateTimeFormat(undefined, {
+  // Locale et fuseau fixés : le rendu serveur (conteneur en en-US / UTC)
+  // doit donner la même date que le navigateur
+  const formatDate = new Intl.DateTimeFormat('fr', {
     dateStyle: 'full',
     timeStyle: 'short',
+    timeZone: 'Europe/Zurich',
   }).format
 </script>
 
