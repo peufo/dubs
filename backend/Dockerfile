@@ -1,27 +1,31 @@
-FROM node:18.8-alpine as base
+# Image du backend (Payload + Express). À builder depuis la racine du dépôt :
+#   docker build -f backend/Dockerfile .
+FROM node:22-alpine AS base
+RUN corepack enable
+WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY backend/package.json backend/
 
-FROM base as builder
+FROM base AS build
+RUN pnpm install --frozen-lockfile --filter ./backend
+COPY types types
+COPY backend backend
+RUN pnpm --filter ./backend build
 
-WORKDIR /home/node/app
-COPY package*.json ./
+FROM base AS prod-deps
+RUN pnpm install --frozen-lockfile --prod --filter ./backend
 
-COPY . .
-RUN yarn install
-RUN yarn build
-
-FROM base as runtime
-
-ENV NODE_ENV=production
-ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
-
-WORKDIR /home/node/app
-COPY package*.json  ./
-COPY yarn.lock ./
-
-RUN yarn install --production
-COPY --from=builder /home/node/app/dist ./dist
-COPY --from=builder /home/node/app/build ./build
-
-EXPOSE 3000
-
-CMD ["node", "dist/server.js"]
+FROM node:22-alpine
+ENV NODE_ENV=production \
+    BACKEND_PORT=5555 \
+    MEDIA_DIR=/app/media \
+    PAYLOAD_CONFIG_PATH=build/backend/src/payload.config.js
+WORKDIR /app/backend
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=prod-deps /app/backend/node_modules ./node_modules
+COPY --from=build /app/backend/build ./build
+COPY backend/package.json ./
+RUN mkdir -p /app/media && chown node:node /app/media
+USER node
+EXPOSE 5555
+CMD ["node", "build/backend/src/server.js"]

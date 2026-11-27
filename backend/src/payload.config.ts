@@ -20,7 +20,11 @@ import { Email } from "./globals/email";
 import { Logo, Icon } from "./components/Graphics";
 import { BeforeNavLinks } from "./components/BeforeNavLinks";
 
-const Media = useMedia(process.env.MEDIA_DIR);
+// Payload résout un chemin relatif depuis le dossier de la config (src/) :
+// on le résout depuis backend/ pour que MEDIA_DIR=./media désigne backend/media
+const Media = useMedia(
+    path.resolve(process.cwd(), process.env.MEDIA_DIR || "./media")
+);
 
 export default buildConfig({
     admin: {

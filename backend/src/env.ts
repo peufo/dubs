@@ -1,5 +1,5 @@
-if (!process.env.PUBLIC_BACKEND_PORT)
-  throw new Error("PUBLIC_BACKEND_PORT environment value is required");
+if (!process.env.BACKEND_PORT)
+  throw new Error("BACKEND_PORT environment value is required");
 if (!process.env.FRONT_URL)
   throw new Error("FRONT_URL environment value is required");
 if (!process.env.PAYLOAD_SECRET)
@@ -16,7 +16,7 @@ if (!process.env.MEDIA_DIR)
   throw new Error("MEDIA_DIR environment value is required");
 
 export const env = {
-  PUBLIC_BACKEND_PORT: process.env.PUBLIC_BACKEND_PORT,
+  BACKEND_PORT: process.env.BACKEND_PORT,
   FRONT_URL: process.env.FRONT_URL,
   PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
   MONGODB_URL: process.env.MONGODB_URL,

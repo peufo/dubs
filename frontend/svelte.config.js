@@ -10,6 +10,10 @@ const config = {
     adapter: adapter({
       precompress: true,
     }),
+    // Unique .env du projet, à la racine du monorepo
+    env: {
+      dir: "..",
+    },
     csrf: {
       trustedOrigins: ["*"],
     },

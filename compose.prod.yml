@@ -1,0 +1,60 @@
+# Production, déployée par Dokploy (service Compose).
+# Les images sont construites par GitHub Actions (.github/workflows/deploy.yml).
+# Les secrets viennent de l'onglet Environment de Dokploy (fichier .env à côté de ce compose),
+# voir .env.prod.example.
+# Le domaine pointe sur le service backend, port 5555 (onglet Domains de Dokploy).
+
+services:
+  backend:
+    image: ghcr.io/peufo/dubs-backend:${IMAGE_TAG:-latest}
+    pull_policy: always
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      BACKEND_PORT: 5555
+      FRONT_URL: http://frontend:3000
+      MONGODB_URL: mongodb://mongo:27017/dubs
+      MEDIA_DIR: /app/media
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?PAYLOAD_SECRET manquant}
+      SMTP_HOST: ${SMTP_HOST:?SMTP_HOST manquant}
+      SMTP_USER: ${SMTP_USER:?SMTP_USER manquant}
+      SMTP_PASS: ${SMTP_PASS:?SMTP_PASS manquant}
+    volumes:
+      - media:/app/media
+    expose:
+      - "5555"
+    # default : joindre frontend et mongo ; dokploy-network : exposé par Traefik
+    networks:
+      - default
+      - dokploy-network
+
+  frontend:
+    image: ghcr.io/peufo/dubs-frontend:${IMAGE_TAG:-latest}
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      BACKEND_URL: http://backend:5555
+    expose:
+      - "3000"
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  media:
+  mongo-data:
+
+networks:
+  dokploy-network:
+    external: true

@@ -1,7 +1,5 @@
 import { error, type Cookies } from "@sveltejs/kit";
 import qs from "qs";
-import { browser } from "$app/environment";
-import { PUBLIC_BACKEND_PORT } from "$env/static/public";
 
 import type {
     Config,
@@ -20,9 +18,8 @@ type PartialNullable<T> = {
     [P in keyof T]?: T[P] | null;
 };
 
-const baseUrl = browser
-    ? "/api"
-    : `http://localhost:${PUBLIC_BACKEND_PORT || 5000}/api`;
+// Côté serveur, hooks.server.ts (handleFetch) redirige /api vers BACKEND_URL
+const baseUrl = "/api";
 
 export function useApi(_fetch: typeof fetch, cookies?: Cookies) {
     const token = cookies?.get("payload-token") || "";

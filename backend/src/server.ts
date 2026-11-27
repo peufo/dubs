@@ -1,7 +1,7 @@
+import "./loadEnv";
 import express from "express";
 import payload from "payload";
 import proxy from "express-http-proxy";
-require("dotenv").config();
 import { env } from "./env";
 
 const app = express();
@@ -25,7 +25,7 @@ const start = async () => {
         },
         onInit: async () => {
             payload.logger.info(
-                `Payload server listening http://localhost:${env.PUBLIC_BACKEND_PORT}`
+                `Payload server listening http://localhost:${env.BACKEND_PORT}`
             );
             payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
         },
@@ -33,7 +33,7 @@ const start = async () => {
 
     app.use(proxy(env.FRONT_URL));
     payload.logger.info(`Proxy to FRONT_URL actived: ${env.FRONT_URL}`);
-    app.listen(env.PUBLIC_BACKEND_PORT);
+    app.listen(env.BACKEND_PORT);
 };
 
 start();
