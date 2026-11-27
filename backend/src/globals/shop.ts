@@ -12,7 +12,8 @@ export const Shop: GlobalConfig = {
       type: 'group',
       label: 'Contact',
       admin: {
-        description: 'Affiché dans le mail de confirmation envoyé au client',
+        description:
+          'Affiché dans le mail de confirmation et sur la page des mentions légales',
       },
       fields: [
         {
@@ -22,6 +23,14 @@ export const Shop: GlobalConfig = {
             { name: 'phone', label: 'Téléphone', type: 'text' },
             { name: 'email', label: 'Email', type: 'email' },
           ],
+        },
+        {
+          name: 'address',
+          label: 'Adresse postale',
+          type: 'textarea',
+          admin: {
+            description: 'Obligatoire pour une boutique en ligne (mentions légales)',
+          },
         },
       ],
     },
