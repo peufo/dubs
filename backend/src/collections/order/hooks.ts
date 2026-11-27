@@ -16,8 +16,14 @@ import { getShippingFee, getSubtotal } from './shipping'
 const beforeValidate: CollectionBeforeValidateHook<Order> = async ({
   data,
   operation,
+  req,
 }) => {
   if (operation !== 'create' || !data) return data
+
+  // Un client ne peut commander qu'en son nom ; l'équipe peut saisir pour un autre
+  const user = req.user as User | undefined
+  const isStaff = user?.role === 'admin' || user?.role === 'editor'
+  if (user && !isStaff) data = { ...data, client: user.id }
 
   const shop = (await payload.findGlobal({ slug: 'shop' })) as Shop
   const delivery = data.delivery || 'pickup'

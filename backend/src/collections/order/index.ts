@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload/types'
-import { isRoleOrSelf } from '../user/access'
+import { isRole, isRoleOrSelf } from '../user/access'
 import { hooks } from './hooks'
 
 export const Order: CollectionConfig = {
@@ -13,8 +13,12 @@ export const Order: CollectionConfig = {
     plural: 'Commandes',
   },
   access: {
-    create: () => true,
+    // Le client de la commande est forcé sur l'utilisateur connecté (hook beforeValidate)
+    create: ({ req: { user } }) => !!user,
     read: isRoleOrSelf('editor', 'client'),
+    // Sans règle explicite, Payload autorise tout utilisateur connecté
+    update: isRole('editor'),
+    delete: isRole('editor'),
   },
   fields: [
     {
