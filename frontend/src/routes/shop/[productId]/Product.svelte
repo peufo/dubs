@@ -4,7 +4,7 @@
     import { afterNavigate } from "$app/navigation";
 
     import type { Product, Order } from "types";
-    import { getOrderItemOptions } from "$lib/order";
+    import { getOrderItemOptions, getSelectedOption } from "$lib/order";
 
     import Galery from "$lib/Galery.svelte";
     import { formatAmount } from "$lib/utils/formatAmount";
@@ -29,11 +29,8 @@
     const getVariableValues = () =>
         (product.variables || []).map((v, index) => {
             const key = getVariableKey(index);
-            return (
-                $page.url.searchParams.get(key) ||
-                v.options[v.defaultOption].id ||
-                ""
-            );
+            const requested = $page.url.searchParams.get(key);
+            return getSelectedOption(v, requested)?.id || "";
         });
 
     let optionsId: string[] = getVariableValues();
