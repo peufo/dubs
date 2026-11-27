@@ -7,9 +7,10 @@
   export let user: User
   export let success = false
   export let error: string = ''
+  export let active = false
 </script>
 
-<Card title="Mes coordonnées">
+<Card title="Mes coordonnées" {active}>
   {#if success}
     <div
       class="border rounded px-4 py-2 text-lg text-center border-green-600 text-green-600"

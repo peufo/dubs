@@ -10,6 +10,7 @@
   import { fly, slide } from "svelte/transition";
   import type { HttpError } from "@sveltejs/kit";
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
 
   import { api } from "$lib/api";
   import { order } from "$lib/stores";
@@ -50,13 +51,17 @@
       ? freeFrom - subtotal
       : 0;
 
+  $: user = $page.data.session?.user;
+  $: hasAddress = !!(user?.street && user?.zipCode && user?.city);
+  $: needsAddress = delivery === "shipping" && !hasAddress;
+
   function setDelivery(value: Order["delivery"]) {
     if ($order) $order = { ...$order, delivery: value };
   }
 
   async function handleSubmit() {
     try {
-      if (!$order || isLoading) return;
+      if (!$order || isLoading || needsAddress) return;
       isLoading = true;
       const items = $order.items?.map((row) => ({
         ...row,
@@ -198,9 +203,19 @@
                 Plus que {formatAmount(missingForFree)} pour la livraison offerte
               </span>
             {/if}
-            <span class="text-xs text-secondary-dark">
-              Livraison à l'adresse de votre profil
-            </span>
+            {#if needsAddress}
+              <a
+                href="/profile?address"
+                class="text-xs text-red-600 underline"
+              >
+                Ajoutez votre adresse dans votre profil pour être livré
+              </a>
+            {:else if user}
+              <span class="text-xs text-secondary-dark">
+                Livraison à : {user.street}, {user.zipCode}
+                {user.city}
+              </span>
+            {/if}
           {/if}
         </div>
       {/if}
@@ -215,8 +230,8 @@
         {#if $order.items && $order.items.length}
           <Button
             primary
-            class="py-1 w-full {isLoading ? 'opacity-50' : ''}"
-            disabled={isLoading}
+            class="py-1 w-full {isLoading || needsAddress ? 'opacity-50' : ''}"
+            disabled={isLoading || needsAddress}
             on:click={handleSubmit}
           >
             Valider la commande
